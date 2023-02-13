@@ -11,6 +11,12 @@ contract SimpleStorage {
     function get() public view returns (uint) {
         return storedData;
     }
-}, 
 
-output_values=['abi', 'bin']
+    function destruct() public {
+        selfdestruct(payable(address(this)));
+    }
+}
+
+
+
+
