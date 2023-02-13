@@ -7,6 +7,13 @@
 		"abi": [
 			{
 				"inputs": [],
+				"name": "destruct",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "get",
 				"outputs": [
 					{
@@ -73,11 +80,11 @@
 	},
 	"sources": {
 		"2022/mySimpleStorage.sol": {
-			"keccak256": "0xcab338fca1d25e6d8142e1293b0e42317ef7ebc9bef801536a01a365db62781d",
+			"keccak256": "0x77e0d385461c25721b0e521b9962a54cb9c2360f12f329746b13a51e69675813",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://0cfa0b27d164948316ac1e7e4764f29e4f56064437c4cc029402568a14da0b34",
-				"dweb:/ipfs/QmdtG5oLHhwsUQzVb9j7sdGNgr7gLd5KbS3YB1AgWB39VB"
+				"bzz-raw://714dab78d24e278de5f7bd1437b9a540419a15d23d0e35b619a69fdafb02af7e",
+				"dweb:/ipfs/QmU4TUFS3MBugP861yV1VRkUgMu64NR1gYo7xbbJCeBCgm"
 			]
 		}
 	},
