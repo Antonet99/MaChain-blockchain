@@ -16,7 +16,3 @@ contract SimpleStorage {
         selfdestruct(payable(address(this)));
     }
 }
-
-
-
-
