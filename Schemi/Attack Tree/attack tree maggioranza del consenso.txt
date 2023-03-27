@@ -1,0 +1,475 @@
+{
+  "actors": [
+    {
+      "id": "5db78a53-fbb4-43e6-a08b-fb1da78789c2",
+      "text": "Shard",
+      "type": "istar.Agent",
+      "x": 418,
+      "y": 1127,
+      "customProperties": {
+        "Description": ""
+      },
+      "nodes": []
+    },
+    {
+      "id": "f12c1766-d2a8-4f4d-add3-263a557e273f",
+      "text": "Off-chain manager",
+      "type": "istar.Agent",
+      "x": 176,
+      "y": 797,
+      "customProperties": {
+        "Description": ""
+      },
+      "nodes": [
+        {
+          "id": "5249e54d-8e74-4023-9174-221e7214c6e9",
+          "text": "Registrazione smart contract",
+          "type": "istar.Goal",
+          "x": 274,
+          "y": 830,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "de257769-db2f-46db-9079-c5da9933d7d5",
+          "text": "Esecuzione transazione",
+          "type": "istar.Goal",
+          "x": 532,
+          "y": 833,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "4fd3f123-641f-4f70-a360-c4fc8441e429",
+          "text": "Richiesta stato delle shard",
+          "type": "istar.Task",
+          "x": 207,
+          "y": 920,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "1bb64568-610e-49b6-a865-1c32f72f57db",
+          "text": "Registrare smart contract",
+          "type": "istar.Task",
+          "x": 331,
+          "y": 916,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "92e93564-78bd-4d27-8acb-1e31d084b82f",
+          "text": "Richiesta shard interessata",
+          "type": "istar.Task",
+          "x": 595,
+          "y": 916,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "61752f87-3685-4ed4-b909-e27f1bb63ae1",
+          "text": "Richiesta esecuzione metodo SC",
+          "type": "istar.Task",
+          "x": 477,
+          "y": 916,
+          "customProperties": {
+            "Description": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "54ae9b4f-88a5-43e9-bb88-209e66698d8b",
+      "text": "On-chain manager",
+      "type": "istar.Agent",
+      "x": 418,
+      "y": 1216,
+      "customProperties": {
+        "Description": ""
+      },
+      "nodes": []
+    },
+    {
+      "id": "466b3cbc-715a-46ec-98f0-8fb14731839f",
+      "text": "Utente",
+      "type": "istar.Agent",
+      "x": 433,
+      "y": 592,
+      "customProperties": {
+        "Description": ""
+      },
+      "nodes": []
+    },
+    {
+      "id": "17f08ad3-4b39-4f0d-90ec-f3a9ebc3d760",
+      "text": "Attacante esterno",
+      "type": "istar.Agent",
+      "x": 814,
+      "y": 727,
+      "customProperties": {
+        "Description": ""
+      },
+      "nodes": [
+        {
+          "id": "cc41bca4-a6d4-4907-8783-106c98c51b9c",
+          "text": "Violazione dell'integrità della blockchain",
+          "type": "istar.Goal",
+          "x": 872,
+          "y": 777,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "1e527b81-4bd3-488d-b4bb-a3f0dc34525e",
+          "text": "Violazione della responsabilità",
+          "type": "istar.Goal",
+          "x": 1023,
+          "y": 776,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "c9daf4aa-0a71-4c6b-8ecd-ff72a9f4c7cf",
+          "text": "Violazione dell'affidabilità",
+          "type": "istar.Goal",
+          "x": 1181,
+          "y": 778,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "697d9ed6-118d-47f4-9718-84f9a7b742f3",
+          "text": "Acquisizione della maggioranza dello stake nella blockchain",
+          "type": "istar.Goal",
+          "x": 1021,
+          "y": 917,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "58d9d03e-fe95-4438-8b7a-5e2b0e21d05a",
+          "text": "Acquisizione di 1/3 dello stake nella blockchain",
+          "type": "istar.Goal",
+          "x": 1345,
+          "y": 917,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "85eb7d33-91bf-4c8a-bff5-0e6eaaa81085",
+          "text": "Violazione della disponibilità",
+          "type": "istar.Goal",
+          "x": 1332,
+          "y": 779,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "99a3d22e-834e-4fe5-b303-63a9079d3663",
+          "text": "Costruzione di una chain distaccata",
+          "type": "istar.Task",
+          "x": 1035,
+          "y": 1021,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "a05a046e-de8e-439d-bc1d-6801cd8a13bb",
+          "text": "Rallentare o annullare la finalizzazione dei blocchi",
+          "type": "istar.Task",
+          "x": 1353,
+          "y": 1019,
+          "customProperties": {
+            "Description": ""
+          }
+        }
+      ]
+    }
+  ],
+  "orphans": [],
+  "dependencies": [
+    {
+      "id": "9c581e5d-e547-4bd5-8505-d8064d1a1164",
+      "text": "Stato delle shard",
+      "type": "istar.Resource",
+      "x": 212,
+      "y": 1063,
+      "customProperties": {
+        "Description": ""
+      },
+      "source": "4fd3f123-641f-4f70-a360-c4fc8441e429",
+      "target": "54ae9b4f-88a5-43e9-bb88-209e66698d8b"
+    },
+    {
+      "id": "b56bf5ac-b5a1-4db3-ae95-e7e0d8638a2a",
+      "text": "Registrazione avvenuta",
+      "type": "istar.Resource",
+      "x": 322,
+      "y": 1027,
+      "customProperties": {
+        "Description": ""
+      },
+      "source": "1bb64568-610e-49b6-a865-1c32f72f57db",
+      "target": "5db78a53-fbb4-43e6-a08b-fb1da78789c2"
+    },
+    {
+      "id": "24de1828-aeab-451e-8470-8d216403b474",
+      "text": "Shard interessata",
+      "type": "istar.Resource",
+      "x": 577,
+      "y": 1068,
+      "customProperties": {
+        "Description": ""
+      },
+      "source": "92e93564-78bd-4d27-8acb-1e31d084b82f",
+      "target": "54ae9b4f-88a5-43e9-bb88-209e66698d8b"
+    },
+    {
+      "id": "04b94a6e-a5bc-4340-8fdb-e0d7e5cb6326",
+      "text": "Risultato dell'esecuzione",
+      "type": "istar.Resource",
+      "x": 471,
+      "y": 1021,
+      "customProperties": {
+        "Description": ""
+      },
+      "source": "61752f87-3685-4ed4-b909-e27f1bb63ae1",
+      "target": "5db78a53-fbb4-43e6-a08b-fb1da78789c2"
+    },
+    {
+      "id": "cadab4ff-a7b0-495f-9199-d881aebd92a6",
+      "text": "Registrazione smart contract",
+      "type": "istar.Quality",
+      "x": 322,
+      "y": 717,
+      "customProperties": {
+        "Description": ""
+      },
+      "source": "466b3cbc-715a-46ec-98f0-8fb14731839f",
+      "target": "5249e54d-8e74-4023-9174-221e7214c6e9"
+    },
+    {
+      "id": "1469c111-a389-4e39-8fdf-497c086c6779",
+      "text": "Esecuzione transazione",
+      "type": "istar.Quality",
+      "x": 482,
+      "y": 719,
+      "customProperties": {
+        "Description": ""
+      },
+      "source": "466b3cbc-715a-46ec-98f0-8fb14731839f",
+      "target": "de257769-db2f-46db-9079-c5da9933d7d5"
+    }
+  ],
+  "links": [
+    {
+      "id": "5e1fff50-fea3-4891-ba87-b2bf065aa0bc",
+      "type": "istar.DependencyLink",
+      "source": "1469c111-a389-4e39-8fdf-497c086c6779",
+      "target": "de257769-db2f-46db-9079-c5da9933d7d5"
+    },
+    {
+      "id": "45ff6062-fbb3-4c55-94e2-0a1ae785913c",
+      "type": "istar.DependencyLink",
+      "source": "466b3cbc-715a-46ec-98f0-8fb14731839f",
+      "target": "1469c111-a389-4e39-8fdf-497c086c6779"
+    },
+    {
+      "id": "f628b56f-a1ec-4f2e-9228-6f3004da4420",
+      "type": "istar.DependencyLink",
+      "source": "cadab4ff-a7b0-495f-9199-d881aebd92a6",
+      "target": "5249e54d-8e74-4023-9174-221e7214c6e9"
+    },
+    {
+      "id": "1e8f5075-8202-48d7-bbd9-1957b7243a2c",
+      "type": "istar.DependencyLink",
+      "source": "466b3cbc-715a-46ec-98f0-8fb14731839f",
+      "target": "cadab4ff-a7b0-495f-9199-d881aebd92a6"
+    },
+    {
+      "id": "9e26de35-513e-4152-89dc-abb5a96f32a4",
+      "type": "istar.DependencyLink",
+      "source": "61752f87-3685-4ed4-b909-e27f1bb63ae1",
+      "target": "04b94a6e-a5bc-4340-8fdb-e0d7e5cb6326"
+    },
+    {
+      "id": "3667f8dc-67ba-46e3-b03d-f07f4f6df4bb",
+      "type": "istar.DependencyLink",
+      "source": "04b94a6e-a5bc-4340-8fdb-e0d7e5cb6326",
+      "target": "5db78a53-fbb4-43e6-a08b-fb1da78789c2"
+    },
+    {
+      "id": "f6490d75-52f1-4b20-9a83-b87d47f1bb7f",
+      "type": "istar.DependencyLink",
+      "source": "92e93564-78bd-4d27-8acb-1e31d084b82f",
+      "target": "24de1828-aeab-451e-8470-8d216403b474"
+    },
+    {
+      "id": "edeb50bb-682d-4e27-a554-cf3a4cde9df4",
+      "type": "istar.DependencyLink",
+      "source": "24de1828-aeab-451e-8470-8d216403b474",
+      "target": "54ae9b4f-88a5-43e9-bb88-209e66698d8b"
+    },
+    {
+      "id": "f57b43cb-4a56-4dc4-a204-398ca2c0782f",
+      "type": "istar.DependencyLink",
+      "source": "b56bf5ac-b5a1-4db3-ae95-e7e0d8638a2a",
+      "target": "5db78a53-fbb4-43e6-a08b-fb1da78789c2"
+    },
+    {
+      "id": "a8cca6f2-1bcf-4567-806a-af2ac1433452",
+      "type": "istar.DependencyLink",
+      "source": "1bb64568-610e-49b6-a865-1c32f72f57db",
+      "target": "b56bf5ac-b5a1-4db3-ae95-e7e0d8638a2a"
+    },
+    {
+      "id": "77a4c57a-11cf-423f-8161-63b9e85d47ab",
+      "type": "istar.DependencyLink",
+      "source": "9c581e5d-e547-4bd5-8505-d8064d1a1164",
+      "target": "54ae9b4f-88a5-43e9-bb88-209e66698d8b"
+    },
+    {
+      "id": "4723e4a4-d14f-49d0-920d-070a8ca839ce",
+      "type": "istar.DependencyLink",
+      "source": "4fd3f123-641f-4f70-a360-c4fc8441e429",
+      "target": "9c581e5d-e547-4bd5-8505-d8064d1a1164"
+    },
+    {
+      "id": "c0bccc1e-e9dc-40e2-8b55-f1e7ba417c31",
+      "type": "istar.AndRefinementLink",
+      "source": "4fd3f123-641f-4f70-a360-c4fc8441e429",
+      "target": "5249e54d-8e74-4023-9174-221e7214c6e9"
+    },
+    {
+      "id": "ca020d16-5a59-4c4b-8303-5a88bbd6bf48",
+      "type": "istar.AndRefinementLink",
+      "source": "1bb64568-610e-49b6-a865-1c32f72f57db",
+      "target": "5249e54d-8e74-4023-9174-221e7214c6e9"
+    },
+    {
+      "id": "6f86b693-ffe5-4f4a-8ec4-f1c783791eba",
+      "type": "istar.AndRefinementLink",
+      "source": "92e93564-78bd-4d27-8acb-1e31d084b82f",
+      "target": "de257769-db2f-46db-9079-c5da9933d7d5"
+    },
+    {
+      "id": "a2aa9c5c-2ef6-44b1-8e38-20c5ec52acbb",
+      "type": "istar.AndRefinementLink",
+      "source": "61752f87-3685-4ed4-b909-e27f1bb63ae1",
+      "target": "de257769-db2f-46db-9079-c5da9933d7d5"
+    },
+    {
+      "id": "d27b8066-aa97-4257-9070-14314f73ac4f",
+      "type": "istar.AndRefinementLink",
+      "source": "697d9ed6-118d-47f4-9718-84f9a7b742f3",
+      "target": "cc41bca4-a6d4-4907-8783-106c98c51b9c"
+    },
+    {
+      "id": "7818a34c-b2c7-4be3-850e-75d83b25848c",
+      "type": "istar.AndRefinementLink",
+      "source": "697d9ed6-118d-47f4-9718-84f9a7b742f3",
+      "target": "1e527b81-4bd3-488d-b4bb-a3f0dc34525e"
+    },
+    {
+      "id": "6603f4b1-2ade-4671-a891-4e54043c4941",
+      "type": "istar.AndRefinementLink",
+      "source": "697d9ed6-118d-47f4-9718-84f9a7b742f3",
+      "target": "c9daf4aa-0a71-4c6b-8ecd-ff72a9f4c7cf"
+    },
+    {
+      "id": "93ffd500-efcb-4d0a-a134-fa446b50db81",
+      "type": "istar.AndRefinementLink",
+      "source": "58d9d03e-fe95-4438-8b7a-5e2b0e21d05a",
+      "target": "85eb7d33-91bf-4c8a-bff5-0e6eaaa81085"
+    },
+    {
+      "id": "b7b29e24-e663-4afb-b95a-c5cce324979a",
+      "type": "istar.AndRefinementLink",
+      "source": "99a3d22e-834e-4fe5-b303-63a9079d3663",
+      "target": "697d9ed6-118d-47f4-9718-84f9a7b742f3"
+    },
+    {
+      "id": "82b1e4d7-d7d4-4339-a308-fafe099bd465",
+      "type": "istar.AndRefinementLink",
+      "source": "a05a046e-de8e-439d-bc1d-6801cd8a13bb",
+      "target": "58d9d03e-fe95-4438-8b7a-5e2b0e21d05a"
+    }
+  ],
+  "display": {
+    "17f08ad3-4b39-4f0d-90ec-f3a9ebc3d760": {
+      "backgroundColor": "#FF0000"
+    },
+    "cc41bca4-a6d4-4907-8783-106c98c51b9c": {
+      "width": 132.203125,
+      "height": 55.3203125
+    },
+    "1e527b81-4bd3-488d-b4bb-a3f0dc34525e": {
+      "width": 140.203125,
+      "height": 54.8203125
+    },
+    "c9daf4aa-0a71-4c6b-8ecd-ff72a9f4c7cf": {
+      "width": 144.203125,
+      "height": 52.8203125
+    },
+    "697d9ed6-118d-47f4-9718-84f9a7b742f3": {
+      "width": 150.203125,
+      "height": 58.3203125
+    },
+    "58d9d03e-fe95-4438-8b7a-5e2b0e21d05a": {
+      "width": 141.203125,
+      "height": 56.3203125
+    },
+    "85eb7d33-91bf-4c8a-bff5-0e6eaaa81085": {
+      "width": 163.203125,
+      "height": 51.8203125
+    },
+    "99a3d22e-834e-4fe5-b303-63a9079d3663": {
+      "width": 125.703125,
+      "height": 56.8203125
+    },
+    "a05a046e-de8e-439d-bc1d-6801cd8a13bb": {
+      "width": 135.203125,
+      "height": 62.8203125
+    },
+    "77a4c57a-11cf-423f-8161-63b9e85d47ab": {
+      "vertices": [
+        {
+          "x": 310,
+          "y": 1162
+        }
+      ]
+    },
+    "5db78a53-fbb4-43e6-a08b-fb1da78789c2": {
+      "collapsed": true
+    },
+    "54ae9b4f-88a5-43e9-bb88-209e66698d8b": {
+      "collapsed": true
+    },
+    "466b3cbc-715a-46ec-98f0-8fb14731839f": {
+      "collapsed": true
+    }
+  },
+  "tool": "pistar.2.1.0",
+  "istar": "2.0",
+  "saveDate": "Sun, 26 Mar 2023 14:51:01 GMT",
+  "diagram": {
+    "width": 2000,
+    "height": 2000,
+    "name": "Welcome Model",
+    "customProperties": {
+      "Description": "Welcome to the piStar tool version 2.1.0, released on November, 2021! This model describes some of the recent improvements in the tool. Click on the purple elements for further info.\n\nFor help using this tool, please check the Help menu above"
+    }
+  }
+}
