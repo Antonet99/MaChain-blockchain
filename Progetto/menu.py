@@ -5,8 +5,8 @@ def menu ():
     if selezione_menu_0 == 4:
         return
     
-
-
+    
+    
 def print_menu_0 ():
     print("Scegli cosa fare: ")
     print("1: Seleziona gli account con cui effettuare le transazioni")
@@ -30,4 +30,3 @@ def selezione_menu_0():
             selezione = 0
     
     return selezione
-

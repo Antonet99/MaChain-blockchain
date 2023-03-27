@@ -1,0 +1,44 @@
+{
+  "accounts": [
+    {
+      "username": "alice123",
+      "password": "p@ssw0rd",
+      "key01": "",
+      "key02": "",
+      "key03": "",
+      "key04": ""
+    },
+    {
+      "username": "bob456",
+      "password": "12345",
+      "key01": "",
+      "key02": "",
+      "key03": "",
+      "key04": ""
+    },
+    {
+      "username": "charlie789",
+      "password": "s3cur3P@ss",
+      "key01": "",
+      "key02": "",
+      "key03": "",
+      "key04": ""
+    },
+    {
+      "username": "dave0101",
+      "password": "myp@ssw0rd",
+      "key01": "",
+      "key02": "",
+      "key03": "",
+      "key04": ""
+    },
+    {
+      "username": "emily333",
+      "password": "th3quickbr0wnf0x",
+      "key01": "",
+      "key02": "",
+      "key03": "",
+      "key04": ""
+    }
+  ]
+}

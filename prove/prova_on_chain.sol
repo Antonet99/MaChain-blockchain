@@ -46,5 +46,5 @@ contract on_chain_manager {
     function get_shard_where_contract (address contract_adress) public view returns (uint8 shard_number) {
         return smart_contracts[contract_adress];
     }
-
+    
 }
