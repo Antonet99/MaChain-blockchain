@@ -22,7 +22,7 @@ contract on_chain_manager {
     }
 
     // Funzione che restituisce il numero della shard sulla quale sono stati deployati meno smart contract e quindi quella dopve fare il deploy di uno nuovo
-    unction get_shard_where_deploy () public view returns (uint8 shard_number) {
+    function get_shard_where_deploy () public view returns (uint8 shard_number) {
 
         uint256 contracts_on_1 = number_of_contracts[1];
         uint256 contracts_on_2 = number_of_contracts[2];
