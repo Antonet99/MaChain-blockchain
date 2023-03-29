@@ -12,7 +12,7 @@ contract SimpleStorage {
         return storedData;
     }
 
-    function destruct() public {
-        selfdestruct(payable(address(this)));
-    }
+    //function destruct() public {
+    //   selfdestruct(payable(address(this)));
+    //}
 }

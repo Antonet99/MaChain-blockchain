@@ -1,0 +1,115 @@
+{
+	"compiler": {
+		"version": "0.8.6+commit.11564f7e"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint8",
+						"name": "shard_number",
+						"type": "uint8"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "contract_adress",
+						"type": "address"
+					}
+				],
+				"name": "Contract_registered",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "contract_adress",
+						"type": "address"
+					}
+				],
+				"name": "get_shard_where_contract",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "shard_number",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "get_shard_where_deploy",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "shard_number",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "contract_adress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint8",
+						"name": "shard_number",
+						"type": "uint8"
+					}
+				],
+				"name": "register_contract",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"prove/prova_on_chain.sol": "on_chain_manager"
+		},
+		"evmVersion": "berlin",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"prove/prova_on_chain.sol": {
+			"keccak256": "0x714748a3bb817eef8fd5992d66acec2ab463109aaa192e04cc4feb41a1511740",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://2fbcb81d384950162c323587205ad3a44d82770a67343cc683f11d6049933ef8",
+				"dweb:/ipfs/QmaP5G9Brg7wPGRWACVgx253worZzdemGS337Mr3KFbcbk"
+			]
+		}
+	},
+	"version": 1
+}
