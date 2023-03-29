@@ -1,6 +1,6 @@
 import json
 
-path = "/Users/antoniobaio/Desktop/Progetti/ProgettoSSB/Progetto/userpass.json"
+path = "/userpass.json"
 
 
 def load_accounts():

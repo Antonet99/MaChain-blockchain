@@ -2,7 +2,7 @@
 
 pragma solidity ^0.6.0;
 
-import "./SimpleStorage.sol"; 
+import "/Users/andreacivitarese/VS_projects/ProgettoSSB/2022/SimpleStorage.sol"; 
 
 contract StorageFactory  {
     
