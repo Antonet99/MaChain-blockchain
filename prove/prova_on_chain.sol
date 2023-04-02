@@ -1,7 +1,13 @@
-// SPDX-License-Identifier: GPL-3.0
-pragma solidity >=0.4.0;
+// SPDX-License-Identifier: MIT
+pragma solidity >=0.8.0;
 
-contract on_chain_manager {
+interface on_chain_manager_interface {
+    function register_contract (address contract_adress, uint8 shard_number) external;
+    function get_shard_where_deploy () external view returns (uint8 shard_number);
+    function get_shard_where_contract (address contract_adress) external view returns (uint8 shard_number);
+}
+
+contract on_chain_manager is on_chain_manager_interface {
 
     // Evento emesso quando uno smart contract viene registrato, prende come parametri il numero della shard
     // sul quale è stato deployato e il suo indirizzo
@@ -14,7 +20,7 @@ contract on_chain_manager {
     mapping (address => uint8) smart_contracts;
 
     // Funzione che registra il deploy di un nuovo smart contract
-    function register_contract (address contract_adress, uint8 shard_number) public {
+    function register_contract (address contract_adress, uint8 shard_number) override public {
         require(shard_number >= 1 && shard_number <= 3, "Il numero della shard dove e' stato deployato lo smart contract deve essere compreso tra 1 e 3.");
         smart_contracts[contract_adress] = shard_number;
         number_of_contracts[shard_number]++;
@@ -22,7 +28,7 @@ contract on_chain_manager {
     }
 
     // Funzione che restituisce il numero della shard sulla quale sono stati deployati meno smart contract e quindi quella dopve fare il deploy di uno nuovo
-    function get_shard_where_deploy () public view returns (uint8 shard_number) {
+    function get_shard_where_deploy () override public view returns (uint8 shard_number) {
 
         uint256 contracts_on_1 = number_of_contracts[1];
         uint256 contracts_on_2 = number_of_contracts[2];
@@ -43,7 +49,7 @@ contract on_chain_manager {
 
     // Funzione che restituisce il numero della shard sul quale si trova lo smart contract del quale è stato passato l'indirizzo
     // Se quell'inidirizzo non è stato trovato ritornerà 0
-    function get_shard_where_contract (address contract_adress) public view returns (uint8 shard_number) {
+    function get_shard_where_contract (address contract_adress) override public view returns (uint8 shard_number) {
         return smart_contracts[contract_adress];
     }
     
