@@ -1,6 +1,7 @@
 import json
+import getpass
 
-path = "/userpass.json"
+path = "/Users/antoniobaio/Desktop/Progetti/ProgettoSSB/Progetto/userpass.json"
 
 
 def load_accounts():
@@ -27,7 +28,7 @@ def register():
             print("Username disponibile")
             break
 
-    password = input("Inserisci la tua password: ")
+    password = getpass.getpass("Inserisci la tua password: ")
     key01 = input("Inserisci la key01: ")
     key02 = input("Inserisci la key02: ")
     key03 = input("Inserisci la key03: ")
@@ -52,7 +53,7 @@ def login():
 
     # Input delle informazioni di login dell'utente
     username = input("Inserisci il tuo username: ")
-    password = input("Inserisci la tua password: ")
+    password = getpass.getpass("Inserisci la tua password: ")
 
     # Verifica se l'username e la password sono corretti
     for account in accounts["accounts"]:
@@ -65,4 +66,4 @@ def login():
 
 # Esempio di utilizzo delle funzioni
 # register()
-login()
+# login()

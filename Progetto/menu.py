@@ -1,32 +1,28 @@
-def menu ():
-    print_menu_0()
-    selezione = selezione_menu_0()
+def menu():
+    while True:
 
-    if selezione_menu_0 == 4:
-        return
-    
-    
-    
-def print_menu_0 ():
-    print("Scegli cosa fare: ")
-    print("1: Seleziona gli account con cui effettuare le transazioni")
-    print("2: Effettua il deploy di uno smart contract")
-    print("3: Effettua una transazione su uno smart contract di cui è stato fatto il deploy")
-    print("4: Esci")
-    return
+        print("Scegli cosa fare: ")
+        print("1. Seleziona gli account con cui effettuare le transazioni")
+        print("2. Effettua il deploy di uno smart contract")
+        print("3. Effettua una transazione su uno smart contract di cui è stato fatto il deploy")
+        print("4. Esci")
+        choice = input("Scelta: ")
+
+        match choice:
+            case "1":
+                print("1")
+                break
+            case "2":
+                print("2")
+                break
+            case "3":
+                print("3")
+                break
+            case "4":
+                print("4")
+                return
+            case _:
+                print("\nScelta non valida.\n")
 
 
-
-def selezione_menu_0():
-    selezione = 0
-    while (selezione < 1 or selezione > 4):
-        try:
-            selezione = int(input())
-            if (selezione < 1 or selezione > 4):
-                print("Inserire un numero tra 1 e 4")
-                selezione = 0
-        except:
-            print("Inserire un numero tra 1 e 4")
-            selezione = 0
-    
-    return selezione
+menu()
