@@ -1,1 +1,61 @@
-{"0x4BeAf6Ffe1Fe52DcC7A38dEA3aDF7dBeF693F5ff": [{"anonymous": false, "inputs": [{"indexed": false, "internalType": "uint8", "name": "shard_number", "type": "uint8"}, {"indexed": false, "internalType": "address", "name": "contract_adress", "type": "address"}], "name": "Contract_registered", "type": "event"}, {"inputs": [{"internalType": "address", "name": "contract_adress", "type": "address"}], "name": "get_shard_where_contract", "outputs": [{"internalType": "uint8", "name": "shard_number", "type": "uint8"}], "stateMutability": "view", "type": "function"}, {"inputs": [], "name": "get_shard_where_deploy", "outputs": [{"internalType": "uint8", "name": "shard_number", "type": "uint8"}], "stateMutability": "view", "type": "function"}, {"inputs": [{"internalType": "address", "name": "contract_adress", "type": "address"}, {"internalType": "uint8", "name": "shard_number", "type": "uint8"}], "name": "register_contract", "outputs": [], "stateMutability": "nonpayable", "type": "function"}]}
+{
+  "0x4BeAf6Ffe1Fe52DcC7A38dEA3aDF7dBeF693F5ff": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint8",
+          "name": "shard_number",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "contract_adress",
+          "type": "address"
+        }
+      ],
+      "name": "Contract_registered",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "contract_adress",
+          "type": "address"
+        }
+      ],
+      "name": "get_shard_where_contract",
+      "outputs": [
+        { "internalType": "uint8", "name": "shard_number", "type": "uint8" }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "get_shard_where_deploy",
+      "outputs": [
+        { "internalType": "uint8", "name": "shard_number", "type": "uint8" }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "contract_adress",
+          "type": "address"
+        },
+        { "internalType": "uint8", "name": "shard_number", "type": "uint8" }
+      ],
+      "name": "register_contract",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
+}

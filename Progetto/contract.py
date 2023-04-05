@@ -2,6 +2,15 @@ import json
 from solcx import compile_standard
 
 
+"""
+    Classe compiler con funzioni per la compilazione del contratto. A parte facciamo un'altra classe per il deploy del contratto.
+    
+    Compiler -> passi path del contratto -> legge il file -> compila il file -> restituisce bytecode e abi
+    
+    Deployer -> con funzioni per il deploy del contratto -> passi bytecode e abi -> deploya il contratto -> restituisce l'oggetto contratto
+"""
+
+
 def read_contract():
     """
     Legge il file del contratto situato al percorso specificato e restituisce il contenuto nella variabile text_file.
@@ -62,7 +71,7 @@ def compile_contract():
 
 def deploy_on_chain_manager(onchain, abi, bytecode):
     """
-    Deploy dello smart contract su On Chain Manager e creazione di un oggetto contratto per interagire con esso.
+    Deploy dello smart contract dell'On Chain Manager e creazione di un oggetto contratto per interagire con esso.
 
     Parametri:
         onchain (Web3): Un'istanza della classe Web3 connessa al nodo Ethereum in cui verrà deployato il contratto.
