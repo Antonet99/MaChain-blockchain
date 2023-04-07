@@ -227,6 +227,8 @@ class Bootstrap:
         # salvataggio abi su file
         self.save_on_chain_manager_abi(tx_receipt.contractAddress, abi)
 
+        print("On-chain manager pubblicato a questo indirizzo: " + tx_receipt.contractAddress)
+
         return on_chain_manager_contract
 
     # Funzione per salvare su file le abi dello smart contract dell'on-chain manager
