@@ -1,4 +1,9 @@
-from menu import menu
+from bootstap import Bootstrap
+import menu
 
 if __name__ == "__main__":
-    menu()
+
+    bootstrap = Bootstrap()
+    json_config, connections, on_chain_manager_contract = bootstrap.get_program_variables()
+
+    menu.menu()

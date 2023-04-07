@@ -1,6 +1,5 @@
 def menu():
     while True:
-
         print("Scegli cosa fare: ")
         print("1. Seleziona gli account con cui effettuare le transazioni")
         print("2. Effettua il deploy di uno smart contract")
@@ -23,6 +22,3 @@ def menu():
                 return
             case _:
                 print("\nScelta non valida.\n")
-
-
-menu()
