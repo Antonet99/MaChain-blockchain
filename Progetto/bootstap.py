@@ -45,18 +45,25 @@ Alternative flow:
 
 class Bootstrap:
 
+    """
+    Costruttore della classe
+    Legge il file di configurazione 'config.json' e salva le variabili di configurazione nella variabile json_config
+    Ottiene le connessioni alle quattro shard utilizzate dal programma
+    Legge o effettua il deploy dell'on-chain manager
+    """
     def __init__(self):
         self.config_path = "../Config/config.json"
         self.json_config = self.read_config()
         self.connections = self.get_connections()
         self.on_chain_manager_contract = self.get_on_chain_manager_contract()
 
-    # Funzione per ottenere il dizionario contenente le impostazioni di configurazione
-    def get_json_config(self):
-        return self.json_config
+    # FUNZIONE PER CONTROLLARE L'INTEGRITà DEL FILE CONFIG.JSON?
 
-    # Funzione per leggere il JSONObject dal file config.json
-    # Nel file config.json andranno inserite le variabili da utilizzare per il programma
+    """
+    Funzione per leggere il JSONObject dal file config.json
+    Nel file config.json andranno inserite le variabili da utilizzare per il programma
+    :return: dizionario contenente le variabili di configurazione
+    """
     def read_config(self):
         try:
             with open(self.config_path, 'r') as file_config:
@@ -73,9 +80,11 @@ class Bootstrap:
 
         return json_config
 
-    # Funzione per ottenere la connessione alle quattro shard utilizzate
-    # Ritorna un vettore contenente le connessioni alle quattro shards
-    # Ritorna False se la connessione non è riuscita
+    '''
+    Funzione per ottenere la connessione alle quattro shard utilizzate
+    :return: un vettore contenente le connessioni alle quattro shard
+    :return: False se la connessione non è riuscita
+    '''
     def try_connections(self):
         try:
             shard_0 = Web3(Web3.HTTPProvider(self.json_config["url_shard_0"]))  # on-chain
@@ -97,8 +106,11 @@ class Bootstrap:
             return False
         return [shard_0, shard_1, shard_2, shard_3]
 
-    # Funzione che richiama try_connections e in caso di fallimento della connessione chide all'utente se voglia
-    # tentare nuovamente a connettersi, altrimenti esce dal programma
+    """
+    Funzione che richiama try_connections e in caso di fallimento della connessione chiede all'utente se voglia
+    tentare nuovamente a connettersi, altrimenti esce dal programma
+    :return: vettore delle connessioni alle quattro shard
+    """
     def get_connections(self):
         connections = self.try_connections()
         while not connections:
@@ -114,7 +126,11 @@ class Bootstrap:
                 connections = self.try_connections()
         return connections
 
-    # Funzione per controllare se siano salvate le ABI dell'onchain manager sul file
+    """
+    Funzione per controllare se siano salvate le ABI dell'onchain manager sul file
+    :return: False se non sono salvate alcune ABI sul file 'onchain.json'
+    :return: oggetto contratto dell'on-chain manager
+    """
     def read_and_try_on_chain_manager(self):
         try:
             with open(self.json_config["path_abis_shard_0"], 'r') as file_abi:
@@ -139,7 +155,11 @@ class Bootstrap:
             abi = json_abi[address]
             return self.try_on_chain_manager(address, abi)
 
-    # Funzione per provare a chiamare una funzione dell'on chain manager registrato
+    """
+    Funzione per provare a chiamare una funzione dell'on chain manager registrato
+    :return: False se lo smart contract dell'on-chain manager non risponde o risponde in maniera errata
+    :return: oggetto contratto dell'on-chain manager
+    """
     def try_on_chain_manager(self, address_on_chain_manager, abi_on_chain_manager):
         on_chain_manager_contract = self.connections[0].eth.contract(
             address=address_on_chain_manager,
@@ -154,14 +174,16 @@ class Bootstrap:
             )
             print('"' + str(e) + '"')
             return False
-        if prova in [1,2,3]:
+        if prova in [1, 2, 3]:
             return on_chain_manager_contract
         else:
             return False
-
-    # Funzione che utilizza le due sopra per controllare l'esistenza dell'on-chain manager
-    # In caso non esistesse chiede all'utente se vuole effettuarne il deploy
-    # Restituisce il contratto dell'on-chain manager oppure esce dal programma
+    """
+    Funzione che utilizza le due sopra per controllare l'esistenza dell'on-chain manager
+    In caso non esistesse chiede all'utente se vuole effettuarne il deploy
+    Esce dal programma nel caso l'utente non voglia effettuare il deploy dell'on-chan manager
+    :return: il contratto dell'on-chain manager
+    """
     def get_on_chain_manager_contract(self):
         on_chain_manager_contract = self.read_and_try_on_chain_manager()
         if not on_chain_manager_contract:
@@ -180,8 +202,10 @@ class Bootstrap:
                 return self.deploy_on_chain_manager_with_default_account()
         else:
             return on_chain_manager_contract
-
-    # Funzione per effettuare il deploy dell'on-chain manger con un account di default
+    """
+    Funzione per effettuare il deploy dell'on-chain manger con un account di default
+    :return: oggetto contratto dell'on-chain manager
+    """
     def deploy_on_chain_manager_with_default_account(self):
         self.connections[0].eth.default_account = self.connections[0].eth.accounts[0] # Account di default numero 0
 
@@ -231,8 +255,10 @@ class Bootstrap:
 
         return on_chain_manager_contract
 
-    # Funzione per salvare su file le abi dello smart contract dell'on-chain manager
-    # Inoltre resetta anche i file delle abi delle varie shard
+    """
+    Funzione per salvare su file le abi dello smart contract dell'on-chain manager
+    Inoltre resetta anche i file delle abi delle varie shard
+    """
     def save_on_chain_manager_abi(self, address, abi):
         result = {address: abi}
         f = open(self.json_config["path_abis_shard_0"], 'w+')
@@ -251,6 +277,10 @@ class Bootstrap:
         f.write(json.dumps({}))
         f.close()
 
-    # Funzione da utilizzare nel main per ottenere le variabili da utilizzare nel programma
+    """
+    Funzione da utilizzare nel main per ottenere le variabili da utilizzare nel programma
+    :return: variabili da utilizzare nel programma, ossia il dizionario delle impostazioni di configurazione, il vettore
+    delle connessioni alle quattro shard e l'oggetto contratto dell'on-chain manager
+    """
     def get_program_variables(self):
         return self.json_config, self.connections, self.on_chain_manager_contract
