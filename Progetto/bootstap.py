@@ -1,5 +1,6 @@
 import json
-
+import re
+import os
 import solcx
 from web3 import Web3
 from clear_terminal import clear_terminal
@@ -11,9 +12,10 @@ Passi del bootstrap:
 
 1) Leggere il file config.json che contiene tutte le impostazioni del programma
 1.1) Termina l'esecuzione se il file config.json non è presente o se ci sono errori di lettura
+1.2) Verifica l'integrità del file di configurazione, se non rispetta le specifiche termina il programma
 
 2) Stabilire le connessioni alle 4 shard utilizzate dal programma
-2.1) Se non si riesce a stabilire anche una sola delle connessioni, chiedere all'utente se intende riprovare a connettersi
+2.1) Se non si riesce a stabilire anche una sola delle connessioni, chiede all'utente se intende riprovare a connettersi
 2.2) Se l'utente risponde di no, terminare l'esecuzione
 2.3) Se l'utente risponde di si, riprovare a connettersi
 2.4) Salvare le variabili provider di web3
@@ -21,12 +23,14 @@ Passi del bootstrap:
 3) Leggere il file delle abi dello smart contract on-chain manager
 3.1) Se non è presente il file terminare l'esecuzione
 3.2) Se il file è vuoto, avvisare l'utente che manca l'on-chain manager
-3.3) Deployare l'on-chain manager con un account di default? oppure aspettare che l'utente faccia il login e deployarlo con il suo account?
+3.3) Deployare l'on-chain manager con un account di default? oppure aspettare che l'utente faccia il login e deployarlo
+     con il suo account? La funzione implementata attualmente utilizza il primo account di default
 3.4) Se la lettura va a buon fine estrarre l'address e le abi dell'on-chain manager
 3.5) Creare l'oggetto contratto dell'on-chain manager sulla shard 0
 
 4) Provare a contattare l'on-chain manager richiamandone una funzione (get_shard_where_deploy)
-4.1) Se l'on-chain manager non risponde, avvisare l'utente che sarà necessario deployarne uno nuovo dato che quello salvato non esiste più (magari perchè il container di ganache è stato riavviato)
+4.1) Se l'on-chain manager non risponde, avvisare l'utente che sarà necessario deployarne uno nuovo dato che quello
+     salvato non esiste più (magari perchè il container di ganache è stato riavviato)
 4.2) Se risponde tutto ok e salvarsi in una variabile della classe l'oggetto contratto dell'on-chain manager
 
 5) Se tutto è andato a buon fine, salvare nel main le variabili relative a:
@@ -38,8 +42,10 @@ NB: Capire se, nel caso si verificasse un eccezione durante il bootstrap relativ
     deployarlo con un account di default oppure aspettare che l'utente faccia il login e deployarlo con il suo account.
     
 Alternative flow:
-5) Se si verifica un'eccezione e bisogna deployare nuovamente o come prima volta l'on-chain manager, chiedere all'utente conferma
-5.1) Se l'utente conferma, deployare l'on-chain manager, salvarne indirizzo e abi e svuotare i file delle abi delle shard 1,2 e 3
+5) Se si verifica un'eccezione e bisogna deployare nuovamente o come prima volta l'on-chain manager, 
+   chiedere all'utente conferma
+5.1) Se l'utente conferma, deployare l'on-chain manager, salvarne indirizzo e abi e svuotare i file delle abi delle 
+     shard 1, 2 e 3
 '''
 
 
@@ -54,11 +60,62 @@ class Bootstrap:
     def __init__(self):
         self.config_path = "../Config/config.json"
         self.json_config = self.read_config()
+        self.check_config_integrity(self.json_config)
         self.connections = self.get_connections()
         self.on_chain_manager_contract = self.get_on_chain_manager_contract()
 
-    # FUNZIONE PER CONTROLLARE L'INTEGRITà DEL FILE CONFIG.JSON?
+    """
+    FUNZIONE PER CONTROLLARE L'INTEGRITà DEL FILE CONFIG.JSON
+    Se non sono presenti tutti i parametri richiesti termina l'esecuzione del programma
+    :param: dizionario estratto dal file config.json
+    """
+    def check_config_integrity(self, json_config):
+        required_parameters = ["url_shard_0", "url_shard_1", "url_shard_2", "url_shard_3", "path_abis_shard_0",
+                               "path_abis_shard_1", "path_abis_shard_2", "path_abis_shard_3",
+                               "path_smart_contract_on_chain_manager", "pragma_solidity_on_chain_manager",
+                               "name_on_chain_manager_contract"]
+        for parameter in required_parameters:
+            if parameter not in json_config.keys():
+                print("Errore: \n"
+                      + "File di configurazione non conforme alle specifiche \n"
+                      + "Parametro mancante: " + parameter
+                      + "Interruzione programma")
+                exit(1)
 
+        self.check_url(json_config["url_shard_0"])
+        self.check_url(json_config["url_shard_1"])
+        self.check_url(json_config["url_shard_2"])
+        self.check_url(json_config["url_shard_3"])
+        self.check_path(json_config["path_abis_shard_0"])
+        self.check_path(json_config["path_abis_shard_1"])
+        self.check_path(json_config["path_abis_shard_2"])
+        self.check_path(json_config["path_abis_shard_3"])
+        self.check_path(json_config["path_smart_contract_on_chain_manager"])
+
+    """
+    Funzione per verificare che un URL sia contenga la regex 'http://'
+    Termina il programma se l'URL non soddisfa questa condizione
+    :param: url da controllare
+    """
+    def check_url(self, url):
+        reg_ex_urls = "http://.*"
+        if re.search(reg_ex_urls, url) is None:
+            print("Errore: \n"
+                  + "Il parametro '" + url + "' non è un URL che che rispetta le specifiche \n"
+                  + "Interruzione del programma")
+            exit(1)
+
+    """
+    Funzione per controllare se una path esiste
+    Se la path non esiste termina l'esecuzione del programma
+    :param: path da controllare
+    """
+    def check_path(self, path):
+        if not os.path.exists(path):
+            print("Errore: \n"
+                  + "La path '" + path + "' non esiste \n"
+                  + "Interruzione del programma")
+            exit(1)
     """
     Funzione per leggere il JSONObject dal file config.json
     Nel file config.json andranno inserite le variabili da utilizzare per il programma
@@ -97,7 +154,8 @@ class Bootstrap:
             print(e)
             return False
 
-        if (not shard_0.is_connected()) or (not shard_1.is_connected()) or (not shard_2.is_connected()) or (not shard_3.is_connected()):
+        if (not shard_0.is_connected()) or (not shard_1.is_connected()) or (not shard_2.is_connected()) \
+                or (not shard_3.is_connected()):
             clear_terminal()
             print(
                 "Errore: \n"
@@ -147,7 +205,6 @@ class Bootstrap:
         if len(json_abi.keys()) != 1:
             print(
                 "Non è presente alcun on-chain manager salvato"
-                # Se non è presente l'onchain manager che si fa? si depolya ora con un account di default oppure si aspetta che l'utente faccia il login?
             )
             return False
         else:
@@ -209,13 +266,15 @@ class Bootstrap:
     def deploy_on_chain_manager_with_default_account(self):
         self.connections[0].eth.default_account = self.connections[0].eth.accounts[0] # Account di default numero 0
 
-        solcx.install_solc(self.json_config["pragma_solidity_on_chain_manager"]) # Installazione della versione del compilatore in base al pragma impostato nel file config.json
+        # Installazione della versione del compilatore in base al pragma impostato nel file config.json
+        solcx.install_solc(self.json_config["pragma_solidity_on_chain_manager"])
         solcx.set_solc_version(self.json_config["pragma_solidity_on_chain_manager"])
 
         # Compilazione dello smart contract dell'on-chain manager
         try:
-            compiled_solidity = solcx.compile_files([self.json_config["path_smart_contract_on_chain_manager"]]) # Compilazione dell'on-chain manager
-
+            # Compilazione dell'on-chain manager
+            compiled_solidity = solcx.compile_files([self.json_config["path_smart_contract_on_chain_manager"]])
+            # Estrazione delle abi e del bytecode dal compilato
             key = self.json_config["path_smart_contract_on_chain_manager"]+':'+self.json_config["name_on_chain_manager_contract"]
             bytecode = compiled_solidity[key]['bin']
             abi = json.loads(json.dumps(compiled_solidity[key]))['abi']
