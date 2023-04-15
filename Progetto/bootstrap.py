@@ -58,18 +58,21 @@ class Bootstrap:
     Legge o effettua il deploy dell'on-chain manager
     """
     def __init__(self):
-        self.config_path = "../Config/config.json"
-        self.json_config = self.read_config()
-        self.check_config_integrity(self.json_config)
-        self.connections = self.get_connections()
-        self.on_chain_manager_contract = self.get_on_chain_manager_contract()
+        self.__config_path = "../Config/config.json"
+        self.__json_config = self.__read_config()
+        self.__check_config_integrity(self.__json_config)
+        self.__connections = self.__get_connections()
+        self.__on_chain_manager_contract = self.__get_on_chain_manager_contract()
+
+    # AGGIUNGERE FUNZIONE PER CONTROLLARE INTEGRITà FILE ABIS? si potrebbe controllare se il json.loads()
+    # non solleva eccezioni, non posso controllare comunque se le abi sono giuste
 
     """
     FUNZIONE PER CONTROLLARE L'INTEGRITà DEL FILE CONFIG.JSON
     Se non sono presenti tutti i parametri richiesti termina l'esecuzione del programma
     :param: dizionario estratto dal file config.json
     """
-    def check_config_integrity(self, json_config):
+    def __check_config_integrity(self, json_config):
         required_parameters = ["url_shard_0", "url_shard_1", "url_shard_2", "url_shard_3", "path_abis_shard_0",
                                "path_abis_shard_1", "path_abis_shard_2", "path_abis_shard_3",
                                "path_smart_contract_on_chain_manager", "pragma_solidity_on_chain_manager",
@@ -121,9 +124,9 @@ class Bootstrap:
     Nel file config.json andranno inserite le variabili da utilizzare per il programma
     :return: dizionario contenente le variabili di configurazione
     """
-    def read_config(self):
+    def __read_config(self):
         try:
-            with open(self.config_path, 'r') as file_config:
+            with open(self.__config_path, 'r') as file_config:
                 text_file = file_config.read()
                 json_config = json.loads(text_file)
         except Exception as e:
@@ -142,12 +145,12 @@ class Bootstrap:
     :return: un vettore contenente le connessioni alle quattro shard
     :return: False se la connessione non è riuscita
     '''
-    def try_connections(self):
+    def __try_connections(self):
         try:
-            shard_0 = Web3(Web3.HTTPProvider(self.json_config["url_shard_0"]))  # on-chain
-            shard_1 = Web3(Web3.HTTPProvider(self.json_config["url_shard_1"]))  # shard 1
-            shard_2 = Web3(Web3.HTTPProvider(self.json_config["url_shard_2"]))  # shard 2
-            shard_3 = Web3(Web3.HTTPProvider(self.json_config["url_shard_3"]))  # shard 3
+            shard_0 = Web3(Web3.HTTPProvider(self.__json_config["url_shard_0"]))  # on-chain
+            shard_1 = Web3(Web3.HTTPProvider(self.__json_config["url_shard_1"]))  # shard 1
+            shard_2 = Web3(Web3.HTTPProvider(self.__json_config["url_shard_2"]))  # shard 2
+            shard_3 = Web3(Web3.HTTPProvider(self.__json_config["url_shard_3"]))  # shard 3
         except Exception as e:
             clear_terminal()
             print("Errore:")
@@ -169,8 +172,8 @@ class Bootstrap:
     tentare nuovamente a connettersi, altrimenti esce dal programma
     :return: vettore delle connessioni alle quattro shard
     """
-    def get_connections(self):
-        connections = self.try_connections()
+    def __get_connections(self):
+        connections = self.__try_connections()
         while not connections:
             print("Vuoi ritentare la connessione alle shard? [s/n]")
             selezione = input()
@@ -181,7 +184,7 @@ class Bootstrap:
                 print("Interruzione del programma")
                 exit(1)
             else:
-                connections = self.try_connections()
+                connections = self.__try_connections()
         return connections
 
     """
@@ -189,12 +192,12 @@ class Bootstrap:
     :return: False se non sono salvate alcune ABI sul file 'onchain.json'
     :return: oggetto contratto dell'on-chain manager
     """
-    def read_and_try_on_chain_manager(self):
+    def __read_and_try_on_chain_manager(self):
         try:
-            with open(self.json_config["path_abis_shard_0"], 'r') as file_abi:
+            with open(self.__json_config["path_abis_shard_0"], 'r') as file_abi:
                 text_abi = file_abi.read()
                 json_abi = json.loads(text_abi)
-        except:
+        except Exception as e:
             clear_terminal()
             print(
                 "Errore nella lettura del file contenente le ABI dell'on-chain manager \n"
@@ -210,15 +213,15 @@ class Bootstrap:
         else:
             address = list(json_abi.keys())[0]
             abi = json_abi[address]
-            return self.try_on_chain_manager(address, abi)
+            return self.__try_on_chain_manager(address, abi)
 
     """
     Funzione per provare a chiamare una funzione dell'on chain manager registrato
     :return: False se lo smart contract dell'on-chain manager non risponde o risponde in maniera errata
     :return: oggetto contratto dell'on-chain manager
     """
-    def try_on_chain_manager(self, address_on_chain_manager, abi_on_chain_manager):
-        on_chain_manager_contract = self.connections[0].eth.contract(
+    def __try_on_chain_manager(self, address_on_chain_manager, abi_on_chain_manager):
+        on_chain_manager_contract = self.__connections[0].eth.contract(
             address=address_on_chain_manager,
             abi=abi_on_chain_manager
         )
@@ -241,8 +244,8 @@ class Bootstrap:
     Esce dal programma nel caso l'utente non voglia effettuare il deploy dell'on-chan manager
     :return: il contratto dell'on-chain manager
     """
-    def get_on_chain_manager_contract(self):
-        on_chain_manager_contract = self.read_and_try_on_chain_manager()
+    def __get_on_chain_manager_contract(self):
+        on_chain_manager_contract = self.__read_and_try_on_chain_manager()
         if not on_chain_manager_contract:
             print(
                 "Sarà necessario effettuare il deploy di un nuovo smart contract dell'on-chain manager \n"
@@ -256,26 +259,27 @@ class Bootstrap:
                 print("Interruzione del programma")
                 exit(1)
             else:
-                return self.deploy_on_chain_manager_with_default_account()
+                return self.__deploy_on_chain_manager_with_default_account()
         else:
             return on_chain_manager_contract
     """
     Funzione per effettuare il deploy dell'on-chain manger con un account di default
     :return: oggetto contratto dell'on-chain manager
     """
-    def deploy_on_chain_manager_with_default_account(self):
-        self.connections[0].eth.default_account = self.connections[0].eth.accounts[0] # Account di default numero 0
+    def __deploy_on_chain_manager_with_default_account(self):
+        self.__connections[0].eth.default_account = self.__connections[0].eth.accounts[0]  # Account di default numero 0
 
         # Installazione della versione del compilatore in base al pragma impostato nel file config.json
-        solcx.install_solc(self.json_config["pragma_solidity_on_chain_manager"])
-        solcx.set_solc_version(self.json_config["pragma_solidity_on_chain_manager"])
+        solcx.install_solc(self.__json_config["pragma_solidity_on_chain_manager"])
+        solcx.set_solc_version(self.__json_config["pragma_solidity_on_chain_manager"])
 
         # Compilazione dello smart contract dell'on-chain manager
         try:
             # Compilazione dell'on-chain manager
-            compiled_solidity = solcx.compile_files([self.json_config["path_smart_contract_on_chain_manager"]])
+            compiled_solidity = solcx.compile_files([self.__json_config["path_smart_contract_on_chain_manager"]])
             # Estrazione delle abi e del bytecode dal compilato
-            key = self.json_config["path_smart_contract_on_chain_manager"]+':'+self.json_config["name_on_chain_manager_contract"]
+            key = self.__json_config["path_smart_contract_on_chain_manager"]\
+                + ':' + self.__json_config["name_on_chain_manager_contract"]
             bytecode = compiled_solidity[key]['bin']
             abi = json.loads(json.dumps(compiled_solidity[key]))['abi']
         except Exception as exception:
@@ -288,12 +292,12 @@ class Bootstrap:
                   + "Interruzione del programma")
             exit(1)
 
-        contratto = self.connections[0].eth.contract(abi=abi, bytecode=bytecode)
+        contratto = self.__connections[0].eth.contract(abi=abi, bytecode=bytecode)
 
         # esecuzione della transazione di deploy dello smart contract
         try:
             tx_hash = contratto.constructor().transact()
-            tx_receipt = self.connections[0].eth.wait_for_transaction_receipt(tx_hash)
+            tx_receipt = self.__connections[0].eth.wait_for_transaction_receipt(tx_hash)
         except Exception as exception:
             print("Errore: \n")
             print(exception)
@@ -302,13 +306,13 @@ class Bootstrap:
             exit(1)
 
         # creazione dell'oggetto contratto per interagirci
-        on_chain_manager_contract = self.connections[0].eth.contract(
+        on_chain_manager_contract = self.__connections[0].eth.contract(
             address=tx_receipt.contractAddress,
             abi=abi
         )
 
         # salvataggio abi su file
-        self.save_on_chain_manager_abi(tx_receipt.contractAddress, abi)
+        self.__save_on_chain_manager_abi(tx_receipt.contractAddress, abi)
 
         print("On-chain manager pubblicato a questo indirizzo: " + tx_receipt.contractAddress)
 
@@ -318,21 +322,21 @@ class Bootstrap:
     Funzione per salvare su file le abi dello smart contract dell'on-chain manager
     Inoltre resetta anche i file delle abi delle varie shard
     """
-    def save_on_chain_manager_abi(self, address, abi):
+    def __save_on_chain_manager_abi(self, address, abi):
         result = {address: abi}
-        f = open(self.json_config["path_abis_shard_0"], 'w+')
+        f = open(self.__json_config["path_abis_shard_0"], 'w+')
         f.write(json.dumps(result))
         f.close()
 
-        f = open(self.json_config["path_abis_shard_1"], 'w+')
+        f = open(self.__json_config["path_abis_shard_1"], 'w+')
         f.write(json.dumps({}))
         f.close()
 
-        f = open(self.json_config["path_abis_shard_2"], 'w+')
+        f = open(self.__json_config["path_abis_shard_2"], 'w+')
         f.write(json.dumps({}))
         f.close()
 
-        f = open(self.json_config["path_abis_shard_3"], 'w+')
+        f = open(self.__json_config["path_abis_shard_3"], 'w+')
         f.write(json.dumps({}))
         f.close()
 
@@ -342,4 +346,4 @@ class Bootstrap:
     delle connessioni alle quattro shard e l'oggetto contratto dell'on-chain manager
     """
     def get_program_variables(self):
-        return self.json_config, self.connections, self.on_chain_manager_contract
+        return self.__json_config, self.__connections, self.__on_chain_manager_contract

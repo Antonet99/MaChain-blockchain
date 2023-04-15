@@ -1,4 +1,4 @@
-from bootstap import Bootstrap
+from bootstrap import Bootstrap
 import menu
 
 if __name__ == "__main__":
