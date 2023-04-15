@@ -36,6 +36,8 @@ def register():
 
         print("Username disponibile")
 
+        # aggiungere controllo per la password di almeno tot caratteri
+
         # encoding della password in utf-8 e stampa digest hash con sha256
         password = getpass.getpass(
             "Inserisci la tua password: ").encode('utf-8')
@@ -67,6 +69,7 @@ def login():
     Il controllo della password viene fatto tramite l'hash della password inserita dall'utente, che viene confrontato con l'hash salvato nel database.
     """
 
+    # STAMPARE SOLO "USERNAME E PASSWORD ERRATI" INVECE DEL DOPPIO MESSAGGIO DI ERRORE ATTUALE
     accounts = load_accounts()
 
     username = input("Inserisci il tuo username: ")
