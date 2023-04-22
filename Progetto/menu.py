@@ -1,3 +1,5 @@
+import transactioner
+
 def menu():
     while True:
         print("Scegli cosa fare: ")
@@ -15,8 +17,9 @@ def menu():
                 print("2")
                 break
             case "3":
-                print("3")
-                break
+                transactioner.choose_smart_contract()
+
+                #break
             case "4":
                 print("4")
                 return

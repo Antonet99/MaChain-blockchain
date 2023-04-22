@@ -1,6 +1,8 @@
 from bootstrap import Bootstrap
 import menu
 
+# Se dovesse dare problemi con solc, eseguire comando "pip install py-solc-x==0.8.0" (windows)
+
 if __name__ == "__main__":
 
     bootstrap = Bootstrap()

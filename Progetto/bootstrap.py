@@ -58,7 +58,7 @@ class Bootstrap:
     Legge o effettua il deploy dell'on-chain manager
     """
     def __init__(self):
-        self.__config_path = "../Config/config.json"
+        self.__config_path = os.path.relpath("Config/config.json")
         self.__json_config = self.__read_config()
         self.__check_config_integrity(self.__json_config)
         self.__connections = self.__get_connections()
