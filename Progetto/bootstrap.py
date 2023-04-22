@@ -3,7 +3,8 @@ import re
 import os
 import solcx
 from web3 import Web3
-from clear_terminal import clear_terminal
+from support_functions import clear_terminal
+from config_params import ConfigParams
 
 '''
 Classe per effettuare il bootstrap del programma
@@ -59,86 +60,9 @@ class Bootstrap:
     """
     def __init__(self):
         self.__config_path = "../Config/config.json"
-        self.__json_config = self.__read_config()
-        self.__check_config_integrity(self.__json_config)
+        self.__config_params = ConfigParams(self.__config_path)
         self.__connections = self.__get_connections()
         self.__on_chain_manager_contract = self.__get_on_chain_manager_contract()
-
-    # AGGIUNGERE FUNZIONE PER CONTROLLARE INTEGRITà FILE ABIS? si potrebbe controllare se il json.loads()
-    # non solleva eccezioni, non posso controllare comunque se le abi sono giuste
-
-    """
-    FUNZIONE PER CONTROLLARE L'INTEGRITà DEL FILE CONFIG.JSON
-    Se non sono presenti tutti i parametri richiesti termina l'esecuzione del programma
-    :param: dizionario estratto dal file config.json
-    """
-    def __check_config_integrity(self, json_config):
-        required_parameters = ["url_shard_0", "url_shard_1", "url_shard_2", "url_shard_3", "path_abis_shard_0",
-                               "path_abis_shard_1", "path_abis_shard_2", "path_abis_shard_3",
-                               "path_smart_contract_on_chain_manager", "pragma_solidity_on_chain_manager",
-                               "name_on_chain_manager_contract"]
-        for parameter in required_parameters:
-            if parameter not in json_config.keys():
-                print("Errore: \n"
-                      + "File di configurazione non conforme alle specifiche \n"
-                      + "Parametro mancante: " + parameter
-                      + "Interruzione programma")
-                exit(1)
-
-        self.check_url(json_config["url_shard_0"])
-        self.check_url(json_config["url_shard_1"])
-        self.check_url(json_config["url_shard_2"])
-        self.check_url(json_config["url_shard_3"])
-        self.check_path(json_config["path_abis_shard_0"])
-        self.check_path(json_config["path_abis_shard_1"])
-        self.check_path(json_config["path_abis_shard_2"])
-        self.check_path(json_config["path_abis_shard_3"])
-        self.check_path(json_config["path_smart_contract_on_chain_manager"])
-
-    """
-    Funzione per verificare che un URL sia contenga la regex 'http://'
-    Termina il programma se l'URL non soddisfa questa condizione
-    :param: url da controllare
-    """
-    def check_url(self, url):
-        reg_ex_urls = "http://.*"
-        if re.search(reg_ex_urls, url) is None:
-            print("Errore: \n"
-                  + "Il parametro '" + url + "' non è un URL che che rispetta le specifiche \n"
-                  + "Interruzione del programma")
-            exit(1)
-
-    """
-    Funzione per controllare se una path esiste
-    Se la path non esiste termina l'esecuzione del programma
-    :param: path da controllare
-    """
-    def check_path(self, path):
-        if not os.path.exists(path):
-            print("Errore: \n"
-                  + "La path '" + path + "' non esiste \n"
-                  + "Interruzione del programma")
-            exit(1)
-    """
-    Funzione per leggere il JSONObject dal file config.json
-    Nel file config.json andranno inserite le variabili da utilizzare per il programma
-    :return: dizionario contenente le variabili di configurazione
-    """
-    def __read_config(self):
-        try:
-            with open(self.__config_path, 'r') as file_config:
-                text_file = file_config.read()
-                json_config = json.loads(text_file)
-        except Exception as e:
-            clear_terminal()
-            print(
-                "Errore: \n"
-                + "Non è stato possibile leggere il file config.json contenente le impostazioni \n"
-                + "Interruzione del programma"
-            )
-            exit(1)
-
-        return json_config
 
     '''
     Funzione per ottenere la connessione alle quattro shard utilizzate
@@ -147,10 +71,10 @@ class Bootstrap:
     '''
     def __try_connections(self):
         try:
-            shard_0 = Web3(Web3.HTTPProvider(self.__json_config["url_shard_0"]))  # on-chain
-            shard_1 = Web3(Web3.HTTPProvider(self.__json_config["url_shard_1"]))  # shard 1
-            shard_2 = Web3(Web3.HTTPProvider(self.__json_config["url_shard_2"]))  # shard 2
-            shard_3 = Web3(Web3.HTTPProvider(self.__json_config["url_shard_3"]))  # shard 3
+            shard_0 = Web3(Web3.HTTPProvider(self.__config_params.get_url_shard_0())) # on-chain
+            shard_1 = Web3(Web3.HTTPProvider(self.__config_params.get_url_shard_1())) # shard 1
+            shard_2 = Web3(Web3.HTTPProvider(self.__config_params.get_url_shard_2()))  # shard 2
+            shard_3 = Web3(Web3.HTTPProvider(self.__config_params.get_url_shard_3()))  # shard 3
         except Exception as e:
             clear_terminal()
             print("Errore:")
@@ -194,7 +118,7 @@ class Bootstrap:
     """
     def __read_and_try_on_chain_manager(self):
         try:
-            with open(self.__json_config["path_abis_shard_0"], 'r') as file_abi:
+            with open(self.__config_params.get_path_abis_shard_0(), 'r') as file_abi:
                 text_abi = file_abi.read()
                 json_abi = json.loads(text_abi)
         except Exception as e:
@@ -269,17 +193,23 @@ class Bootstrap:
     def __deploy_on_chain_manager_with_default_account(self):
         self.__connections[0].eth.default_account = self.__connections[0].eth.accounts[0]  # Account di default numero 0
 
-        # Installazione della versione del compilatore in base al pragma impostato nel file config.json
-        solcx.install_solc(self.__json_config["pragma_solidity_on_chain_manager"])
-        solcx.set_solc_version(self.__json_config["pragma_solidity_on_chain_manager"])
+        try:
+            # Installazione della versione del compilatore in base al pragma impostato nel file config.json
+            solcx.install_solc(self.__config_params.get_pragma_solidity_on_chain_manager())
+            solcx.set_solc_version(self.__config_params.get_pragma_solidity_on_chain_manager())
+        except Exception as e:
+            print("Errore durante l'installazione di solc \n"
+                  + "Controllare che il pragma di solidity nel file config.json sia scritto in mnodo corretto \n"
+                  + "Interruzione del programma")
+            exit(1)
 
         # Compilazione dello smart contract dell'on-chain manager
         try:
             # Compilazione dell'on-chain manager
-            compiled_solidity = solcx.compile_files([self.__json_config["path_smart_contract_on_chain_manager"]])
+            compiled_solidity = solcx.compile_files([self.__config_params.get_path_smart_contract_on_chain_manager()])
             # Estrazione delle abi e del bytecode dal compilato
-            key = self.__json_config["path_smart_contract_on_chain_manager"]\
-                + ':' + self.__json_config["name_on_chain_manager_contract"]
+            key = self.__config_params.get_path_smart_contract_on_chain_manager()\
+                + ':' + self.__config_params.get_name_on_chain_manager_contract()
             bytecode = compiled_solidity[key]['bin']
             abi = json.loads(json.dumps(compiled_solidity[key]))['abi']
         except Exception as exception:
@@ -324,19 +254,19 @@ class Bootstrap:
     """
     def __save_on_chain_manager_abi(self, address, abi):
         result = {address: abi}
-        f = open(self.__json_config["path_abis_shard_0"], 'w+')
+        f = open(self.__config_params.get_path_abis_shard_0(), 'w+')
         f.write(json.dumps(result))
         f.close()
 
-        f = open(self.__json_config["path_abis_shard_1"], 'w+')
+        f = open(self.__config_params.get_path_abis_shard_1(), 'w+')
         f.write(json.dumps({}))
         f.close()
 
-        f = open(self.__json_config["path_abis_shard_2"], 'w+')
+        f = open(self.__config_params.get_path_abis_shard_2(), 'w+')
         f.write(json.dumps({}))
         f.close()
 
-        f = open(self.__json_config["path_abis_shard_3"], 'w+')
+        f = open(self.__config_params.get_path_abis_shard_3(), 'w+')
         f.write(json.dumps({}))
         f.close()
 
@@ -346,4 +276,4 @@ class Bootstrap:
     delle connessioni alle quattro shard e l'oggetto contratto dell'on-chain manager
     """
     def get_program_variables(self):
-        return self.__json_config, self.__connections, self.__on_chain_manager_contract
+        return self.__config_params, self.__connections, self.__on_chain_manager_contract
