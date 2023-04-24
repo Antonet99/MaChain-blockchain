@@ -1,6 +1,6 @@
 import transactioner
 
-def menu():
+def menu(config_params, connections, on_chain_manager_contract):
     while True:
         print("Scegli cosa fare: ")
         print("1. Seleziona gli account con cui effettuare le transazioni")
@@ -9,19 +9,17 @@ def menu():
         print("4. Esci")
         choice = input("Scelta: ")
 
-        match choice:
-            case "1":
+        if choice == "1":
                 print("1")
                 break
-            case "2":
+        elif choice == "2":
                 print("2")
                 break
-            case "3":
-                transactioner.choose_smart_contract()
-
+        elif choice == "3":
+                transactioner.choose_smart_contract(config_params, connections, on_chain_manager_contract)
                 #break
-            case "4":
+        elif choice == "4" :
                 print("4")
-                return
-            case _:
-                print("\nScelta non valida.\n")
+                break
+        else :
+            print("\nScelta non valida.\n")

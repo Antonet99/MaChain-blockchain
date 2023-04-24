@@ -157,8 +157,8 @@ class Bootstrap:
             print(e)
             return False
 
-        if (not shard_0.is_connected()) or (not shard_1.is_connected()) or (not shard_2.is_connected()) \
-                or (not shard_3.is_connected()):
+        if (not shard_0.isConnected()) or (not shard_1.isConnected()) or (not shard_2.isConnected()) \
+                or (not shard_3.isConnected()):
             clear_terminal()
             print(
                 "Errore: \n"
