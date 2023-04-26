@@ -58,8 +58,9 @@ class Bootstrap:
     Ottiene le connessioni alle quattro shard utilizzate dal programma
     Legge o effettua il deploy dell'on-chain manager
     """
+
     def __init__(self):
-        self.__config_path = "../Config/config.json"
+        self.__config_path = "./Config/config.json"
         self.__config_params = ConfigParams(self.__config_path)
         self.__connections = self.__get_connections()
         self.__on_chain_manager_contract = self.__get_on_chain_manager_contract()
@@ -69,12 +70,17 @@ class Bootstrap:
     :return: un vettore contenente le connessioni alle quattro shard
     :return: False se la connessione non è riuscita
     '''
+
     def __try_connections(self):
         try:
-            shard_0 = Web3(Web3.HTTPProvider(self.__config_params.get_url_shard_0())) # on-chain
-            shard_1 = Web3(Web3.HTTPProvider(self.__config_params.get_url_shard_1())) # shard 1
-            shard_2 = Web3(Web3.HTTPProvider(self.__config_params.get_url_shard_2()))  # shard 2
-            shard_3 = Web3(Web3.HTTPProvider(self.__config_params.get_url_shard_3()))  # shard 3
+            shard_0 = Web3(Web3.HTTPProvider(
+                self.__config_params.get_url_shard_0()))  # on-chain
+            shard_1 = Web3(Web3.HTTPProvider(
+                self.__config_params.get_url_shard_1()))  # shard 1
+            shard_2 = Web3(Web3.HTTPProvider(
+                self.__config_params.get_url_shard_2()))  # shard 2
+            shard_3 = Web3(Web3.HTTPProvider(
+                self.__config_params.get_url_shard_3()))  # shard 3
         except Exception as e:
             clear_terminal()
             print("Errore:")
@@ -96,6 +102,7 @@ class Bootstrap:
     tentare nuovamente a connettersi, altrimenti esce dal programma
     :return: vettore delle connessioni alle quattro shard
     """
+
     def __get_connections(self):
         connections = self.__try_connections()
         while not connections:
@@ -116,6 +123,7 @@ class Bootstrap:
     :return: False se non sono salvate alcune ABI sul file 'onchain.json'
     :return: oggetto contratto dell'on-chain manager
     """
+
     def __read_and_try_on_chain_manager(self):
         try:
             with open(self.__config_params.get_path_abis_shard_0(), 'r') as file_abi:
@@ -144,6 +152,7 @@ class Bootstrap:
     :return: False se lo smart contract dell'on-chain manager non risponde o risponde in maniera errata
     :return: oggetto contratto dell'on-chain manager
     """
+
     def __try_on_chain_manager(self, address_on_chain_manager, abi_on_chain_manager):
         on_chain_manager_contract = self.__connections[0].eth.contract(
             address=address_on_chain_manager,
@@ -168,6 +177,7 @@ class Bootstrap:
     Esce dal programma nel caso l'utente non voglia effettuare il deploy dell'on-chan manager
     :return: il contratto dell'on-chain manager
     """
+
     def __get_on_chain_manager_contract(self):
         on_chain_manager_contract = self.__read_and_try_on_chain_manager()
         if not on_chain_manager_contract:
@@ -190,13 +200,17 @@ class Bootstrap:
     Funzione per effettuare il deploy dell'on-chain manger con un account di default
     :return: oggetto contratto dell'on-chain manager
     """
+
     def __deploy_on_chain_manager_with_default_account(self):
-        self.__connections[0].eth.default_account = self.__connections[0].eth.accounts[0]  # Account di default numero 0
+        # Account di default numero 0
+        self.__connections[0].eth.default_account = self.__connections[0].eth.accounts[0]
 
         try:
             # Installazione della versione del compilatore in base al pragma impostato nel file config.json
-            solcx.install_solc(self.__config_params.get_pragma_solidity_on_chain_manager())
-            solcx.set_solc_version(self.__config_params.get_pragma_solidity_on_chain_manager())
+            solcx.install_solc(
+                self.__config_params.get_pragma_solidity_on_chain_manager())
+            solcx.set_solc_version(
+                self.__config_params.get_pragma_solidity_on_chain_manager())
         except Exception as e:
             print("Errore durante l'installazione di solc \n"
                   + "Controllare che il pragma di solidity nel file config.json sia scritto in mnodo corretto \n"
@@ -206,7 +220,8 @@ class Bootstrap:
         # Compilazione dello smart contract dell'on-chain manager
         try:
             # Compilazione dell'on-chain manager
-            compiled_solidity = solcx.compile_files([self.__config_params.get_path_smart_contract_on_chain_manager()])
+            compiled_solidity = solcx.compile_files(
+                [self.__config_params.get_path_smart_contract_on_chain_manager()])
             # Estrazione delle abi e del bytecode dal compilato
             key = self.__config_params.get_path_smart_contract_on_chain_manager()\
                 + ':' + self.__config_params.get_name_on_chain_manager_contract()
@@ -216,22 +231,25 @@ class Bootstrap:
             jsonError = json.loads(json.dumps(exception.__dict__))
             print("Attenzione! E' stato generato il seguente errore durante la compilazione: \n" + jsonError[
                 "stderr_data"]
-                  + "In " + "\"" + jsonError["command"][1] + "\"" +
-                  ", con return code: " + str(jsonError["return_code"]) + ".")
+                + "In " + "\"" + jsonError["command"][1] + "\"" +
+                ", con return code: " + str(jsonError["return_code"]) + ".")
             print("Non è stato possibile compilare lo smart contract dell'on-chain manager \n"
                   + "Interruzione del programma")
             exit(1)
 
-        contratto = self.__connections[0].eth.contract(abi=abi, bytecode=bytecode)
+        contratto = self.__connections[0].eth.contract(
+            abi=abi, bytecode=bytecode)
 
         # esecuzione della transazione di deploy dello smart contract
         try:
             tx_hash = contratto.constructor().transact()
-            tx_receipt = self.__connections[0].eth.wait_for_transaction_receipt(tx_hash)
+            tx_receipt = self.__connections[0].eth.wait_for_transaction_receipt(
+                tx_hash)
         except Exception as exception:
             print("Errore: \n")
             print(exception)
-            print("La transazione di deploy dello smart contract non è andata a buon fine")
+            print(
+                "La transazione di deploy dello smart contract non è andata a buon fine")
             print("Interruzione del programma")
             exit(1)
 
@@ -244,7 +262,8 @@ class Bootstrap:
         # salvataggio abi su file
         self.__save_on_chain_manager_abi(tx_receipt.contractAddress, abi)
 
-        print("On-chain manager pubblicato a questo indirizzo: " + tx_receipt.contractAddress)
+        print("On-chain manager pubblicato a questo indirizzo: " +
+              tx_receipt.contractAddress)
 
         return on_chain_manager_contract
 
@@ -252,6 +271,7 @@ class Bootstrap:
     Funzione per salvare su file le abi dello smart contract dell'on-chain manager
     Inoltre resetta anche i file delle abi delle varie shard
     """
+
     def __save_on_chain_manager_abi(self, address, abi):
         result = {address: abi}
         f = open(self.__config_params.get_path_abis_shard_0(), 'w+')
@@ -275,5 +295,6 @@ class Bootstrap:
     :return: variabili da utilizzare nel programma, ossia il dizionario delle impostazioni di configurazione, il vettore
     delle connessioni alle quattro shard e l'oggetto contratto dell'on-chain manager
     """
+
     def get_program_variables(self):
         return self.__config_params, self.__connections, self.__on_chain_manager_contract

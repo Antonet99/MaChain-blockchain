@@ -1,7 +1,8 @@
 import json
 import getpass
 import hashlib
-from support_functions import load_accounts, save_accounts
+from support_functions import load_accounts
+from encryption import encrypt, decrypt
 
 
 class Login:

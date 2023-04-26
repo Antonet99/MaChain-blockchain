@@ -14,6 +14,7 @@ class ConfigParams:
         Nel file config.json andranno inserite le variabili da utilizzare per il programma
         :return: dizionario contenente le variabili di configurazione
     """
+
     def __read_config(self):
         try:
             with open(self.__config_path, 'r') as file_config:
@@ -36,8 +37,9 @@ class ConfigParams:
         Se non sono presenti tutti i parametri richiesti termina l'esecuzione del programma
         :param: dizionario estratto dal file config.json
     """
+
     def __check_config_integrity(self):
-        required_parameters = ["url_shard_0", "url_shard_1", "url_shard_2", "url_shard_3", "path_abis_shard_0",
+        required_parameters = ["path_user", "url_shard_0", "url_shard_1", "url_shard_2", "url_shard_3", "path_abis_shard_0",
                                "path_abis_shard_1", "path_abis_shard_2", "path_abis_shard_3",
                                "path_smart_contract_on_chain_manager", "pragma_solidity_on_chain_manager",
                                "name_on_chain_manager_contract", "gas_price_onchain", "gas_price_shard"]
@@ -53,6 +55,7 @@ class ConfigParams:
         check_url(self.__config_dict["url_shard_1"])
         check_url(self.__config_dict["url_shard_2"])
         check_url(self.__config_dict["url_shard_3"])
+        check_path(self.__config_dict["path_user"])
         check_path(self.__config_dict["path_abis_shard_0"])
         check_path(self.__config_dict["path_abis_shard_1"])
         check_path(self.__config_dict["path_abis_shard_2"])
@@ -73,6 +76,9 @@ class ConfigParams:
 
     def get_url_shard_3(self):
         return self.__config_dict["url_shard_3"]
+
+    def get_path_user(self):
+        return self.__config_dict["path_user"]
 
     def get_path_abis_shard_0(self):
         return self.__config_dict["path_abis_shard_0"]

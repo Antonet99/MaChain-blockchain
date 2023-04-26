@@ -1,8 +1,8 @@
 import json
 import getpass
 import hashlib
-import cryptography
 from support_functions import load_accounts, save_accounts
+from encryption import encrypt, decrypt
 
 
 class Register:
