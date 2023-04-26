@@ -1,4 +1,5 @@
 import json
+import os
 import ntpath
 from solcx import compile_standard
 import re
@@ -29,7 +30,7 @@ class Compiler:
                 textfile = file.read()
                 print(
                     f"Il file nel percorso {path} esiste e il suo contenuto è stato letto correttamente.")
-                return textfile
+                return textfile, path
 
         except FileNotFoundError:
             print(f"Il file nel percorso {path} non esiste.")
@@ -58,9 +59,7 @@ class Compiler:
                 case _:
                     print("Scelta non valida. Riprova.")
 
-    def get_solidity_version(self):
-
-        path = self.get_path()
+    def get_solidity_version(self, path):
 
         with open(path, 'r') as f:
 
@@ -76,8 +75,8 @@ class Compiler:
             # se la versione di solidity è stata trovata, la ritorna
             if pragma:
                 # rimozione dei caratteri superflui
-                pragma_version = pragma.group().replace("pragma solidity ", "").replace(";", "")
-                return pragma_version
+                text_version = match.group()
+                return text_version
             else:
                 return None
 
@@ -107,33 +106,29 @@ class Compiler:
                 imports = imports + ', ' + import_text
         return imports
 
-    def compile_smart_contract(file_path):
-        try:
-            # Legge la versione di Solidity richiesta dallo smart contract
-            pragma_version = self.get_solidity_version()
+    def compile_smart_contract(self, path):
 
-            # Legge gli import richiesti dallo smart contract
+        try:
+            # Legge la versione di Solidity e imports richiesti dallo smart contract
+            text_version = self.get_solidity_version()
             imports = self.get_imports()
 
-            # Installa la versione del compilatore richiesta dallo smart contract
             solcx.set_solc_version_pragma(text_version, check_new=True)
 
-            # Compila il file
             compiled_solidity = solcx.compile_files(
-                [file_path], allow_paths=imports)
+                [path], allow_paths=imports)
 
-            # Estrae i bytecode degli smart contract compilati
+            # Estrae i bytecode e ABIs degli smart contract compilati
             bytecodes = []
             for key in compiled_solidity.keys():
                 bytecodes.append(compiled_solidity[key]['bin'])
 
-            # Estrae le ABI degli smart contract
             abis = []
             for key in compiled_solidity.keys():
                 abis.append(json.loads(json.dumps(
                     compiled_solidity[key]))['abi'])
 
-            return abis, bytecodes
+            return compiled_solidity, abis, bytecodes
 
         except Exception as exception:
             os.system('clear')
@@ -142,3 +137,53 @@ class Compiler:
                   + "In " + "\"" + jsonError["command"][1] + "\"" +
                   ", con return code: " + str(jsonError["return_code"]) + ".")
             return None, None
+
+    def choose_contract(self, compiled_solidity, abis, bytecodes):
+
+        if len(bytecodes) > 1:
+
+            os.system('clear')
+            print("Nel file sol appena compilato sono presenti più di uno smart contract. \n"
+                  + "Gli smart contract compilati sono: "
+                  )
+
+            possibili_selezioni = []
+
+            for index, key in enumerate(compiled_solidity.keys()):
+                if bytecodes[index] != '':
+                    print(str(index) + ') ' + str(key).split(':')[1])
+                    possibili_selezioni.append(str(index))
+                else:
+                    print(str(index) + ') ' + str(key).split(':')
+                          [1] + ' [non è possibile effettuarne il deploy]')
+            print(
+                "NB: Delle interfacce e gli abstract contract non può essere effettuato il deploy.")
+            print(
+                "Di quale smart contract vuoi fare il deploy? [inserire il numero di fianco al nome dello smart contract]")
+
+            selezione = input()
+
+            while str(selezione) not in possibili_selezioni:
+                print(
+                    "Inserisci un indice tra quelli degli smart contract di cui è possibile fare il deploy")
+                selezione = input()
+
+            indice_selezionato = int(selezione)
+            abi_to_deploy = abis[indice_selezionato]
+            bytecode_to_deploy = bytecodes[indice_selezionato]
+
+        else:
+            if bytecodes[0] == '':
+                os.system('clear')
+                print("Lo smart contract presente nel file .sol è una interfeccia o un contratto astratto, \n"
+                      + "non è quindi possibile effettuarno il deploy")
+        # return
+            else:
+                abi_to_deploy = abis[0]
+                bytecode_to_deploy = bytecodes[0]
+
+        # controllino in più che lo smart contract selezionato sia effettivamente deployabiles
+    if bytecode_to_deploy == '':
+        print(
+            'Errore, dello smart contract da te selezionato non può essere fatto il deploy')
+        # return
