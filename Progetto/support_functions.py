@@ -1,5 +1,18 @@
 import os
 import re
+import json
+
+
+def load_accounts():
+    path = "./Progetto/userpass.json"
+    with open(path, 'r') as file:
+        return json.load(file)
+
+
+def save_accounts(accounts):
+    path = "./Progetto/userpass.json"
+    with open(path, 'w') as file:
+        json.dump(accounts, file)
 
 
 def clear_terminal():
@@ -15,6 +28,8 @@ Funzione per verificare che un URL sia contenga la regex 'http://'
 Termina il programma se l'URL non soddisfa questa condizione
 :param: url da controllare
 """
+
+
 def check_url(url):
     reg_ex_urls = "http://.*"
     if re.search(reg_ex_urls, url) is None:
@@ -29,6 +44,8 @@ Funzione per controllare se una path esiste
 Se la path non esiste termina l'esecuzione del programma
 :param: path da controllare
 """
+
+
 def check_path(path):
     if not os.path.exists(path):
         print("Errore: \n"

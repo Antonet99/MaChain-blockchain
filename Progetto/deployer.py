@@ -1,11 +1,7 @@
 import json
 import os
-import ntpath
-from solcx import compile_standard
-import re
 
 from compiler import Compiler
-from main import
 
 
 class Deployer:
@@ -38,14 +34,16 @@ class Deployer:
                 + "La shard su cui effettuare il deploy dello smart contract deve essere compresa tra 1 e 3"
             )
 
-        match shard_where_deploy:
-            case 1: blockchain_where_deploy = s1
-            case 2: blockchain_where_deploy = s2
-            case 3: blockchain_where_deploy = s3
+        if shard_where_deploy == 1:
+            blockchain_where_deploy = s1
+        elif shard_where_deploy == 2:
+            blockchain_where_deploy = s2
+        elif shard_where_deploy == 3:
+            blockchain_where_deploy = s3
 
         return blockchain_where_deploy
 
-    def estimate_gas(self, compiled_solidity, abi_to_deploy, bytecode_to_deploy):
+    def estimate_gas(self, on_chain_manager, compiled_solidity, abi_to_deploy, bytecode_to_deploy):
 
         blockchain_where_deploy = self.blockchain_where_deploy()
         shard_where_deploy = self.shard_where_deploy()
@@ -58,8 +56,8 @@ class Deployer:
         with open('nome_file.json') as f:
             data = json.load(f)
 
-        gas_price_shard = 100000000000
-        gas_price_onchain = 100000000000
+        gas_price_shard = data['gas_price_shard']
+        gas_price_onchain = data['gas_price_onchain']
 
         # stima vera e propria del gas necessario per le due transazioni
         stima_gas_deploy = contratto.constructor().estimate_gas()
@@ -72,8 +70,9 @@ class Deployer:
         stima_costo_aggiornamento_onchain = stima_gas_aggiornamento_on_chain * gas_price_onchain
 
         # MODIFICARE METTENDO COME ACCOUNT GLI INDIRIZZI DELL'UTENTE SULLE VARIE BLOCKCHAIN
-        bilancio_onchain_gwei = onchain.eth.get_balance(
-            onchain.eth.accounts[0])/(10 ^ 9)
+        bilancio_onchain_gwei = on_chain_manager.eth.get_balance(
+            on_chain_manager.eth.accounts[0])/(10 ^ 9)
+
         bilancio_shard_gwei = blockchain_where_deploy.eth.get_balance(
             blockchain_where_deploy.eth.accounts[0])/(10 ^ 9)
 
@@ -132,3 +131,16 @@ class Deployer:
 
         print(contratto_deployato.address)
         return contratto_deployato
+
+    def register_contract(self, on_chain_manager, contratto_deployato, shard_where_deploy):
+        try:
+            on_chain_manager.functions.register_contract(
+                contratto_deployato.address, shard_where_deploy).transact()
+        except Exception as exception:
+            os.system('clear')
+            print("Errore: \n")
+            print(exception)
+            print(
+                "La transazione di aggiornamento dell'on-chain manager non è andata a buon fine")
+
+        print(on_chain_manager.functions.get_shard_where_deploy().call())

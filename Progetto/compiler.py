@@ -23,7 +23,7 @@ class Compiler:
         Legge il file del contratto situato al percorso specificato e restituisce il contenuto nella variabile textfile.
         """
 
-        path = self.get_path()  # chiedere
+        path = self.get_path()
 
         try:
             with open(path, "r") as file:
@@ -50,20 +50,17 @@ class Compiler:
     def ask_for_new_path(self):
         while True:
             choice = input("Vuoi inserire un altro percorso? (Y/N) ")
-            match choice.upper():
-                case "Y":
-                    return self.read_contract()
-                case "N":
-                    print("Arrivederci!")
-                    return ""
-                case _:
-                    print("Scelta non valida. Riprova.")
+            if choice.upper() == "Y":
+                return self.read_contract()
+            elif choice.upper() == "N":
+                print("Arrivederci!")
+                return ""
+            else:
+                print("Scelta non valida. Riprova.")
 
     def get_solidity_version(self, path):
 
         with open(path, 'r') as f:
-
-            # legge il contenuto del file
             file = f.read()
 
             # espressione regolare utilizzata per trovare dentro allo smart contract la versione di solidity richiesta
@@ -75,7 +72,7 @@ class Compiler:
             # se la versione di solidity è stata trovata, la ritorna
             if pragma:
                 # rimozione dei caratteri superflui
-                text_version = match.group()
+                text_version = pragma.group()
                 return text_version
             else:
                 return None
@@ -90,10 +87,7 @@ class Compiler:
         # ricerca della stringa import dentro lo smart contract tramite espressione regolare
         match = re.findall(regular_expression, file)
 
-        # caratteri da rimuovere per rimanere con la stringa composta solo dai nomi dei contratti importati
         chars_to_remove = [';', '"']
-
-        # rimozione dei caratteri
         imports = ''
 
         for index, item in enumerate(match):
@@ -104,6 +98,7 @@ class Compiler:
                 imports = imports + import_text
             else:
                 imports = imports + ', ' + import_text
+
         return imports
 
     def compile_smart_contract(self, path):
@@ -177,13 +172,15 @@ class Compiler:
                 os.system('clear')
                 print("Lo smart contract presente nel file .sol è una interfeccia o un contratto astratto, \n"
                       + "non è quindi possibile effettuarno il deploy")
-        # return
+                return None, None
             else:
                 abi_to_deploy = abis[0]
                 bytecode_to_deploy = bytecodes[0]
 
-        # controllino in più che lo smart contract selezionato sia effettivamente deployabiles
-    if bytecode_to_deploy == '':
-        print(
-            'Errore, dello smart contract da te selezionato non può essere fatto il deploy')
-        # return
+                return abi_to_deploy, bytecode_to_deploy
+
+            # controllino in più che lo smart contract selezionato sia effettivamente deployabiles
+        if bytecode_to_deploy == '':
+            print(
+                'Errore, dello smart contract da te selezionato non può essere fatto il deploy')
+            return None, None

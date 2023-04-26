@@ -1,4 +1,5 @@
 {
+  "path_user": "./Progetto/userpass.json",
   "url_shard_0": "http://localhost:8545",
   "url_shard_1": "http://localhost:8546",
   "url_shard_2": "http://localhost:8547",
