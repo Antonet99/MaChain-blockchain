@@ -10,6 +10,6 @@
   "path_smart_contract_on_chain_manager": "../prove/prova_on_chain.sol",
   "pragma_solidity_on_chain_manager": "0.8.0",
   "name_on_chain_manager_contract": "on_chain_manager",
-  "gas_price_shard": 100000000000,
-  "gas_price_onchain": 100000000000
+  "gas_price_onchain": 100000000000,
+  "gas_price_shard": 100000000000
 }
