@@ -2,7 +2,7 @@ import json
 import getpass
 import hashlib
 from support_functions import load_accounts
-from encryption import encrypt, decrypt
+from encryption import Encryption
 
 
 class Login:
@@ -14,22 +14,29 @@ class Login:
         """
 
         accounts = load_accounts()
+        logged_in = False
 
-        username = input("Inserisci il tuo username: ").encode('utf-8')
-        password = getpass.getpass(
-            "Inserisci la tua password: ").encode('utf-8')
+        while not logged_in:
 
-        # Verifica se username e hash della password inserita dall'utente corrisponda
-        # a quella salvata nel database in fase di register.
-        for account in accounts["accounts"]:
-            if hashlib.sha256(username).hexdigest() == account["hashed_username"] and hashlib.sha256(password).hexdigest() == account["hashed_password"]:
+            username = input("Inserisci il tuo username: ")
+            hashed_username = hashlib.sha256(
+                username.encode('utf-8')).hexdigest()
 
-                print("Login effettuato con successo.")
-                return
+            password = getpass.getpass(
+                "Inserisci la tua password: ")
+            hashed_password = hashlib.sha256(
+                password.encode('utf-8')).hexdigest()
 
-            else:
-                print("Username e password errati, riprova.")
-                return self.login()
+            # Verifica se username e hash della password inserita dall'utente corrisponda
+            # a quella salvata nel database in fase di register.
+
+            for account in accounts["accounts"]:
+                if hashed_username == account["hashed_username"] and hashed_password == account["hashed_password"]:
+                    print("Login effettuato con successo.")
+                    logged_in = True
+                    break
+            if not logged_in:
+                print("Username e/o password errati, riprova.")
 
 
 Login().login()

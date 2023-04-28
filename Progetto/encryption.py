@@ -9,7 +9,7 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 class Encryption:
 
-    iterations = 100_000
+    iterations = 100000
 
     def _derive_key(self, password: bytes, salt: bytes, iterations: int = iterations) -> bytes:
 

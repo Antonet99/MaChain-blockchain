@@ -1,36 +1,20 @@
 {
   "accounts": [
     {
-      "hashed_username": "antonio",
-      "hashed_password": "b133a0c0e9bee3be20163d2ad31d6248db292aa6dcb1ee087a2aa50e0fc75ae2",
-      "key01": "a",
-      "key02": "a",
-      "key03": "a",
-      "key04": "a"
+      "hashed_username": "1f0ca711df81520887afe0dca099652a249e7eda60348be7327d432b02298652",
+      "hashed_password": "c893b4a9ac59c39073f746402ab7219c41e0568299110bf88ebe785bed277fcb",
+      "token_key01": "ktFOch6McbaC38gXmWG8EgABhqCAAAAAAGRLtDQebfwksy0z650MPX1WygBQBoqN_36SdMa-wUwSJOs70Ea8HVsnSHRvvsmtyO1CfIfosVtNFBfEIqWUhf-yOgGO",
+      "token_key02": "YQSqawdmKAcy9CfKQEXKLQABhqCAAAAAAGRLtDQ99dh1qHoQGwrNG5DoJmadvdP2WU81NN62ZjxYmrdNVD1RrMuGOTLPaqm9xMUE4E3IETup_0VSIcPexwekTNpi",
+      "token_key03": "QdMY-LjKSRP5orrqjAPtPAABhqCAAAAAAGRLtDSEu72_wGwX3gkDc7bxDUfFAk9S1G-qPupat8UAkG2eS-hG7XLFX5uTZWp0xje2YM7HeppwDNZ4flZ0mw6ORkJS",
+      "token_key04": "hVWozdOhmUT2rHuTP5RGxQABhqCAAAAAAGRLtDU_WAHPwCJt4lcQq-2Arn1wKRa3enGc-U2uEVRh9kHNJGHsNBQ6k6tNkeFuMoF6Rc1s8Y6kXKiLtHI1B0RzPDFT"
     },
     {
-      "hashed_username": "alice",
-      "hashed_password": "b133a0c0e9bee3be20163d2ad31d6248db292aa6dcb1ee087a2aa50e0fc75ae2",
-      "key01": "a",
-      "key02": "a",
-      "key03": "a",
-      "key04": "a"
-    },
-    {
-      "username_hash": "gianni",
-      "password_hash": "b133a0c0e9bee3be20163d2ad31d6248db292aa6dcb1ee087a2aa50e0fc75ae2",
-      "key01": "a",
-      "key02": "a",
-      "key03": "a",
-      "key04": "a"
-    },
-    {
-      "username_hash": "alessio",
-      "password_hash": "b133a0c0e9bee3be20163d2ad31d6248db292aa6dcb1ee087a2aa50e0fc75ae2",
-      "key01": "b",
-      "key02": "b",
-      "key03": "b",
-      "key04": "b"
+      "hashed_username": "f7f929a40e2c40e6e5d6325270bca65ad6ed3eedd617433503608b9a03d2a47e",
+      "hashed_password": "c893b4a9ac59c39073f746402ab7219c41e0568299110bf88ebe785bed277fcb",
+      "token_key01": "CXfMHluXlvx1Ve3J5x6l7wABhqCAAAAAAGRLyTNcSLY9MK_Cz48fan_Sf9rHzWMlt2xtUx6v74NxRBJhVrDTXB_Jmt3yZuuotLksJmz8qsn6hosye4ge0OxYYiRc",
+      "token_key02": "porNdAKsYOfKDfwn5Lxd0AABhqCAAAAAAGRLyTNVcjipkTX4l6mAYVNdBcKsdGT8-BMDWLCqs9of8WxH7_-C75abZvbBFN4uux-XjiVmReYR5kttHz0HHVYFNfWd",
+      "token_key03": "V1hoW5hkx2m_l317znvAcgABhqCAAAAAAGRLyTPB918uRVxuzI7BFE46Wrn0crcY_MNOTuZrYr_A82RpfI76pB3zoQcLdqMxHHKwM12oIgOwGRT7L76lNuIpDsU6",
+      "token_key04": "xkuykCSuiKUrDqtGJNEleAABhqCAAAAAAGRLyTPCFYykAAOuQAcyurlw0diEarmnkv2GeXOF3u-7uLNXPxjRWowF18Sgcgt1O0wMeeQJU2_XAiWyOresrBQt1Cr1"
     }
   ]
 }
