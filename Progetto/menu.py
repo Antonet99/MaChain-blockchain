@@ -1,6 +1,4 @@
-import transactioner
-
-def menu(config_params, connections, on_chain_manager_contract):
+def menu():
     while True:
         print("Scegli cosa fare: ")
         print("1. Seleziona gli account con cui effettuare le transazioni")
@@ -10,16 +8,32 @@ def menu(config_params, connections, on_chain_manager_contract):
         choice = input("Scelta: ")
 
         if choice == "1":
-                print("1")
+
+            compiler = Compiler()
+            abi_to_deploy, bytecode_to_deploy = compiler.compile_smart_contract()
+
+            if abi_to_deploy == None or bytecode_to_deploy == None:
+                print("Errore: \n"
+                      + "Lo smart contract non è stato compilato correttamente")
                 break
+            print("Smart contract compilato")
+
+            deployer = Deployer(config_params)
+            deployer.deploy_contract(
+                abi_to_deploy, bytecode_to_deploy, connections, on_chain_manager_contract)
+
         elif choice == "2":
-                print("2")
-                break
+            '''
+            transactioner.choose_smart_contract(
+                config_params, connections, on_chain_manager_contract)
+            '''
+            # break
         elif choice == "3":
-                transactioner.choose_smart_contract(config_params, connections, on_chain_manager_contract)
-                #break
-        elif choice == "4" :
-                print("4")
-                break
-        else :
+            logged_in = False
+            logout = Login()
+            logout.logout(connections)
+        elif choice == "4":
+            print("Arrivederci.")
+            return
+        else:
             print("\nScelta non valida.\n")
