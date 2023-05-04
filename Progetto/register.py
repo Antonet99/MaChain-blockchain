@@ -60,32 +60,32 @@ class Register:
         # password = password.encode('utf-8')
         hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
 
+        key00 = input("Inserisci la key00: ")
         key01 = input("Inserisci la key01: ")
         key02 = input("Inserisci la key02: ")
         key03 = input("Inserisci la key03: ")
-        key04 = input("Inserisci la key04: ")
 
+        token_key00 = encryption.password_encrypt(
+            key00.encode(), password).decode()
         token_key01 = encryption.password_encrypt(
             key01.encode(), password).decode()
         token_key02 = encryption.password_encrypt(
             key02.encode(), password).decode()
         token_key03 = encryption.password_encrypt(
             key03.encode(), password).decode()
-        token_key04 = encryption.password_encrypt(
-            key04.encode(), password).decode()
 
         # Aggiunge l'account alla lista degli account
         accounts["accounts"].append({
             "hashed_username": hashed_username,
             "hashed_password": hashed_password,
+            "token_key00": token_key00,
             "token_key01": token_key01,
             "token_key02": token_key02,
-            "token_key03": token_key03,
-            "token_key04": token_key04
+            "token_key03": token_key03
         })
 
         if save_accounts(accounts) == True:
             print("Registrazione completata con successo.")
 
 
-Register().register()
+# Register().register()

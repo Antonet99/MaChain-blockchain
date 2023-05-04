@@ -1,8 +1,11 @@
 import json
 import os
 import ntpath
+import solcx
 from solcx import compile_standard
 import re
+
+from support_functions import clear_terminal
 
 
 class Compiler:
@@ -58,34 +61,30 @@ class Compiler:
             else:
                 print("Scelta non valida. Riprova.")
 
-    def get_solidity_version(self, path):
+    def get_solidity_version(self, text_contract):
 
-        with open(path, 'r') as f:
-            file = f.read()
+        # espressione regolare utilizzata per trovare dentro allo smart contract la versione di solidity richiesta
+        pragma_expression = "pragma solidity .*;"
 
-            # espressione regolare utilizzata per trovare dentro allo smart contract la versione di solidity richiesta
-            pragma_expression = "pragma solidity .*;"
+        # ricerca della stringa pragma dentro lo smart contract tramite espressione regolare
+        pragma = re.search(pragma_expression, text_contract)
 
-            # ricerca della stringa pragma dentro lo smart contract tramite espressione regolare
-            pragma = re.search(pragma_expression, file)
+        # se la versione di solidity è stata trovata, la ritorna
+        if pragma:
+            # rimozione dei caratteri superflui
+            text_version = pragma.group()
+            print(text_version)
+            return text_version
+        else:
+            return None
 
-            # se la versione di solidity è stata trovata, la ritorna
-            if pragma:
-                # rimozione dei caratteri superflui
-                text_version = pragma.group()
-                return text_version
-            else:
-                return None
-
-    def get_imports(self):
-
-        file = self.read_contract()
+    def get_imports(self, text_contract):
 
         # espressione regolare utilizzata per trovare dentro allo smart contract gli import
         regular_expression = "import .*;"
 
         # ricerca della stringa import dentro lo smart contract tramite espressione regolare
-        match = re.findall(regular_expression, file)
+        match = re.findall(regular_expression, text_contract)
 
         chars_to_remove = [';', '"']
         imports = ''
@@ -101,14 +100,16 @@ class Compiler:
 
         return imports
 
-    def compile_smart_contract(self, path):
+    def compile_smart_contract(self):
+
+        text_contract, path = self.read_contract()
 
         try:
             # Legge la versione di Solidity e imports richiesti dallo smart contract
-            text_version = self.get_solidity_version()
-            imports = self.get_imports()
+            solidity_version = self.get_solidity_version(text_contract)
+            imports = self.get_imports(text_contract)
 
-            solcx.set_solc_version_pragma(text_version, check_new=True)
+            solcx.set_solc_version_pragma(solidity_version, check_new=True)
 
             compiled_solidity = solcx.compile_files(
                 [path], allow_paths=imports)
@@ -123,10 +124,22 @@ class Compiler:
                 abis.append(json.loads(json.dumps(
                     compiled_solidity[key]))['abi'])
 
-            return compiled_solidity, abis, bytecodes
+            if len(bytecodes) > 1:
+                abi_to_deploy, bytecode_to_deploy = self.choose_contract(
+                    compiled_solidity, abis, bytecodes)
+
+            else:
+                abi_to_deploy = abis[0]
+                bytecode_to_deploy = bytecodes[0]
+
+            if bytecode_to_deploy == '':
+                print("Attenzione! Non è stato possibile compilare lo smart contract.")
+                return None, None
+
+            return abi_to_deploy, bytecode_to_deploy
 
         except Exception as exception:
-            os.system('clear')
+            # clear_terminal()
             jsonError = json.loads(json.dumps(exception.__dict__))
             print("Attenzione! E' stato generato il seguente errore durante la compilazione: \n" + jsonError["stderr_data"]
                   + "In " + "\"" + jsonError["command"][1] + "\"" +
@@ -170,9 +183,9 @@ class Compiler:
         else:
             if bytecodes[0] == '':
                 os.system('clear')
-                print("Lo smart contract presente nel file .sol è una interfeccia o un contratto astratto, \n"
-                      + "non è quindi possibile effettuarno il deploy")
-                return None, None
+                print("Lo smart contract presente nel file .sol è una interfaccia o un contratto astratto, \n"
+                      + "non è quindi possibile effettuarne il deploy")
+                return '', ''
             else:
                 abi_to_deploy = abis[0]
                 bytecode_to_deploy = bytecodes[0]
@@ -183,4 +196,4 @@ class Compiler:
         if bytecode_to_deploy == '':
             print(
                 'Errore, dello smart contract da te selezionato non può essere fatto il deploy')
-            return None, None
+            return '', ''

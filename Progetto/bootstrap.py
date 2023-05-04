@@ -60,8 +60,13 @@ class Bootstrap:
     """
 
     def __init__(self):
+
         self.__config_path = "./Config/config.json"
         self.__config_params = ConfigParams(self.__config_path)
+
+        solcx.install_solc(
+            self.__config_params.get_pragma_solidity_on_chain_manager())
+
         self.__connections = self.__get_connections()
         self.__on_chain_manager_contract = self.__get_on_chain_manager_contract()
 
