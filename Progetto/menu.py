@@ -18,9 +18,9 @@ def menu(config_params, connections, on_chain_manager_contract):
 
             if choice == "1":
                 register = Register()
-                register.register(connections)
+                register.register()
             elif choice == "2":
-                login = Login()
+                login = Login(config_params)
                 login.login(connections)
                 logged_in = True
             else:
