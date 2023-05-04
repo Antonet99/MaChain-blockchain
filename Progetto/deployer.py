@@ -30,7 +30,7 @@ class Deployer:
 
         return shard_where_deploy, number_shard_where_deploy
 
-    def estimate_gas(self, connections, shard_where_deploy, on_chain_manager_contract, abi_to_deploy, bytecode_to_deploy):
+    def estimate_gas(self, connections, shard_where_deploy, on_chain_manager_contract, abi_to_deploy, bytecode_to_deploy, number_shard_where_deploy):
 
         # stima del gas necessario per fare il deploy dello smart contract e per aggiornare l'on-chain manager
         contratto = shard_where_deploy.eth.contract(
@@ -44,7 +44,7 @@ class Deployer:
         stima_gas_deploy = contratto.constructor().estimate_gas()
 
         stima_gas_aggiornamento_on_chain = on_chain_manager_contract.functions.register_contract(
-            '0x0000000000000000000000000000000000000000', shard_where_deploy).estimate_gas()
+            '0x0000000000000000000000000000000000000000', number_shard_where_deploy).estimate_gas()
 
         # stima dei costi delle due transazioni, in Gwei, tenendo conto del presso fisso definito sopra
         stima_costo_deploy = stima_gas_deploy * gas_price_shard
@@ -86,7 +86,7 @@ class Deployer:
         contract = shard_where_deploy.eth.contract(
             abi=abi_to_deploy, bytecode=bytecode_to_deploy)
 
-        if not self.estimate_gas(on_chain_manager_contract, abi_to_deploy, bytecode_to_deploy):
+        if not self.estimate_gas(connections, shard_where_deploy, on_chain_manager_contract, abi_to_deploy, bytecode_to_deploy, number_shard_where_deploy):
             return None
 
         try:

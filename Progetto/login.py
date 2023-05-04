@@ -9,6 +9,9 @@ from web3.middleware import construct_sign_and_send_raw_middleware
 
 class Login:
 
+    def __init__(self, config_params):
+        self.__config_params = config_params
+
     def logout(self, connections):
         """
         Funzione per il logout dell'utente, che elimina il middleware aggiunto in fase di login.
@@ -31,7 +34,7 @@ class Login:
         Il controllo della password viene fatto tramite l'hash della password inserita dall'utente, che viene confrontato con l'hash salvato nel database.
         """
 
-        accounts = load_accounts()
+        accounts = load_accounts(self.__config_params.get_path_user())
         encryption = Encryption()
 
         logged_in = False
@@ -69,12 +72,19 @@ class Login:
                     account02 = Account.from_key(token_key02)
                     account03 = Account.from_key(token_key03)
 
+                    connections[0].eth.default_account = account00.address
                     connections[0].middleware_onion.add(
                         construct_sign_and_send_raw_middleware(account00))
+
+                    connections[1].eth.default_account = account01.address
                     connections[1].middleware_onion.add(
                         construct_sign_and_send_raw_middleware(account01))
+
+                    connections[2].eth.default_account = account02.address
                     connections[2].middleware_onion.add(
                         construct_sign_and_send_raw_middleware(account02))
+
+                    connections[3].eth.default_account = account03.address
                     connections[3].middleware_onion.add(
                         construct_sign_and_send_raw_middleware(account03))
 

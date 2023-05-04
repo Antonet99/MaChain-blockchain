@@ -3,14 +3,12 @@ import re
 import json
 
 
-def load_accounts():
-    path = "./Progetto/userpass.json"
+def load_accounts(path):
     with open(path, 'r') as file:
         return json.load(file)
 
 
-def save_accounts(accounts):
-    path = "./Progetto/userpass.json"
+def save_accounts(accounts, path):
     with open(path, 'w') as file:
         json.dump(accounts, file)
 

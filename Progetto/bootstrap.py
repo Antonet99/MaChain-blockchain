@@ -61,7 +61,7 @@ class Bootstrap:
 
     def __init__(self):
 
-        self.__config_path = "./Config/config.json"
+        self.__config_path = "../Config/config.json"
         self.__config_params = ConfigParams(self.__config_path)
 
         solcx.install_solc(

@@ -129,7 +129,7 @@ def call_function(w3, smart_contract, function_type, function_signature, functio
 
     elif function_type == "nonpayable" or function_type == "payable":
         contract_func = smart_contract.get_function_by_signature(function_signature)
-        tx_hash = contract_func(*function_arguments).transact({'from': connections[1].eth.accounts[0]})
+        tx_hash = contract_func(*function_arguments).transact()
         receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
         print("Transaction receipt mined:")
         print(dict(receipt))

@@ -74,7 +74,9 @@ class Compiler:
             # rimozione dei caratteri superflui
             text_version = pragma.group()
             print(text_version)
-            return text_version
+
+            return text_version.translate(str.maketrans('', '', 'pragma solidity><=^;'))
+
         else:
             return None
 
@@ -109,7 +111,8 @@ class Compiler:
             solidity_version = self.get_solidity_version(text_contract)
             imports = self.get_imports(text_contract)
 
-            solcx.set_solc_version_pragma(solidity_version, check_new=True)
+            solcx.install_solc(solidity_version)
+            solcx.set_solc_version(solidity_version)
 
             compiled_solidity = solcx.compile_files(
                 [path], allow_paths=imports)
