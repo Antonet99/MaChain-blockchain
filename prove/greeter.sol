@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity >=0.4.16; // <0.7.0;
+// N.B. con il commento "//<0.7.0;" dopo non funzionava
+pragma solidity >=0.4.16;
 
 contract Greeter {
     string public greeting;

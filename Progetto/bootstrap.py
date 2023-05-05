@@ -5,6 +5,8 @@ import solcx
 from web3 import Web3
 from support_functions import clear_terminal
 from config_params import ConfigParams
+from pyfiglet import Figlet
+from termcolor import colored
 
 '''
 Classe per effettuare il bootstrap del programma
@@ -69,6 +71,10 @@ class Bootstrap:
 
         self.__connections = self.__get_connections()
         self.__on_chain_manager_contract = self.__get_on_chain_manager_contract()
+
+        f = Figlet(font='standard')
+        print(colored(f.renderText('Rsg > > Ort > > Sv'), 'green'))
+
 
     # AGGIUNGERE FUNZIONE PER CONTROLLARE INTEGRITà FILE ABIS? si potrebbe controllare se il json.loads()
     # non solleva eccezioni, non posso controllare comunque se le abi sono giuste
@@ -168,8 +174,8 @@ class Bootstrap:
             print(e)
             return False
 
-        if (not shard_0.isConnected()) or (not shard_1.isConnected()) or (not shard_2.isConnected()) \
-                or (not shard_3.isConnected()):
+        if (not shard_0.is_connected()) or (not shard_1.is_connected()) or (not shard_2.is_connected()) \
+                or (not shard_3.is_connected()):
             clear_terminal()
             print(
                 "Errore: \n"
