@@ -7,6 +7,9 @@ from support_functions import load_accounts, save_accounts
 
 class Register:
 
+    def __init__(self, config_params):
+        self.__config_params = config_params
+
     def validate_password(self, password):
 
         val = True
@@ -37,55 +40,63 @@ class Register:
 
     def register(self):
 
-        accounts = load_accounts()
+        accounts = load_accounts(self.__config_params.get_path_user())
         encryption = Encryption()
+        registered = False
 
-        # Input delle informazioni personali dell'utente
-        # Verifica se l'username è già in uso
-        username = input("Inserisci il tuo username: ").encode('utf-8')
-        hashed_username = hashlib.sha256(username).hexdigest()
+        while not registered:
 
-        for account in accounts["accounts"]:
-            if account["hashed_username"] == hashed_username:
-                print("L'username inserito è già in uso. Usa un altro nome.")
-                return self.register()
+            if len(accounts["accounts"]) > 0:
+
+                # Input delle informazioni personali dell'utente
+                username = input("Inserisci il tuo username: ").encode('utf-8')
+                hashed_username = hashlib.sha256(username).hexdigest()
+
+                for account in accounts["accounts"]:
+                    if account["hashed_username"] == hashed_username:
+                        print("L'username inserito è già in uso. Usa un altro nome.")
+                        return self.register()
+                    else:
+                        print("Username disponibile")
+
+                password = self.insert_password()
+
+                if self.validate_password(password) == False:
+                    print("Password non valida")
+
+                # password = password.encode('utf-8')
+                hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+
+                key00 = input("Inserisci la key00: ")
+                key01 = input("Inserisci la key01: ")
+                key02 = input("Inserisci la key02: ")
+                key03 = input("Inserisci la key03: ")
+
+                token_key00 = encryption.password_encrypt(
+                    key00.encode(), password).decode()
+                token_key01 = encryption.password_encrypt(
+                    key01.encode(), password).decode()
+                token_key02 = encryption.password_encrypt(
+                    key02.encode(), password).decode()
+                token_key03 = encryption.password_encrypt(
+                    key03.encode(), password).decode()
+
+                # Aggiunge l'account alla lista degli account
+                accounts["accounts"].append({
+                    "hashed_username": hashed_username,
+                    "hashed_password": hashed_password,
+                    "token_key00": token_key00,
+                    "token_key01": token_key01,
+                    "token_key02": token_key02,
+                    "token_key03": token_key03
+                })
+
+                if save_accounts(accounts) == True:
+                    print("Registrazione completata con successo.")
+
+                registered = True
             else:
-                print("Username disponibile")
+                print("Non ci sono account registrati.")
+                return self.register()
 
-        password = self.insert_password()
-
-        if self.validate_password(password) == False:
-            print("Password non valida")
-
-        # password = password.encode('utf-8')
-        hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
-
-        key00 = input("Inserisci la key00: ")
-        key01 = input("Inserisci la key01: ")
-        key02 = input("Inserisci la key02: ")
-        key03 = input("Inserisci la key03: ")
-
-        token_key00 = encryption.password_encrypt(
-            key00.encode(), password).decode()
-        token_key01 = encryption.password_encrypt(
-            key01.encode(), password).decode()
-        token_key02 = encryption.password_encrypt(
-            key02.encode(), password).decode()
-        token_key03 = encryption.password_encrypt(
-            key03.encode(), password).decode()
-
-        # Aggiunge l'account alla lista degli account
-        accounts["accounts"].append({
-            "hashed_username": hashed_username,
-            "hashed_password": hashed_password,
-            "token_key00": token_key00,
-            "token_key01": token_key01,
-            "token_key02": token_key02,
-            "token_key03": token_key03
-        })
-
-        if save_accounts(accounts) == True:
-            print("Registrazione completata con successo.")
-
-
-# Register().register()
+Register().register()
