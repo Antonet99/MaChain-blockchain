@@ -1,1 +1,1 @@
-{"0x0Ac7bD15a0432733D00F4992Cde6515B3D350b4b": [{"constant": true, "inputs": [], "name": "storedData", "outputs": [{"name": "", "type": "uint256"}], "payable": false, "stateMutability": "view", "type": "function"}, {"constant": false, "inputs": [{"name": "x", "type": "uint256"}], "name": "set", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function"}, {"constant": true, "inputs": [], "name": "get", "outputs": [{"name": "", "type": "uint256"}], "payable": false, "stateMutability": "view", "type": "function"}]}
+{}
