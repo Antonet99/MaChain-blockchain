@@ -1,11 +1,18 @@
 import re
 import getpass
 import hashlib
+from eth_account import Account
+from web3.middleware import construct_sign_and_send_raw_middleware
+
 from encryption import Encryption
 from support_functions import load_accounts, save_accounts
 
 
 class Register:
+
+    def __init__(self, connections, config_params):
+        self.connections = connections
+        self.config_params = config_params
 
     def validate_password(self, password):
 
@@ -37,20 +44,22 @@ class Register:
 
     def register(self):
 
-        accounts = load_accounts()
+        accounts = load_accounts(self.config_params.get_path_user())
         encryption = Encryption()
 
-        # Input delle informazioni personali dell'utente
-        # Verifica se l'username è già in uso
+
         username = input("Inserisci il tuo username: ").encode('utf-8')
         hashed_username = hashlib.sha256(username).hexdigest()
 
-        for account in accounts["accounts"]:
-            if account["hashed_username"] == hashed_username:
-                print("L'username inserito è già in uso. Usa un altro nome.")
-                return self.register()
-            else:
-                print("Username disponibile")
+        if len(accounts["accounts"]) > 0:
+            for account in accounts["accounts"]:
+                if account["hashed_username"] == hashed_username:
+                    print("L'username inserito è già in uso. Usa un altro nome.")
+                    return self.register()
+                else:
+                    print("Username disponibile")
+        else:
+            print("Username disponibile")
 
         password = self.insert_password()
 
@@ -84,8 +93,35 @@ class Register:
             "token_key03": token_key03
         })
 
-        if save_accounts(accounts) == True:
-            print("Registrazione completata con successo.")
+
+        try:
+            account00 = Account.from_key(key00)
+            account01 = Account.from_key(key01)
+            account02 = Account.from_key(key02)
+            account03 = Account.from_key(key03)
 
 
-# Register().register()
+            self.connections[0].eth.default_account = account00.address
+            self.connections[0].middleware_onion.add(
+                construct_sign_and_send_raw_middleware(account00))
+
+            self.connections[1].eth.default_account = account01.address
+            self.connections[1].middleware_onion.add(
+                construct_sign_and_send_raw_middleware(account01))
+
+            self.connections[2].eth.default_account = account02.address
+            self.connections[2].middleware_onion.add(
+                construct_sign_and_send_raw_middleware(account02))
+
+            self.connections[3].eth.default_account = account03.address
+            self.connections[3].middleware_onion.add(
+                construct_sign_and_send_raw_middleware(account03))
+
+            if save_accounts(accounts, self.config_params.get_path_user()) == True:
+                print("Registrazione completata con successo.")
+
+            return True
+        except:
+            print("Errore durante la registrazione dell'account. Chiavi errate")
+            return False
+

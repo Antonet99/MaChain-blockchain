@@ -15,15 +15,20 @@ def menu(config_params, connections, on_chain_manager_contract):
             print("Scegli cosa fare: ")
             print("1. Effettua la registrazione")
             print("2. Effettua il login")
+            print("3. Esci")
             choice = input("Scelta: ")
 
             if choice == "1":
-                register = Register()
-                register.register(connections)
+                register = Register(connections, config_params)
+                if register.register():
+                    logged_in = True
             elif choice == "2":
-                login = Login(config_params)
-                login.login(connections)
-                logged_in = True
+                login = Login(connections, config_params)
+                if login.login():
+                    logged_in = True
+            elif choice == "3":
+                print("Arrivederci.")
+                return
             else:
                 print("\nScelta non valida.\n")
 

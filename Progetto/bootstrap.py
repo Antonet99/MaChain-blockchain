@@ -1,9 +1,7 @@
 import json
-import re
-import os
 import solcx
 from web3 import Web3
-from support_functions import clear_terminal
+from support_functions import clear_terminal, check_url, check_path
 from config_params import ConfigParams
 from pyfiglet import Figlet
 from termcolor import colored
@@ -71,6 +69,7 @@ class Bootstrap:
 
         self.__connections = self.__get_connections()
         self.__on_chain_manager_contract = self.__get_on_chain_manager_contract()
+        self.__check_userpass()
 
         f = Figlet(font='standard')
         print(colored(f.renderText('Rsg > > Ort > > Sv'), 'green'))
@@ -85,7 +84,7 @@ class Bootstrap:
     :param: dizionario estratto dal file config.json
     """
     def __check_config_integrity(self, json_config):
-        required_parameters = ["url_shard_0", "url_shard_1", "url_shard_2", "url_shard_3", "path_abis_shard_0",
+        required_parameters = ["path_user", "url_shard_0", "url_shard_1", "url_shard_2", "url_shard_3", "path_abis_shard_0",
                                "path_abis_shard_1", "path_abis_shard_2", "path_abis_shard_3",
                                "path_smart_contract_on_chain_manager", "pragma_solidity_on_chain_manager",
                                "name_on_chain_manager_contract"]
@@ -97,40 +96,30 @@ class Bootstrap:
                       + "Interruzione programma")
                 exit(1)
 
-        self.check_url(json_config["url_shard_0"])
-        self.check_url(json_config["url_shard_1"])
-        self.check_url(json_config["url_shard_2"])
-        self.check_url(json_config["url_shard_3"])
-        self.check_path(json_config["path_abis_shard_0"])
-        self.check_path(json_config["path_abis_shard_1"])
-        self.check_path(json_config["path_abis_shard_2"])
-        self.check_path(json_config["path_abis_shard_3"])
-        self.check_path(json_config["path_smart_contract_on_chain_manager"])
+        check_path(json_config["path_user"])
+        check_url(json_config["url_shard_0"])
+        check_url(json_config["url_shard_1"])
+        check_url(json_config["url_shard_2"])
+        check_url(json_config["url_shard_3"])
+        check_path(json_config["path_abis_shard_0"])
+        check_path(json_config["path_abis_shard_1"])
+        check_path(json_config["path_abis_shard_2"])
+        check_path(json_config["path_abis_shard_3"])
+        check_path(json_config["path_smart_contract_on_chain_manager"])
 
-    """
-    Funzione per verificare che un URL sia contenga la regex 'http://'
-    Termina il programma se l'URL non soddisfa questa condizione
-    :param: url da controllare
-    """
-    def check_url(self, url):
-        reg_ex_urls = "http://.*"
-        if re.search(reg_ex_urls, url) is None:
-            print("Errore: \n"
-                  + "Il parametro '" + url + "' non è un URL che che rispetta le specifiche \n"
-                  + "Interruzione del programma")
-            exit(1)
+    def __check_userpass(self):
+        try:
+            with open(self.__config_params.get_path_user(), "r") as userpass_json:
+                userpass_dict = json.load(userpass_json)
+                userpass_json.close()
+                accounts = userpass_dict['accounts']
+        except:
+            with open(self.__config_params.get_path_user(), "w+") as userpass_json:
+                userpass_dict = {'accounts':[]}
+                json.dump(userpass_dict, userpass_json)
+                userpass_json.close()
 
-    """
-    Funzione per controllare se una path esiste
-    Se la path non esiste termina l'esecuzione del programma
-    :param: path da controllare
-    """
-    def check_path(self, path):
-        if not os.path.exists(path):
-            print("Errore: \n"
-                  + "La path '" + path + "' non esiste \n"
-                  + "Interruzione del programma")
-            exit(1)
+
     """
     Funzione per leggere il JSONObject dal file config.json
     Nel file config.json andranno inserite le variabili da utilizzare per il programma
