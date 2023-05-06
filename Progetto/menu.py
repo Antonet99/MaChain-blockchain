@@ -2,6 +2,7 @@ from deployer import Deployer
 from compiler import Compiler
 from login import Login
 from register import Register
+import transactioner
 
 
 def menu(config_params, connections, on_chain_manager_contract):
@@ -20,7 +21,7 @@ def menu(config_params, connections, on_chain_manager_contract):
                 register = Register()
                 register.register(connections)
             elif choice == "2":
-                login = Login()
+                login = Login(config_params)
                 login.login(connections)
                 logged_in = True
             else:
@@ -48,10 +49,9 @@ def menu(config_params, connections, on_chain_manager_contract):
                 abi_to_deploy, bytecode_to_deploy, connections, on_chain_manager_contract)
 
         elif choice == "2":
-            '''
             transactioner.choose_smart_contract(
                 config_params, connections, on_chain_manager_contract)
-            '''
+
             # break
         elif choice == "3":
             logged_in = False

@@ -87,17 +87,6 @@ class Login:
                     connections[3].eth.default_account = account03.address
                     connections[3].middleware_onion.add(
                         construct_sign_and_send_raw_middleware(account03))
-
-                    '''
-                    connections[0].eth.default_account = connections[0].eth.accounts.privatekeyToAccount(
-                        token_key00)
-                    connections[1].eth.default_account = connections[1].eth.accounts.privatekeyToAccount(
-                        token_key01)
-                    connections[2].eth.default_account = connections[2].eth.accounts.privatekeyToAccount(
-                        token_key02)
-                    connections[3].eth.default_account = connections[3].eth.accounts.privatekeyToAccount(
-                        token_key03)
-                    '''
                     break
 
             if not logged_in:

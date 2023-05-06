@@ -1,9 +1,8 @@
 import os
-import numpy as np
 import web3
 from web3 import Web3
 import json
-from eth_abi import encode, encode_abi
+from eth_abi import encode
 
 
 # funzione che restituisce la lista degli smart contract disponibili
@@ -81,7 +80,7 @@ def choose_smart_contract_function(abi, address, config_params, on_chain_manager
             passed_param = input("Inserire parametro " + param["name"] + "(" + param["type"] + "):")
             print("mao" + param["type"])
             if param["type"] == "uint256":
-                passed_param = Web3.toInt(int(passed_param))
+                passed_param = Web3.to_int(int(passed_param))
                 print("maomao" + str(type(passed_param)))
 
             functon_arguments.append(passed_param)
@@ -138,11 +137,13 @@ def call_function(w3, smart_contract, function_type, function_signature, functio
 
 
 # non si capisce se serve o meno, l'ho messa perchè senza dava errore di encoding
+'''
 def encode_parameters(function_params, passed_params):
     function_types = []
     for item in function_params:
         function_types.append(item["type"])
     return encode_abi(function_types, passed_params)
+    '''
 
 
 def get_function_signature(function_name, provided_arguments):
