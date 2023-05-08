@@ -1,5 +1,4 @@
 import os
-from web3 import Web3
 import json
 
 
@@ -84,12 +83,14 @@ class Transactioner:
                 '''if param["type"] == "uint256":
                     passed_param = Web3.to_int(int(passed_param))
                 '''
-                function_arguments.append(passed_param)
+                casted_param = self.cast_parameters(passed_param, param["type"])
+                function_arguments.append(casted_param)
 
         shard_number = self.on_chain_manager_contract.functions.get_shard_where_contract(address).call()
         shard_connection = self.connections[shard_number]
         smart_contract = shard_connection.eth.contract(address=address, abi=abi)
         function_signature = self.get_function_signature(function_name, function_parameters)
+
         self.call_function(shard_connection, smart_contract, function_type, function_signature, function_arguments)
 
     def call_function(self, shard_connection, smart_contract, function_type, function_signature, function_arguments):
@@ -131,6 +132,11 @@ class Transactioner:
         elif number == 3:
             return connections[3]
 
-    '''def cast_arguments(self, function_arguments):
-        for argument in function_arguments:
-    '''
+    def cast_parameters(self, function_argument, function_type):
+        if "int" in function_type:
+            return int(function_argument)
+        elif function_type == "bool":
+            return bool(function_argument)
+        else:
+            return function_argument
+
