@@ -182,6 +182,7 @@ class Compiler:
             indice_selezionato = int(selezione)
             abi_to_deploy = abis[indice_selezionato]
             bytecode_to_deploy = bytecodes[indice_selezionato]
+            return abi_to_deploy, bytecode_to_deploy
 
         else:
             if bytecodes[0] == '':
