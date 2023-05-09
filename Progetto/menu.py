@@ -60,7 +60,7 @@ def menu(config_params, connections, on_chain_manager_contract):
             # break
         elif choice == "3":
             logged_in = False
-            logout = Login()
+            logout = Login(connections, config_params)
             logout.logout(connections)
         elif choice == "4":
             print("Arrivederci.")

@@ -11,6 +11,7 @@ Test da effettuare:
     -File ABIs non presenti
     -On-chain manager manda risposte errate
     -Registrazione con password non conforme ai parametri impostati
+    -Registrazione con chiavi non conformi ai parametri impostati
     -Login con troppi tentativi
     -Eseguire funzioni senza aver effettuato il login
     -Compilazione di uno smart contract errato
