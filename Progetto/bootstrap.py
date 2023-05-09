@@ -62,6 +62,8 @@ class Bootstrap:
     def __init__(self):
 
         self.__config_path = "../Config/config.json"
+        f = Figlet(font='standard')
+        print(colored(f.renderText('MaChain'), 'green'))
         self.__config_params = ConfigParams(self.__config_path)
 
         solcx.install_solc(
@@ -71,8 +73,7 @@ class Bootstrap:
         self.__on_chain_manager_contract = self.__get_on_chain_manager_contract()
         self.__check_userpass()
 
-        f = Figlet(font='standard')
-        print(colored(f.renderText('Rsg > > Ort > > Sv'), 'green'))
+
 
 
     # AGGIUNGERE FUNZIONE PER CONTROLLARE INTEGRITà FILE ABIS? si potrebbe controllare se il json.loads()
