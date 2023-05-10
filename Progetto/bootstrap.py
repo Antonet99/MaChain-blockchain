@@ -1,10 +1,8 @@
 import json
 import solcx
 from web3 import Web3
-from support_functions import clear_terminal, check_url, check_path
+from support_functions import clear_terminal
 from config_params import ConfigParams
-from pyfiglet import Figlet
-from termcolor import colored
 
 '''
 Classe per effettuare il bootstrap del programma
@@ -223,6 +221,9 @@ class Bootstrap:
     def __deploy_on_chain_manager_with_default_account(self):
         # Account di default numero 0
         self.__connections[0].eth.default_account = self.__connections[0].eth.accounts[0]
+        self.__connections[1].eth.default_account = self.__connections[1].eth.accounts[0]
+        self.__connections[2].eth.default_account = self.__connections[2].eth.accounts[0]
+        self.__connections[3].eth.default_account = self.__connections[3].eth.accounts[0]
 
         try:
             # Installazione della versione del compilatore in base al pragma impostato nel file config.json

@@ -79,10 +79,10 @@ class Transactioner:
                 print("- \"" + param["name"] + "\"" + ", di tipo " + param["type"])
 
             for param in function_parameters:
-                passed_param = input("Inserire parametro " + param["name"] + "(" + param["type"] + "):")
-                '''if param["type"] == "uint256":
-                    passed_param = Web3.to_int(int(passed_param))
-                '''
+                if '[]' in param['type']:
+                    passed_param = input("Inserire parametro " + param["name"] + "(" + param["type"] + "). \n NB: inserire il parametro come valori separati da virgole: ")
+                else:
+                    passed_param = input("Inserire parametro " + param["name"] + "(" + param["type"] + "):")
                 casted_param = self.cast_parameters(passed_param, param["type"])
                 function_arguments.append(casted_param)
 
@@ -133,7 +133,17 @@ class Transactioner:
             return connections[3]
 
     def cast_parameters(self, function_argument, function_type):
-        if "int" in function_type:
+        if "[]" in function_type:
+            lista = list(function_argument.split(','))
+            print(lista)
+            if "int" in function_type:
+                new_array = []
+                for element in lista:
+                    new_array.append(int(element))
+                return new_array
+            else:
+                return lista
+        elif "int" in function_type:
             return int(function_argument)
         elif function_type == "bool":
             return bool(function_argument)

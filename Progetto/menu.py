@@ -43,7 +43,7 @@ def menu(config_params, connections, on_chain_manager_contract):
             compiler = Compiler()
             abi_to_deploy, bytecode_to_deploy = compiler.compile_smart_contract()
 
-            if abi_to_deploy == None or bytecode_to_deploy == None:
+            if abi_to_deploy is None or bytecode_to_deploy is None:
                 print("Errore: \n"
                       + "Lo smart contract non è stato compilato correttamente")
                 continue
@@ -61,7 +61,7 @@ def menu(config_params, connections, on_chain_manager_contract):
         elif choice == "3":
             logged_in = False
             logout = Login(connections, config_params)
-            logout.logout(connections)
+            logout.logout()
         elif choice == "4":
             print("Arrivederci.")
             return
