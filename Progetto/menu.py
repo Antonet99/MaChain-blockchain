@@ -1,3 +1,5 @@
+import os
+
 from transactioner import Transactioner
 from deployer import Deployer
 from compiler import Compiler
@@ -31,6 +33,9 @@ def menu(config_params, connections, on_chain_manager_contract):
                 return
             else:
                 print("\nScelta non valida.\n")
+        print()
+        print(os.get_terminal_size().columns*'-')
+        print()
 
         print("1. Effettua il deploy di uno smart contract")
         print("2. Effettua una transazione su uno smart contract di cui è stato fatto il deploy")

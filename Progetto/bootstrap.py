@@ -69,6 +69,7 @@ class Bootstrap:
         self.__connections = self.__get_connections()
         self.__on_chain_manager_contract = self.__get_on_chain_manager_contract()
         self.__check_userpass()
+        clear_terminal()
 
     def __check_userpass(self):
         try:
@@ -99,14 +100,12 @@ class Bootstrap:
             shard_3 = Web3(Web3.HTTPProvider(
                 self.__config_params.get_url_shard_3()))  # shard 3
         except Exception as e:
-            clear_terminal()
             print("Errore:")
             print(e)
             return False
 
         if (not shard_0.is_connected()) or (not shard_1.is_connected()) or (not shard_2.is_connected()) \
                 or (not shard_3.is_connected()):
-            clear_terminal()
             print(
                 "Errore: \n"
                 + "Non è stato possibile effettuare la connessione a una o più shard"
@@ -147,7 +146,6 @@ class Bootstrap:
                 text_abi = file_abi.read()
                 json_abi = json.loads(text_abi)
         except Exception as e:
-            clear_terminal()
             print(
                 "Errore nella lettura del file contenente le ABI dell'on-chain manager \n"
                 + "Interruzione del programma"

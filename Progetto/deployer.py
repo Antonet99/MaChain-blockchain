@@ -100,7 +100,6 @@ class Deployer:
             tx_receipt = shard_where_deploy.eth.wait_for_transaction_receipt(
                 tx_hash)
         except Exception as exception:
-            clear_terminal()
             print("Errore: \n")
             print(exception)
             print(
@@ -129,8 +128,6 @@ class Deployer:
             print(
                 "La transazione di aggiornamento dell'on-chain manager non è andata a buon fine")
             return None
-
-        print(on_chain_manager.functions.get_shard_where_deploy().call())
 
     def save_sc_datas(self, address, abi, number_shard_where_deploy):
 
