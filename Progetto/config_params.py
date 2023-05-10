@@ -21,7 +21,6 @@ class ConfigParams:
                 text_file = file_config.read()
                 json_config = json.loads(text_file)
         except Exception as e:
-            clear_terminal()
             print(e)
             print(
                 "Errore: \n"
