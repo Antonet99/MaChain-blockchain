@@ -59,7 +59,7 @@ class Bootstrap:
 
     def __init__(self):
 
-        self.__config_path = "../Config/config.json"
+        self.__config_path = "/blockchain/Config/config.json"
         clear_terminal()
         self.__config_params = ConfigParams(self.__config_path)
 
@@ -79,7 +79,7 @@ class Bootstrap:
                 accounts = userpass_dict['accounts']
         except:
             with open(self.__config_params.get_path_user(), "w+") as userpass_json:
-                userpass_dict = {'accounts':[]}
+                userpass_dict = {'accounts': []}
                 json.dump(userpass_dict, userpass_json)
                 userpass_json.close()
 

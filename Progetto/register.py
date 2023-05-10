@@ -73,7 +73,6 @@ class Register:
 
         return key00, key01, key02, key03
 
-
     def register(self):
 
         accounts = load_accounts(self.config_params.get_path_user())
@@ -86,18 +85,18 @@ class Register:
         while not self.check_username(hashed_username):
             username = input("Inserisci il tuo username: ").encode('utf-8')
             hashed_username = hashlib.sha256(username).hexdigest()
-        password = input("Inserisci la tua password: ")
+        password = getpass.getpass("Inserisci la tua password: ")
         while not self.check_password(password):
-            password = input("Inserisci la tua password: ")
+            password = getpass.getpass("Inserisci la tua password: ")
         hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
-        key00, key01, key02, key03 = self.insert_keys(password, accounts, hashed_username, hashed_password)
+        key00, key01, key02, key03 = self.insert_keys(
+            password, accounts, hashed_username, hashed_password)
 
         try:
             account00 = Account.from_key(key00)
             account01 = Account.from_key(key01)
             account02 = Account.from_key(key02)
             account03 = Account.from_key(key03)
-
 
             self.connections[0].eth.default_account = account00.address
             self.connections[0].middleware_onion.add(
@@ -122,4 +121,3 @@ class Register:
         except:
             print("Errore durante la registrazione dell'account. Chiavi errate")
             return False
-
