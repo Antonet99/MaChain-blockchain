@@ -14,60 +14,39 @@ class Register:
         self.connections = connections
         self.config_params = config_params
 
-    def validate_password(self, password):
+    def check_password(self, password):
+        if len(password) < 8:
+            print("La password deve contenere almeno 8 caratteri")
+            return False
+        elif re.search('[0-9]', password) is None:
+            print("La password deve contenere almeno un carattere numerico")
+            return False
+        elif re.search('[A-Z]', password) is None:
+            print("La password deve contenere almeno una lettera maiuscola")
+            return False
+        elif re.search('[^a-zA-Z0-9]', password) is None:
+            print("La password deve contenere almeno un carattere speciale")
+            return False
+        else:
+            print("Password valida")
+            return True
 
-        val = True
-
-        while True:
-            if len(password) < 8:
-                print("La password deve contenere almeno 8 caratteri")
-                val = False
-            elif re.search('[0-9]', password) is None:
-                print("La password deve contenere almeno un carattere numerico")
-                val = False
-            elif re.search('[A-Z]', password) is None:
-                print("La password deve contenere almeno una lettera maiuscola")
-                val = False
-            elif re.search('[^a-zA-Z0-9]', password) is None:
-                print("La password deve contenere almeno un carattere speciale")
-                val = False
-            else:
-                print("Password valida")
-                return val
-
-            password = self.insert_password()
-
-    def insert_password(self):
-        password = getpass.getpass(
-            "Inserisci la tua password: ")
-        return password
-
-    def register(self):
-
+    def check_username(self, hashed_username):
         accounts = load_accounts(self.config_params.get_path_user())
-        encryption = Encryption()
-
-
-        username = input("Inserisci il tuo username: ").encode('utf-8')
-        hashed_username = hashlib.sha256(username).hexdigest()
-
         if len(accounts["accounts"]) > 0:
             for account in accounts["accounts"]:
                 if account["hashed_username"] == hashed_username:
                     print("L'username inserito è già in uso. Usa un altro nome.")
-                    return self.register()
+                    return False
                 else:
                     print("Username disponibile")
+                    return True
         else:
             print("Username disponibile")
+            return True
 
-        password = self.insert_password()
-
-        if self.validate_password(password) == False:
-            print("Password non valida")
-
-        # password = password.encode('utf-8')
-        hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+    def insert_keys(self, password, accounts, hashed_username, hashed_password):
+        encryption = Encryption()
 
         key00 = input("Inserisci la key00: ")
         key01 = input("Inserisci la key01: ")
@@ -83,7 +62,6 @@ class Register:
         token_key03 = encryption.password_encrypt(
             key03.encode(), password).decode()
 
-        # Aggiunge l'account alla lista degli account
         accounts["accounts"].append({
             "hashed_username": hashed_username,
             "hashed_password": hashed_password,
@@ -93,6 +71,26 @@ class Register:
             "token_key03": token_key03
         })
 
+        return key00, key01, key02, key03
+
+
+    def register(self):
+
+        accounts = load_accounts(self.config_params.get_path_user())
+
+        username = input("Inserisci il tuo username: ").encode('utf-8')
+        while username in ["", "\n", b'']:
+            print("Username non valido.")
+            username = input("Inserisci il tuo username: ").encode('utf-8')
+        hashed_username = hashlib.sha256(username).hexdigest()
+        while not self.check_username(hashed_username):
+            username = input("Inserisci il tuo username: ").encode('utf-8')
+            hashed_username = hashlib.sha256(username).hexdigest()
+        password = input("Inserisci la tua password: ")
+        while not self.check_password(password):
+            password = input("Inserisci la tua password: ")
+        hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+        key00, key01, key02, key03 = self.insert_keys(password, accounts, hashed_username, hashed_password)
 
         try:
             account00 = Account.from_key(key00)
@@ -117,8 +115,8 @@ class Register:
             self.connections[3].middleware_onion.add(
                 construct_sign_and_send_raw_middleware(account03))
 
-            if save_accounts(accounts, self.config_params.get_path_user()) == True:
-                print("Registrazione completata con successo.")
+            if save_accounts(accounts, self.config_params.get_path_user()):
+                print("Registrazione completata con successo. \n Benvenuto!")
 
             return True
         except:

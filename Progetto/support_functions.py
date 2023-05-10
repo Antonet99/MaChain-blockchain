@@ -11,6 +11,7 @@ def load_accounts(path):
 def save_accounts(accounts, path):
     with open(path, 'w') as file:
         json.dump(accounts, file)
+        return True
 
 
 def clear_terminal():
