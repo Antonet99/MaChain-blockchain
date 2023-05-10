@@ -30,3 +30,5 @@ Ora è il turno del deploy del programma. Nella stessa directory di prima, esegu
 ## 5. Apertura del programma
 
 Ora puoi usare il programma.
+
+![My Image](prove/homescreen.png)
