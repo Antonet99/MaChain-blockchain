@@ -1,6 +1,9 @@
 import os
 import json
 
+from requests import ReadTimeout
+from urllib3.exceptions import NewConnectionError, PoolError, HTTPError
+
 
 class Transactioner:
     def __init__(self, config_params, connections, on_chain_manager_contract):
@@ -44,7 +47,8 @@ class Transactioner:
             # l'indice di accesso viene decrementato perchè all'utente viene stampata la lista partendo da 1
             address = list(self.smart_contracts)[chosen_index - 1]
             abi = self.smart_contracts[address]
-            self.print_and_choose_smart_contract_function(abi, address)
+            if self.print_and_choose_smart_contract_function(abi, address) is None:
+                return
 
     def print_and_choose_smart_contract_function(self, abi, address):
         # Filtro le sole funzioni dall'abi e le salvo in una lista
@@ -83,15 +87,34 @@ class Transactioner:
                     passed_param = input("Inserire parametro " + param["name"] + "(" + param["type"] + "). \n NB: inserire il parametro come valori separati da virgole: ")
                 else:
                     passed_param = input("Inserire parametro " + param["name"] + "(" + param["type"] + "):")
-                casted_param = self.cast_parameters(passed_param, param["type"])
+                try:
+                    casted_param = self.cast_parameters(passed_param, param["type"])
+                except:
+                    print("Parametri non passati correttamente.")
+                    return None
                 function_arguments.append(casted_param)
+        try:
+            shard_number = self.on_chain_manager_contract.functions.get_shard_where_contract(address).call()
+            shard_connection = self.connections[shard_number]
+        except:
+            print("OnChain Manager non disponibile, transazione non riuscita.")
+            return None
 
-        shard_number = self.on_chain_manager_contract.functions.get_shard_where_contract(address).call()
-        shard_connection = self.connections[shard_number]
-        smart_contract = shard_connection.eth.contract(address=address, abi=abi)
-        function_signature = self.get_function_signature(function_name, function_parameters)
+        try:
+            smart_contract = shard_connection.eth.contract(address=address, abi=abi)
+            function_signature = self.get_function_signature(function_name, function_parameters)
+        except:
+            print("Errore nella connessione allo Smart Contract selezionato.")
+            return None
 
-        self.call_function(shard_connection, smart_contract, function_type, function_signature, function_arguments)
+        try:
+            self.call_function(shard_connection, smart_contract, function_type, function_signature, function_arguments)
+        except ReadTimeout:
+            print("Errore nella connessione alla BlockChain. Transazione non eseguita")
+            return None
+        except Exception as e:
+            print("Errore nella transazione. Riprovare inserendo i parametri richiesti correttamente.")
+            return None
 
     def call_function(self, shard_connection, smart_contract, function_type, function_signature, function_arguments):
         if function_type == "pure" or function_type == "view":

@@ -116,7 +116,7 @@ class Register:
                 construct_sign_and_send_raw_middleware(account03))
 
             if save_accounts(accounts, self.config_params.get_path_user()):
-                print("Registrazione completata con successo. \n Benvenuto!")
+                print("Registrazione completata con successo. \nBenvenuto!")
 
             return True
         except:

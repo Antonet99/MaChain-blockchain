@@ -12,14 +12,18 @@ class Deployer:
 
     def shard_where_deploy(self, connections, on_chain_manager_contract):
 
-        number_shard_where_deploy = on_chain_manager_contract.functions.get_shard_where_deploy().call()
+        try:
+            number_shard_where_deploy = on_chain_manager_contract.functions.get_shard_where_deploy().call()
+        except:
+            print("OnChain Manager non disponibile, deploy non riuscito!")
+            return None, None
 
         if number_shard_where_deploy < 1 or number_shard_where_deploy > 3:
             print(
                 "Errore: \n"
                 + "La shard su cui effettuare il deploy dello smart contract deve essere compresa tra 1 e 3"
             )
-            return None
+            return None, None
 
         if number_shard_where_deploy == 1:
             shard_where_deploy = connections[1]
@@ -83,6 +87,8 @@ class Deployer:
 
         shard_where_deploy, number_shard_where_deploy = self.shard_where_deploy(
             connections, on_chain_manager_contract)
+        if shard_where_deploy is None and number_shard_where_deploy is None:
+            return
         contract = shard_where_deploy.eth.contract(
             abi=abi_to_deploy, bytecode=bytecode_to_deploy)
 
