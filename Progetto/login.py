@@ -30,6 +30,14 @@ class Login:
             print("Logout non effettuato. Addio.")
             exit(1)
 
+    def check_accounts(self, accounts, hashed_username, hashed_password):
+
+        for account in accounts["accounts"]:
+            if hashed_username == account["hashed_username"] and hashed_password == account["hashed_password"]:
+                return True
+            else:
+                return False
+
     def login(self):
         """
         Funzione per il login dell'utente, che controlla se l'username e la password inseriti corrispondono a quelli salvati nel database.
@@ -37,10 +45,14 @@ class Login:
         """
         accounts = load_accounts(self.config_params.get_path_user())
         encryption = Encryption()
+        counter = 0
 
-        logged_in = False
+        while True:
 
-        while not logged_in:
+            counter += 1
+            if counter == 4:
+                print("Troppi tentativi di accesso. Interruzione del programma.")
+                exit(1)
 
             if len(accounts["accounts"]) == 0:
                 print("Non ci sono account registrati. Effettua la registrazione.")
@@ -92,8 +104,8 @@ class Login:
                             construct_sign_and_send_raw_middleware(account03))
 
                         print("Login effettuato con successo.")
+                        counter = 0
                         return True
 
-        if not logged_in:
-            print("Username e/o password errati, riprova.")
-            return False
+                    else:
+                        print("Username e/o password errati, riprova.")

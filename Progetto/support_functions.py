@@ -2,6 +2,9 @@ import os
 import re
 import json
 
+from pyfiglet import Figlet
+from termcolor import colored
+
 
 def load_accounts(path):
     with open(path, 'r') as file:
@@ -17,9 +20,13 @@ def save_accounts(accounts, path):
 def clear_terminal():
     if os.name == 'posix':
         os.system('clear')
+        f = Figlet(font='standard')
+        print(colored(f.renderText('MaChain'), 'green'))
     # else screen will be cleared for windows
     else:
         os.system('cls')
+        f = Figlet(font='standard')
+        print(colored(f.renderText('MaChain'), 'green'))
 
 
 """

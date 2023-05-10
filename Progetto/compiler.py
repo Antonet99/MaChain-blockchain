@@ -2,7 +2,6 @@ import json
 import os
 import ntpath
 import solcx
-from solcx import compile_standard
 import re
 
 from support_functions import clear_terminal
@@ -52,10 +51,10 @@ class Compiler:
 
     def ask_for_new_path(self):
         while True:
-            choice = input("Vuoi inserire un altro percorso? (Y/N) ")
-            if choice.upper() == "Y":
+            choice = input("Vuoi inserire un altro percorso? (s/n) ")
+            if choice.lower() == "s":
                 return self.read_contract()
-            elif choice.upper() == "N":
+            elif choice.lower() == "n":
                 print("Arrivederci!")
                 return ""
             else:
@@ -64,21 +63,21 @@ class Compiler:
     def get_solidity_version(self, text_contract):
 
         # espressione regolare utilizzata per trovare dentro allo smart contract la versione di solidity richiesta
-        pragma_expression = "pragma solidity .*;"
+        pragma_expression_1 = "pragma solidity [<,>,=,^][<,>,=,^][0-9]\.[0-9]\.[0-9]"
 
         # ricerca della stringa pragma dentro lo smart contract tramite espressione regolare
-        pragma = re.search(pragma_expression, text_contract)
+        pragma = re.search(pragma_expression_1, text_contract)
 
         # se la versione di solidity è stata trovata, la ritorna
-        if pragma:
+        if pragma is not None:
             # rimozione dei caratteri superflui
             text_version = pragma.group()
-            print(text_version)
-
             return text_version.translate(str.maketrans('', '', 'pragma solidity><=^;'))
-
         else:
-            return None
+            pragma_expression_2 = "pragma solidity [<,>,=,^][0-9]\.[0-9]\.[0-9]"
+            pragma = re.search(pragma_expression_2, text_contract)
+            text_version = pragma.group()
+            return text_version.translate(str.maketrans('', '', 'pragma solidity><=^;'))
 
     def get_imports(self, text_contract):
 
@@ -182,6 +181,7 @@ class Compiler:
             indice_selezionato = int(selezione)
             abi_to_deploy = abis[indice_selezionato]
             bytecode_to_deploy = bytecodes[indice_selezionato]
+            return abi_to_deploy, bytecode_to_deploy
 
         else:
             if bytecodes[0] == '':
@@ -194,9 +194,3 @@ class Compiler:
                 bytecode_to_deploy = bytecodes[0]
 
                 return abi_to_deploy, bytecode_to_deploy
-
-            # controllino in più che lo smart contract selezionato sia effettivamente deployabiles
-        if bytecode_to_deploy == '':
-            print(
-                'Errore, dello smart contract da te selezionato non può essere fatto il deploy')
-            return '', ''

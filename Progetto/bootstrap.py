@@ -62,6 +62,7 @@ class Bootstrap:
     def __init__(self):
 
         self.__config_path = "../Config/config.json"
+        clear_terminal()
         self.__config_params = ConfigParams(self.__config_path)
 
         solcx.install_solc(
@@ -70,42 +71,6 @@ class Bootstrap:
         self.__connections = self.__get_connections()
         self.__on_chain_manager_contract = self.__get_on_chain_manager_contract()
         self.__check_userpass()
-
-        f = Figlet(font='standard')
-        print(colored(f.renderText('Rsg > > Ort > > Sv'), 'green'))
-
-
-    # AGGIUNGERE FUNZIONE PER CONTROLLARE INTEGRITà FILE ABIS? si potrebbe controllare se il json.loads()
-    # non solleva eccezioni, non posso controllare comunque se le abi sono giuste
-
-    """
-    FUNZIONE PER CONTROLLARE L'INTEGRITà DEL FILE CONFIG.JSON
-    Se non sono presenti tutti i parametri richiesti termina l'esecuzione del programma
-    :param: dizionario estratto dal file config.json
-    """
-    def __check_config_integrity(self, json_config):
-        required_parameters = ["path_user", "url_shard_0", "url_shard_1", "url_shard_2", "url_shard_3", "path_abis_shard_0",
-                               "path_abis_shard_1", "path_abis_shard_2", "path_abis_shard_3",
-                               "path_smart_contract_on_chain_manager", "pragma_solidity_on_chain_manager",
-                               "name_on_chain_manager_contract"]
-        for parameter in required_parameters:
-            if parameter not in json_config.keys():
-                print("Errore: \n"
-                      + "File di configurazione non conforme alle specifiche \n"
-                      + "Parametro mancante: " + parameter
-                      + "Interruzione programma")
-                exit(1)
-
-        check_path(json_config["path_user"])
-        check_url(json_config["url_shard_0"])
-        check_url(json_config["url_shard_1"])
-        check_url(json_config["url_shard_2"])
-        check_url(json_config["url_shard_3"])
-        check_path(json_config["path_abis_shard_0"])
-        check_path(json_config["path_abis_shard_1"])
-        check_path(json_config["path_abis_shard_2"])
-        check_path(json_config["path_abis_shard_3"])
-        check_path(json_config["path_smart_contract_on_chain_manager"])
 
     def __check_userpass(self):
         try:
@@ -118,28 +83,6 @@ class Bootstrap:
                 userpass_dict = {'accounts':[]}
                 json.dump(userpass_dict, userpass_json)
                 userpass_json.close()
-
-
-    """
-    Funzione per leggere il JSONObject dal file config.json
-    Nel file config.json andranno inserite le variabili da utilizzare per il programma
-    :return: dizionario contenente le variabili di configurazione
-    """
-    def __read_config(self):
-        try:
-            with open(self.__config_path, 'r') as file_config:
-                text_file = file_config.read()
-                json_config = json.loads(text_file)
-        except Exception as e:
-            clear_terminal()
-            print(
-                "Errore: \n"
-                + "Non è stato possibile leggere il file config.json contenente le impostazioni \n"
-                + "Interruzione del programma"
-            )
-            exit(1)
-
-        return json_config
 
     '''
     Funzione per ottenere la connessione alle quattro shard utilizzate
