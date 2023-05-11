@@ -12,7 +12,9 @@ Installa Docker sul tuo pc.
 
 ## 2. Git clone
 
-Clona la repository del progetto
+Scarica il file [docker-compose.yml](https://downgit.github.io/#/home?url=https://github.com/Antonet99/ProgettoSSB/blob/master/docker-compose.yaml) contenente tutto il necessario per effettuare il deploy delle blockchain Ethereum.
+
+[Qui](https://raw.githubusercontent.com/Antonet99/ProgettoSSB/master/docker-compose.yaml) se il link non funziona e puoi fare copia/incolla oppure "salva come..."
 
 ## 3. Deploy delle blockchain
 
