@@ -141,11 +141,7 @@ class Compiler:
             return abi_to_deploy, bytecode_to_deploy
 
         except Exception as exception:
-            # clear_terminal()
-            jsonError = json.loads(json.dumps(exception.__dict__))
-            print("Attenzione! E' stato generato il seguente errore durante la compilazione: \n" + jsonError["stderr_data"]
-                  + "In " + "\"" + jsonError["command"][1] + "\"" +
-                  ", con return code: " + str(jsonError["return_code"]) + ".")
+            print("Attenzione! E' stato generato il seguente errore durante la compilazione: \n" + str(exception) )
             return None, None
 
     def choose_contract(self, compiled_solidity, abis, bytecodes):
