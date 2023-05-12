@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity >=0.4.16;
+pragma solidity >=0.8.0;
 
 contract SimpleStorage {
     uint256 public storedData = 5;
@@ -12,7 +12,7 @@ contract SimpleStorage {
         return storedData;
     }
 
-    //function destruct() public {
-    //   selfdestruct(payable(address(this)));
-    //}
+    function destruct() public {
+       selfdestruct(payable(address(this)));
+    }
 }

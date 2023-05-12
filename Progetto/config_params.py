@@ -91,6 +91,12 @@ class ConfigParams:
     def get_path_abis_shard_3(self):
         return self.__config_dict["path_abis_shard_3"]
 
+    def get_path_abis_shard_number(self, shard_number):
+        if shard_number < 0 or shard_number > 3:
+            return False
+        stringa = "path_abis_shard_" + str(shard_number)
+        return self.__config_dict[stringa]
+
     def get_path_smart_contract_on_chain_manager(self):
         return self.__config_dict["path_smart_contract_on_chain_manager"]
 

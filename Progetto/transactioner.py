@@ -17,7 +17,7 @@ class Transactioner:
     def get_available_smart_contracts(self):
         available_addresses = {}
         for shard in range(1, 4):
-            file_path = "../ABIs/shard_" + str(shard) + ".json"
+            file_path = self.config_params.get_path_abis_shard_number(shard)
             if os.path.exists(file_path):
                 with open(file_path) as json_file:
                     data = json.load(json_file)
@@ -107,6 +107,9 @@ class Transactioner:
             print("Errore nella connessione allo Smart Contract selezionato.")
             return None
 
+        if not self.check_contract_existence(address, shard_number, True):
+            return None
+
         try:
             self.call_function(shard_connection, smart_contract, function_type, function_signature, function_arguments)
         except ReadTimeout:
@@ -114,7 +117,10 @@ class Transactioner:
             return None
         except Exception as e:
             print("Errore nella transazione. Riprovare inserendo i parametri richiesti correttamente.")
+            print(e)
             return None
+
+        self.check_contract_existence(address, shard_number, False)
 
     def call_function(self, shard_connection, smart_contract, function_type, function_signature, function_arguments):
         if function_type == "pure" or function_type == "view":
@@ -126,9 +132,14 @@ class Transactioner:
                 print(contract_func(*function_arguments).call())
 
         elif function_type == "nonpayable" or function_type == "payable":
-            contract_func = smart_contract.get_function_by_signature(function_signature)
-            tx_hash = contract_func(*function_arguments).transact()
-            receipt = shard_connection.eth.wait_for_transaction_receipt(tx_hash)
+            if len(function_arguments) == 0:
+                contract_func = smart_contract.get_function_by_name(function_signature)
+                tx_hash = contract_func().transact()
+                receipt = shard_connection.eth.wait_for_transaction_receipt(tx_hash)
+            else:
+                contract_func = smart_contract.get_function_by_signature(function_signature)
+                tx_hash = contract_func(*function_arguments).transact()
+                receipt = shard_connection.eth.wait_for_transaction_receipt(tx_hash)
 
     def get_function_signature(self, function_name, provided_arguments):
         # N.B. con l'onchain funzionava con ["InternalType"]
@@ -173,3 +184,36 @@ class Transactioner:
         else:
             return function_argument
 
+    def check_contract_existence(self, contract_address, shard_number, before_transaction):
+        if bytes.hex(self.connections[shard_number].eth.get_code(contract_address)) == '':
+            if before_transaction:
+                print("\nLo smart contract con il quale si vuole interagire non è presente sulla blockchain.")
+                print("Potrebbe essere stato distrutto in una precedente transazione")
+            else:
+                print("\nLa transazione ha distrutto lo smart contract sulla blockchain, lo smart contract verrà eliminato anche dal sistema.")
+            try:
+                self.on_chain_manager_contract.functions.remove_contract(contract_address).transact()
+            except:
+                print("Errore nella rimozione dello smart contract dall'on-chain manager")
+                return False
+
+            try:
+                file_path = self.config_params.get_path_abis_shard_number(shard_number)
+                if os.path.exists(file_path):
+                    with open(file_path, 'r') as json_file:
+                        data = json.load(json_file)
+                        data.pop(contract_address)
+                        json_file.close()
+                    with open(file_path, 'w+') as json_file:
+                        json_file.write(json.dumps(data))
+                        json_file.close()
+            except:
+                print("Errore nella rimozione dello smart contract dal sistema")
+                return False
+            if before_transaction:
+                print("La transazione non può essere eseguita")
+            else:
+                print("Contratto eliminato dal sistema")
+            return False
+
+        return True

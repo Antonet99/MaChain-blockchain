@@ -144,6 +144,7 @@ class Deployer:
             with open(file_path) as json_file:
                 data = json.load(json_file)
                 result = data | result
+                json_file.close()
         f = open(file_path, 'w+')
         f.write(json.dumps(result))
         f.close()

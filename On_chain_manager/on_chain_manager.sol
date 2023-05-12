@@ -31,10 +31,10 @@ contract on_chain_manager is on_chain_manager_interface {
 
     // Funzione per elminare uno smart contract
     function remove_contract (address contract_address) override public {
-        shard_number = smart_contracts[contract_address];
+        uint8 shard_number = smart_contracts[contract_address];
         smart_contracts[contract_address] = 0;
         number_of_contracts[shard_number] = number_of_contracts[shard_number] - 1;
-        require(number_of_contracts[shard_number] >=0, "Il numero di smart contracts su una shard non può essere negativo");
+        require(number_of_contracts[shard_number] >=0, "Il numero di smart contracts su una shard non puo' essere negativo");
         emit Contract_removed(contract_address);
     }
 
