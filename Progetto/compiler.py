@@ -127,22 +127,23 @@ class Compiler:
                     compiled_solidity[key]))['abi'])
 
             if len(bytecodes) > 1:
-                abi_to_deploy, bytecode_to_deploy = self.choose_contract(
+                abi_to_deploy, bytecode_to_deploy, contract_name = self.choose_contract(
                     compiled_solidity, abis, bytecodes)
 
             else:
                 abi_to_deploy = abis[0]
                 bytecode_to_deploy = bytecodes[0]
+                contract_name = list(compiled_solidity.keys())[0].split(':')[1]
 
             if bytecode_to_deploy == '':
                 print("Attenzione! Non è stato possibile compilare lo smart contract.")
-                return None, None
+                return None, None, None
 
-            return abi_to_deploy, bytecode_to_deploy
+            return abi_to_deploy, bytecode_to_deploy, contract_name
 
         except Exception as exception:
             print("Attenzione! E' stato generato il seguente errore durante la compilazione: \n" + str(exception) )
-            return None, None
+            return None, None, None
 
     def choose_contract(self, compiled_solidity, abis, bytecodes):
 
@@ -177,7 +178,8 @@ class Compiler:
             indice_selezionato = int(selezione)
             abi_to_deploy = abis[indice_selezionato]
             bytecode_to_deploy = bytecodes[indice_selezionato]
-            return abi_to_deploy, bytecode_to_deploy
+            contract_name = list(compiled_solidity.keys())[indice_selezionato].split(':')[1]
+            return abi_to_deploy, bytecode_to_deploy, contract_name
 
         else:
             if bytecodes[0] == '':

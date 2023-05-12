@@ -46,7 +46,7 @@ def menu(config_params, connections, on_chain_manager_contract):
         if choice == "1":
 
             compiler = Compiler()
-            abi_to_deploy, bytecode_to_deploy = compiler.compile_smart_contract()
+            abi_to_deploy, bytecode_to_deploy, contract_name = compiler.compile_smart_contract()
 
             if abi_to_deploy is None or bytecode_to_deploy is None:
                 print("Errore: \n"
@@ -56,7 +56,7 @@ def menu(config_params, connections, on_chain_manager_contract):
 
             deployer = Deployer(config_params)
             deployer.deploy_contract(
-                abi_to_deploy, bytecode_to_deploy, connections, on_chain_manager_contract)
+                abi_to_deploy, bytecode_to_deploy, contract_name, connections, on_chain_manager_contract)
 
         elif choice == "2":
             transactioner = Transactioner(config_params, connections, on_chain_manager_contract)

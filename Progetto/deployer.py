@@ -83,7 +83,7 @@ class Deployer:
 
         return True
 
-    def deploy_contract(self, abi_to_deploy, bytecode_to_deploy, connections, on_chain_manager_contract):
+    def deploy_contract(self, abi_to_deploy, bytecode_to_deploy, contract_name, connections, on_chain_manager_contract):
 
         shard_where_deploy, number_shard_where_deploy = self.shard_where_deploy(
             connections, on_chain_manager_contract)
@@ -115,7 +115,7 @@ class Deployer:
         self.register_contract(on_chain_manager_contract,
                                contratto_deployato, number_shard_where_deploy)
         self.save_sc_datas(contratto_deployato.address, abi_to_deploy,
-                           number_shard_where_deploy)
+                           number_shard_where_deploy, contract_name)
 
     def register_contract(self, on_chain_manager, contratto_deployato, number_shard_where_deploy):
         try:
@@ -129,9 +129,9 @@ class Deployer:
                 "La transazione di aggiornamento dell'on-chain manager non è andata a buon fine")
             return None
 
-    def save_sc_datas(self, address, abi, number_shard_where_deploy):
+    def save_sc_datas(self, address, abi, number_shard_where_deploy, contract_name):
 
-        result = {address: abi}
+        result = {address: [abi, contract_name]}
 
         if number_shard_where_deploy == 1:
             file_path = self.__config_params.get_path_abis_shard_1()
