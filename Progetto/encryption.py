@@ -39,8 +39,8 @@ class Encryption:
     def password_decrypt(self, token: bytes, password: str) -> bytes:
 
         decoded = b64d(token)
-        salt, iter, token = decoded[:16], decoded[16:20], b64e(decoded[20:])
-        iterations = int.from_bytes(iter, 'big')
+        salt, iterazione, token = decoded[:16], decoded[16:20], b64e(decoded[20:])
+        iterations = int.from_bytes(iterazione, 'big')
 
         key = self._derive_key(password.encode(), salt, iterations)
 

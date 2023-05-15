@@ -4,22 +4,21 @@ import ntpath
 import solcx
 import re
 
-from support_functions import clear_terminal
-
-
 class Compiler:
 
     def get_path(self):
         path = input("Inserisci il percorso del contratto: ")
         print()
+        while not os.path.exists(path):
+            print(f"Il file nel percorso {path} non esiste.")
+            choice = input("Vuoi inserire un altro percorso (s/n)?: ")
+            if choice.lower() == "s":
+                path = input("Inserisci il percorso del contratto: ")
+            elif choice.lower() == "n":
+                return None
+            else:
+                print("Scelta non valida. Riprova. \n")
         return path
-
-    def get_file_name(self, path):
-        try:
-            filename = ntpath.basename(path)
-            return filename
-        except AttributeError:
-            print("Errore: il percorso del contratto non è stato ancora specificato.\n")
 
     def read_contract(self):
         """
@@ -27,6 +26,8 @@ class Compiler:
         """
 
         path = self.get_path()
+        if path is None:
+            return None, None
 
         try:
             with open(path, "r") as file:
@@ -37,30 +38,18 @@ class Compiler:
 
         except FileNotFoundError:
             print(f"Il file nel percorso {path} non esiste.")
-            return self.ask_for_new_path()
+            return None, None
 
         except PermissionError as e:
             print(f"Non hai i permessi per accedere al file {path}.")
             print(f"Dettagli dell'errore: {e}")
-            return self.ask_for_new_path()
+            return None, None
 
         except OSError as e:
             print(
                 f"C'è stato un errore di sistema nell'apertura del file {path}.")
             print(f"Dettagli dell'errore: {e}")
-            return self.ask_for_new_path()
-
-    def ask_for_new_path(self):
-        while True:
-            print()
-            choice = input("Vuoi inserire un altro percorso (s/n)?: ")
-            if choice.lower() == "s":
-                return self.read_contract()
-            elif choice.lower() == "n":
-                print("\nArrivederci!")
-                return "", ""
-            else:
-                print("Scelta non valida. Riprova. \n")
+            return None, None
 
     def get_solidity_version(self, text_contract):
 
@@ -107,6 +96,9 @@ class Compiler:
 
         text_contract, path = self.read_contract()
 
+        if text_contract is None and path is None:
+            return None, None, None
+
         try:
             # Legge la versione di Solidity e imports richiesti dallo smart contract
             solidity_version = self.get_solidity_version(text_contract)
@@ -115,8 +107,7 @@ class Compiler:
             solcx.install_solc(solidity_version)
             solcx.set_solc_version(solidity_version)
 
-            compiled_solidity = solcx.compile_files(
-                [path], allow_paths=imports)
+            compiled_solidity = solcx.compile_files([path], allow_paths=imports)
 
             # Estrae i bytecode e ABIs degli smart contract compilati
             bytecodes = []
@@ -146,6 +137,7 @@ class Compiler:
         except Exception as exception:
             print("Attenzione! E' stato generato il seguente errore durante la compilazione: \n" + str(exception) )
             print()
+            print("Lo smart contract non è stato compilato correttamente \n")
             return None, None, None
 
     def choose_contract(self, compiled_solidity, abis, bytecodes):
