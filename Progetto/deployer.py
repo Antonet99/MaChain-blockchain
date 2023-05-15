@@ -15,7 +15,7 @@ class Deployer:
         try:
             number_shard_where_deploy = on_chain_manager_contract.functions.get_shard_where_deploy().call()
         except:
-            print("OnChain Manager non disponibile, deploy non riuscito!")
+            print("OnChain Manager non disponibile, deploy non riuscito! \n")
             return None, None
 
         if number_shard_where_deploy < 1 or number_shard_where_deploy > 3:
@@ -60,9 +60,9 @@ class Deployer:
         bilancio_shard_gwei = shard_where_deploy.eth.get_balance(
             shard_where_deploy.eth.default_account)
 
-        print("Bilancio wallet utente sulla shard sulla quale fare il deploy: \n" +
+        print("Bilancio wallet utente sulla shard sulla quale fare il deploy: " +
               str(bilancio_shard_gwei)+' wei')
-        print("Bilancio wallet utente sulla blockchain dell'on-chain manager: \n" +
+        print("Bilancio wallet utente sulla blockchain dell'on-chain manager: " +
               str(bilancio_onchain_gwei)+' wei')
 
         if (stima_costo_deploy > bilancio_shard_gwei) or (stima_costo_aggiornamento_onchain > bilancio_onchain_gwei):
@@ -103,7 +103,7 @@ class Deployer:
             print("Errore: \n")
             print(exception)
             print(
-                "La transazione di deploy dello smart contract non è andata a buon fine")
+                "La transazione di deploy dello smart contract non è andata a buon fine \n")
             return None
 
         contratto_deployato = shard_where_deploy.eth.contract(
@@ -111,7 +111,8 @@ class Deployer:
             abi=abi_to_deploy
         )
 
-        print("Indirizzo dello smart contract: \n", contratto_deployato.address)
+        print("Indirizzo dello smart contract: ", contratto_deployato.address)
+        print()
         self.register_contract(on_chain_manager_contract,
                                contratto_deployato, number_shard_where_deploy)
         self.save_sc_datas(contratto_deployato.address, abi_to_deploy,

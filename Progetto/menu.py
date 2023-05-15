@@ -12,13 +12,14 @@ def menu(config_params, connections, on_chain_manager_contract):
     logged_in = False
 
     while True:
-
         while not logged_in:
+            print()
             print("Scegli cosa fare: ")
             print("1. Effettua la registrazione")
             print("2. Effettua il login")
             print("3. Esci")
             choice = input("Scelta: ")
+            print()
 
             if choice == "1":
                 register = Register(connections, config_params)
@@ -32,16 +33,17 @@ def menu(config_params, connections, on_chain_manager_contract):
                 print("Arrivederci.")
                 return
             else:
-                print("\nScelta non valida.\n")
-        print()
-        print(os.get_terminal_size().columns*'-')
-        print()
+                print("Scelta non valida.")
+            print()
+            print(os.get_terminal_size().columns * '-')
 
+        print()
         print("1. Effettua il deploy di uno smart contract")
         print("2. Effettua una transazione su uno smart contract di cui è stato fatto il deploy")
         print("3. Logout")
         print("4. Esci")
         choice = input("Scelta: ")
+        print()
 
         if choice == "1":
 
@@ -50,9 +52,10 @@ def menu(config_params, connections, on_chain_manager_contract):
 
             if abi_to_deploy is None or bytecode_to_deploy is None:
                 print("Errore: \n"
-                      + "Lo smart contract non è stato compilato correttamente")
+                      + "Lo smart contract non è stato compilato correttamente \n")
+                print(os.get_terminal_size().columns * '-')
                 continue
-            print("Smart contract compilato")
+            print("Smart contract compilato \n")
 
             deployer = Deployer(config_params)
             deployer.deploy_contract(
@@ -72,3 +75,6 @@ def menu(config_params, connections, on_chain_manager_contract):
             return
         else:
             print("\nScelta non valida.\n")
+
+        print(os.get_terminal_size().columns*'-')
+

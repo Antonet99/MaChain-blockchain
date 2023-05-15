@@ -16,19 +16,19 @@ class Register:
 
     def check_password(self, password):
         if len(password) < 8:
-            print("La password deve contenere almeno 8 caratteri")
+            print("La password deve contenere almeno 8 caratteri \n")
             return False
         elif re.search('[0-9]', password) is None:
-            print("La password deve contenere almeno un carattere numerico")
+            print("La password deve contenere almeno un carattere numerico \n")
             return False
         elif re.search('[A-Z]', password) is None:
-            print("La password deve contenere almeno una lettera maiuscola")
+            print("La password deve contenere almeno una lettera maiuscola \n")
             return False
         elif re.search('[^a-zA-Z0-9]', password) is None:
-            print("La password deve contenere almeno un carattere speciale")
+            print("La password deve contenere almeno un carattere speciale \n")
             return False
         else:
-            print("Password valida")
+            print("Password valida \n")
             return True
 
     def check_username(self, hashed_username):
@@ -36,13 +36,13 @@ class Register:
         if len(accounts["accounts"]) > 0:
             for account in accounts["accounts"]:
                 if account["hashed_username"] == hashed_username:
-                    print("L'username inserito è già in uso. Usa un altro nome.")
+                    print("L'username inserito è già in uso. Usa un altro nome. \n")
                     return False
                 else:
-                    print("Username disponibile")
+                    print("Username disponibile \n")
                     return True
         else:
-            print("Username disponibile")
+            print("Username disponibile \n")
             return True
 
     def insert_keys(self, password, accounts, hashed_username, hashed_password):

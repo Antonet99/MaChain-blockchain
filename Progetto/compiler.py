@@ -11,6 +11,7 @@ class Compiler:
 
     def get_path(self):
         path = input("Inserisci il percorso del contratto: ")
+        print()
         return path
 
     def get_file_name(self, path):
@@ -18,7 +19,7 @@ class Compiler:
             filename = ntpath.basename(path)
             return filename
         except AttributeError:
-            print("Errore: il percorso del contratto non è stato ancora specificato.")
+            print("Errore: il percorso del contratto non è stato ancora specificato.\n")
 
     def read_contract(self):
         """
@@ -51,14 +52,15 @@ class Compiler:
 
     def ask_for_new_path(self):
         while True:
-            choice = input("Vuoi inserire un altro percorso? (s/n) ")
+            print()
+            choice = input("Vuoi inserire un altro percorso (s/n)?: ")
             if choice.lower() == "s":
                 return self.read_contract()
             elif choice.lower() == "n":
-                print("Arrivederci!")
-                return ""
+                print("\nArrivederci!")
+                return "", ""
             else:
-                print("Scelta non valida. Riprova.")
+                print("Scelta non valida. Riprova. \n")
 
     def get_solidity_version(self, text_contract):
 
@@ -136,13 +138,14 @@ class Compiler:
                 contract_name = list(compiled_solidity.keys())[0].split(':')[1]
 
             if bytecode_to_deploy == '':
-                print("Attenzione! Non è stato possibile compilare lo smart contract.")
+                print("Attenzione! Non è stato possibile compilare lo smart contract. \n")
                 return None, None, None
 
             return abi_to_deploy, bytecode_to_deploy, contract_name
 
         except Exception as exception:
             print("Attenzione! E' stato generato il seguente errore durante la compilazione: \n" + str(exception) )
+            print()
             return None, None, None
 
     def choose_contract(self, compiled_solidity, abis, bytecodes):

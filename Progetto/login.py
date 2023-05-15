@@ -103,9 +103,10 @@ class Login:
                     self.connections[3].middleware_onion.add(
                         construct_sign_and_send_raw_middleware(account03))
 
+                    print()
                     print("Login effettuato con successo.")
                     self.counter = 0
                     return True
-
+            print()
             print("Username e/o password errati, riprova.")
             return False
