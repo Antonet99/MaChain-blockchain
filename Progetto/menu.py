@@ -51,8 +51,7 @@ def menu(config_params, connections, on_chain_manager_contract):
             abi_to_deploy, bytecode_to_deploy, contract_name = compiler.compile_smart_contract()
 
             if abi_to_deploy is None or bytecode_to_deploy is None:
-                print("Errore: \n"
-                      + "Lo smart contract non è stato compilato correttamente \n")
+                print()
                 print(os.get_terminal_size().columns * '-')
                 continue
             print("Smart contract compilato \n")

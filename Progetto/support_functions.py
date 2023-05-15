@@ -74,3 +74,4 @@ def check_str(string):
               + "Il nome dello smart contract deve essere una stringa \n"
               + "Interruzione del programma")
         exit(1)
+

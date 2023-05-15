@@ -1,8 +1,6 @@
 import os
 import json
-
 from requests import ReadTimeout
-from urllib3.exceptions import NewConnectionError, PoolError, HTTPError
 
 
 class Transactioner:
@@ -32,13 +30,11 @@ class Transactioner:
 
         if len(self.smart_contracts) == 0:
             print("Non ci sono ancora Smart Contract con cui interagire. \n")
-            return
-
         else:
             print("La lista degli smart contract presenti nel sistema è la seguente:")
             for index, smart_contract in enumerate(self.smart_contracts):
-                print(str(index + 1) + ") " + smart_contract)
-
+                print(str(index + 1) + ") \"" + str(self.smart_contracts[smart_contract][1] + '\", all\'indirizzo: ' + smart_contract))
+            print()
             chosen_index = input("Per favore, inserisci il numero corrispondente allo smart contract dediserato: ")
             # controllo che l'indice sia effettivamente un numero e che rientri nel range possibile
             while not chosen_index.isnumeric() or int(chosen_index) not in range(1, len(self.smart_contracts) + 1):
@@ -46,7 +42,7 @@ class Transactioner:
             chosen_index = int(chosen_index)
             # l'indice di accesso viene decrementato perchè all'utente viene stampata la lista partendo da 1
             address = list(self.smart_contracts)[chosen_index - 1]
-            abi = self.smart_contracts[address]
+            abi = self.smart_contracts[address][0]
             if self.print_and_choose_smart_contract_function(abi, address) is None:
                 return
 
@@ -57,6 +53,7 @@ class Transactioner:
             if item["type"] == "function":
                 functions.append(item)
 
+        print()
         print("Le funzioni disponibili sullo smart contract selezionato sono le seguenti:")
         for index, fun in enumerate(functions):
             print(str(index + 1) + ") " + fun["name"])
@@ -90,21 +87,21 @@ class Transactioner:
                 try:
                     casted_param = self.cast_parameters(passed_param, param["type"])
                 except:
-                    print("Parametri non passati correttamente.")
+                    print("Parametri non passati correttamente. \n")
                     return None
                 function_arguments.append(casted_param)
         try:
             shard_number = self.on_chain_manager_contract.functions.get_shard_where_contract(address).call()
             shard_connection = self.connections[shard_number]
         except:
-            print("OnChain Manager non disponibile, transazione non riuscita.")
+            print("OnChain Manager non disponibile, transazione non riuscita. \n")
             return None
 
         try:
             smart_contract = shard_connection.eth.contract(address=address, abi=abi)
             function_signature = self.get_function_signature(function_name, function_parameters)
         except:
-            print("Errore nella connessione allo Smart Contract selezionato.")
+            print("Errore nella connessione allo Smart Contract selezionato. \n")
             return None
 
         if not self.check_contract_existence(address, shard_number, True):
@@ -113,22 +110,25 @@ class Transactioner:
         try:
             self.call_function(shard_connection, smart_contract, function_type, function_signature, function_arguments)
         except ReadTimeout:
-            print("Errore nella connessione alla BlockChain. Transazione non eseguita")
+            print("Errore nella connessione alla BlockChain. Transazione non eseguita \n")
             return None
         except Exception as e:
-            print("Errore nella transazione. Riprovare inserendo i parametri richiesti correttamente.")
+            print("Errore nella transazione. Riprovare inserendo i parametri richiesti correttamente. \n")
             print(e)
             return None
 
         self.check_contract_existence(address, shard_number, False)
 
     def call_function(self, shard_connection, smart_contract, function_type, function_signature, function_arguments):
+        print()
         if function_type == "pure" or function_type == "view":
             if len(function_arguments) == 0:
                 contract_func = smart_contract.get_function_by_name(function_signature)
+                print("Risultato della chiamata a funzione: ")
                 print(contract_func().call())
             else:
                 contract_func = smart_contract.get_function_by_signature(function_signature)
+                print("Risultato della chiamata a funzione: ")
                 print(contract_func(*function_arguments).call())
 
         elif function_type == "nonpayable" or function_type == "payable":
@@ -140,6 +140,8 @@ class Transactioner:
                 contract_func = smart_contract.get_function_by_signature(function_signature)
                 tx_hash = contract_func(*function_arguments).transact()
                 receipt = shard_connection.eth.wait_for_transaction_receipt(tx_hash)
+
+        print("\nTransazione eseguita correttamente. \n")
 
     def get_function_signature(self, function_name, provided_arguments):
         # N.B. con l'onchain funzionava con ["InternalType"]
@@ -194,7 +196,7 @@ class Transactioner:
             try:
                 self.on_chain_manager_contract.functions.remove_contract(contract_address).transact()
             except:
-                print("Errore nella rimozione dello smart contract dall'on-chain manager")
+                print("Errore nella rimozione dello smart contract dall'on-chain manager\n")
                 return False
 
             try:
@@ -208,12 +210,12 @@ class Transactioner:
                         json_file.write(json.dumps(data))
                         json_file.close()
             except:
-                print("Errore nella rimozione dello smart contract dal sistema")
+                print("Errore nella rimozione dello smart contract dal sistema\n")
                 return False
             if before_transaction:
-                print("La transazione non può essere eseguita")
+                print("La transazione non può essere eseguita\n")
             else:
-                print("Contratto eliminato dal sistema")
+                print("Contratto eliminato dal sistema\n")
             return False
 
         return True

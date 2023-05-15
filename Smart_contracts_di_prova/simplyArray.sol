@@ -8,12 +8,6 @@ contract samplyArray {
     uint[] public myArray2 = [1, 2, 3]; //this is a dynamic array with 1, 2 and 3 as default values
     uint[10] public myFixedSizeArray; //this is a fixed size array of type uint
 
-
-    uint[] intergerArray;       //sample showing initialization of an array of integers
-    bool[] boolArray;           //sample showing initialization of an array of booleans
-    address[] addressArray;     //sample showing initialization of an array of address etc.
-
-
     //this will add i to the end of myArray
     function pushistoAdd(uint i) public {
         myArray.push(i);
@@ -48,6 +42,4 @@ contract samplyArray {
     function getLength() public view returns (uint) {
         return myArray.length;
     }
-
-
 }

@@ -50,13 +50,13 @@ class Login:
         while True:
 
             self.counter += 1
-            if self.counter == 3:
+            if self.counter == 4:
                 print("Troppi tentativi di accesso. Interruzione del programma.")
                 exit(1)
 
             if len(accounts["accounts"]) == 0:
                 print("Non ci sono account registrati. Effettua la registrazione.")
-                return
+                return False
 
             username = input("Inserisci il tuo username: ")
             hashed_username = hashlib.sha256(
@@ -109,4 +109,3 @@ class Login:
                     return True
             print()
             print("Username e/o password errati, riprova.")
-            return False
