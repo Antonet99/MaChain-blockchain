@@ -1,0 +1,421 @@
+{
+  "actors": [
+    {
+      "id": "5db78a53-fbb4-43e6-a08b-fb1da78789c2",
+      "text": "Shard",
+      "type": "istar.Agent",
+      "x": 418,
+      "y": 1127,
+      "customProperties": {
+        "Description": ""
+      },
+      "nodes": []
+    },
+    {
+      "id": "f12c1766-d2a8-4f4d-add3-263a557e273f",
+      "text": "Off-chain manager",
+      "type": "istar.Agent",
+      "x": 176,
+      "y": 797,
+      "customProperties": {
+        "Description": ""
+      },
+      "nodes": [
+        {
+          "id": "5249e54d-8e74-4023-9174-221e7214c6e9",
+          "text": "Registrazione smart contract",
+          "type": "istar.Goal",
+          "x": 274,
+          "y": 830,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "de257769-db2f-46db-9079-c5da9933d7d5",
+          "text": "Esecuzione transazione",
+          "type": "istar.Goal",
+          "x": 532,
+          "y": 833,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "4fd3f123-641f-4f70-a360-c4fc8441e429",
+          "text": "Richiesta stato delle shard",
+          "type": "istar.Task",
+          "x": 207,
+          "y": 920,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "1bb64568-610e-49b6-a865-1c32f72f57db",
+          "text": "Registrare smart contract",
+          "type": "istar.Task",
+          "x": 331,
+          "y": 916,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "92e93564-78bd-4d27-8acb-1e31d084b82f",
+          "text": "Richiesta shard interessata",
+          "type": "istar.Task",
+          "x": 595,
+          "y": 916,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "61752f87-3685-4ed4-b909-e27f1bb63ae1",
+          "text": "Richiesta esecuzione metodo SC",
+          "type": "istar.Task",
+          "x": 477,
+          "y": 916,
+          "customProperties": {
+            "Description": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "54ae9b4f-88a5-43e9-bb88-209e66698d8b",
+      "text": "On-chain manager",
+      "type": "istar.Agent",
+      "x": 418,
+      "y": 1216,
+      "customProperties": {
+        "Description": ""
+      },
+      "nodes": []
+    },
+    {
+      "id": "17f08ad3-4b39-4f0d-90ec-f3a9ebc3d760",
+      "text": "Malicious Attacker",
+      "type": "istar.Agent",
+      "x": 811,
+      "y": 766,
+      "customProperties": {
+        "Description": ""
+      },
+      "nodes": [
+        {
+          "id": "234dd15e-8097-4dc0-ab06-87de23ad4aae",
+          "text": "Esecuzione di transazioni",
+          "type": "istar.Task",
+          "x": 1046,
+          "y": 993,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "9b2d93ef-9f30-40ea-b848-d07720ccfa93",
+          "text": "Sostituzione al posto del proprietario",
+          "type": "istar.Goal",
+          "x": 889,
+          "y": 801,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "f929ba58-4c95-444e-a87b-86110015ace7",
+          "text": "Furto di dati sensibili",
+          "type": "istar.Goal",
+          "x": 1048,
+          "y": 778,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "011cf699-c944-44b3-a983-595a02aae43d",
+          "text": "Furto di liquidità",
+          "type": "istar.Goal",
+          "x": 1223,
+          "y": 797,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "a9fc9419-cf2c-4b97-a2ab-ef928aa6d063",
+          "text": "Attacco brute force/key logger/phishing",
+          "type": "istar.Task",
+          "x": 864,
+          "y": 913,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "ca93c023-c93e-46dd-986d-997bfeeedf6e",
+          "text": "Acquisizione in chiaro/acquisite/sniffing",
+          "type": "istar.Task",
+          "x": 1228,
+          "y": 914,
+          "customProperties": {
+            "Description": ""
+          }
+        }
+      ]
+    }
+  ],
+  "orphans": [],
+  "dependencies": [
+    {
+      "id": "9c581e5d-e547-4bd5-8505-d8064d1a1164",
+      "text": "Stato delle shard",
+      "type": "istar.Resource",
+      "x": 212,
+      "y": 1063,
+      "customProperties": {
+        "Description": ""
+      },
+      "source": "4fd3f123-641f-4f70-a360-c4fc8441e429",
+      "target": "54ae9b4f-88a5-43e9-bb88-209e66698d8b"
+    },
+    {
+      "id": "b56bf5ac-b5a1-4db3-ae95-e7e0d8638a2a",
+      "text": "Registrazione avvenuta",
+      "type": "istar.Resource",
+      "x": 322,
+      "y": 1027,
+      "customProperties": {
+        "Description": ""
+      },
+      "source": "1bb64568-610e-49b6-a865-1c32f72f57db",
+      "target": "5db78a53-fbb4-43e6-a08b-fb1da78789c2"
+    },
+    {
+      "id": "24de1828-aeab-451e-8470-8d216403b474",
+      "text": "Shard interessata",
+      "type": "istar.Resource",
+      "x": 577,
+      "y": 1068,
+      "customProperties": {
+        "Description": ""
+      },
+      "source": "92e93564-78bd-4d27-8acb-1e31d084b82f",
+      "target": "54ae9b4f-88a5-43e9-bb88-209e66698d8b"
+    },
+    {
+      "id": "04b94a6e-a5bc-4340-8fdb-e0d7e5cb6326",
+      "text": "Risultato dell'esecuzione",
+      "type": "istar.Resource",
+      "x": 471,
+      "y": 1021,
+      "customProperties": {
+        "Description": ""
+      },
+      "source": "61752f87-3685-4ed4-b909-e27f1bb63ae1",
+      "target": "5db78a53-fbb4-43e6-a08b-fb1da78789c2"
+    },
+    {
+      "id": "2c6fc31f-8c54-4fc8-a7dd-0bbfd52912bf",
+      "text": "Credenziali utente",
+      "type": "istar.Resource",
+      "x": 382,
+      "y": 692,
+      "customProperties": {
+        "Description": ""
+      },
+      "source": "17f08ad3-4b39-4f0d-90ec-f3a9ebc3d760",
+      "target": "f12c1766-d2a8-4f4d-add3-263a557e273f"
+    }
+  ],
+  "links": [
+    {
+      "id": "80dbc1c8-7301-4588-80a9-adba7e89decb",
+      "type": "istar.DependencyLink",
+      "source": "2c6fc31f-8c54-4fc8-a7dd-0bbfd52912bf",
+      "target": "f12c1766-d2a8-4f4d-add3-263a557e273f"
+    },
+    {
+      "id": "005f42e9-38f4-403d-8dbe-ac2af923fdca",
+      "type": "istar.DependencyLink",
+      "source": "17f08ad3-4b39-4f0d-90ec-f3a9ebc3d760",
+      "target": "2c6fc31f-8c54-4fc8-a7dd-0bbfd52912bf"
+    },
+    {
+      "id": "760c3d03-a951-4667-b60c-c7dc72cca82a",
+      "type": "istar.DependencyLink",
+      "source": "04b94a6e-a5bc-4340-8fdb-e0d7e5cb6326",
+      "target": "5db78a53-fbb4-43e6-a08b-fb1da78789c2"
+    },
+    {
+      "id": "5591e5ef-3fa7-4a8a-92ee-2b32256b325c",
+      "type": "istar.DependencyLink",
+      "source": "61752f87-3685-4ed4-b909-e27f1bb63ae1",
+      "target": "04b94a6e-a5bc-4340-8fdb-e0d7e5cb6326"
+    },
+    {
+      "id": "19b20a67-075a-4322-96a4-fa94ac4664fd",
+      "type": "istar.DependencyLink",
+      "source": "24de1828-aeab-451e-8470-8d216403b474",
+      "target": "54ae9b4f-88a5-43e9-bb88-209e66698d8b"
+    },
+    {
+      "id": "c1936aa5-84d0-40fa-8a4f-128132ff9472",
+      "type": "istar.DependencyLink",
+      "source": "92e93564-78bd-4d27-8acb-1e31d084b82f",
+      "target": "24de1828-aeab-451e-8470-8d216403b474"
+    },
+    {
+      "id": "0de63c4b-5ecb-4f41-98b3-cb7f416d3b5e",
+      "type": "istar.DependencyLink",
+      "source": "b56bf5ac-b5a1-4db3-ae95-e7e0d8638a2a",
+      "target": "5db78a53-fbb4-43e6-a08b-fb1da78789c2"
+    },
+    {
+      "id": "07b7cfdd-8904-460d-be71-7dd6b78f1b7d",
+      "type": "istar.DependencyLink",
+      "source": "1bb64568-610e-49b6-a865-1c32f72f57db",
+      "target": "b56bf5ac-b5a1-4db3-ae95-e7e0d8638a2a"
+    },
+    {
+      "id": "fdd89835-56f1-4ba9-8b0b-d0f1051db913",
+      "type": "istar.DependencyLink",
+      "source": "9c581e5d-e547-4bd5-8505-d8064d1a1164",
+      "target": "54ae9b4f-88a5-43e9-bb88-209e66698d8b"
+    },
+    {
+      "id": "8c1df9af-4079-40d3-a368-7f58e3fab21d",
+      "type": "istar.DependencyLink",
+      "source": "4fd3f123-641f-4f70-a360-c4fc8441e429",
+      "target": "9c581e5d-e547-4bd5-8505-d8064d1a1164"
+    },
+    {
+      "id": "0e5dc361-99e2-4d62-a4c7-23d301e3c872",
+      "type": "istar.AndRefinementLink",
+      "source": "4fd3f123-641f-4f70-a360-c4fc8441e429",
+      "target": "5249e54d-8e74-4023-9174-221e7214c6e9"
+    },
+    {
+      "id": "07c10d94-e406-4609-92d7-5661a8795b43",
+      "type": "istar.AndRefinementLink",
+      "source": "1bb64568-610e-49b6-a865-1c32f72f57db",
+      "target": "5249e54d-8e74-4023-9174-221e7214c6e9"
+    },
+    {
+      "id": "27ad01f7-dfc7-4d10-94eb-01ee7389b308",
+      "type": "istar.AndRefinementLink",
+      "source": "92e93564-78bd-4d27-8acb-1e31d084b82f",
+      "target": "de257769-db2f-46db-9079-c5da9933d7d5"
+    },
+    {
+      "id": "27d72177-c67f-4ec9-ab8f-b0de8ecf87eb",
+      "type": "istar.AndRefinementLink",
+      "source": "61752f87-3685-4ed4-b909-e27f1bb63ae1",
+      "target": "de257769-db2f-46db-9079-c5da9933d7d5"
+    },
+    {
+      "id": "763f1bd6-093d-49fe-b8bc-a0bef0742674",
+      "type": "istar.OrRefinementLink",
+      "source": "a9fc9419-cf2c-4b97-a2ab-ef928aa6d063",
+      "target": "9b2d93ef-9f30-40ea-b848-d07720ccfa93"
+    },
+    {
+      "id": "a03ff5d8-9a0e-44ef-ba53-c95139c829dc",
+      "type": "istar.OrRefinementLink",
+      "source": "ca93c023-c93e-46dd-986d-997bfeeedf6e",
+      "target": "9b2d93ef-9f30-40ea-b848-d07720ccfa93"
+    },
+    {
+      "id": "196745a5-ed4a-486b-897f-dddcfbc349e9",
+      "type": "istar.OrRefinementLink",
+      "source": "a9fc9419-cf2c-4b97-a2ab-ef928aa6d063",
+      "target": "f929ba58-4c95-444e-a87b-86110015ace7"
+    },
+    {
+      "id": "77dcfbcd-a0c2-42ff-9790-dcd23313f33e",
+      "type": "istar.OrRefinementLink",
+      "source": "a9fc9419-cf2c-4b97-a2ab-ef928aa6d063",
+      "target": "011cf699-c944-44b3-a983-595a02aae43d"
+    },
+    {
+      "id": "b80dfdf9-1f6a-4452-9678-dd19210ce903",
+      "type": "istar.OrRefinementLink",
+      "source": "ca93c023-c93e-46dd-986d-997bfeeedf6e",
+      "target": "f929ba58-4c95-444e-a87b-86110015ace7"
+    },
+    {
+      "id": "af0e42aa-88c6-49a4-a782-72036b6e0273",
+      "type": "istar.OrRefinementLink",
+      "source": "ca93c023-c93e-46dd-986d-997bfeeedf6e",
+      "target": "011cf699-c944-44b3-a983-595a02aae43d"
+    },
+    {
+      "id": "88b98e67-e1a4-481d-80df-14ad08561988",
+      "type": "istar.OrRefinementLink",
+      "source": "234dd15e-8097-4dc0-ab06-87de23ad4aae",
+      "target": "a9fc9419-cf2c-4b97-a2ab-ef928aa6d063"
+    },
+    {
+      "id": "354bf6bf-5d8d-462f-b7e7-1ea2b6f92a88",
+      "type": "istar.OrRefinementLink",
+      "source": "234dd15e-8097-4dc0-ab06-87de23ad4aae",
+      "target": "ca93c023-c93e-46dd-986d-997bfeeedf6e"
+    }
+  ],
+  "display": {
+    "17f08ad3-4b39-4f0d-90ec-f3a9ebc3d760": {
+      "backgroundColor": "#FF0000"
+    },
+    "234dd15e-8097-4dc0-ab06-87de23ad4aae": {
+      "width": 141.703125,
+      "height": 48.8203125
+    },
+    "9b2d93ef-9f30-40ea-b848-d07720ccfa93": {
+      "width": 124.64999389648438,
+      "height": 50.33332824707031
+    },
+    "f929ba58-4c95-444e-a87b-86110015ace7": {
+      "width": 133.64999389648438,
+      "height": 47.83332824707031
+    },
+    "011cf699-c944-44b3-a983-595a02aae43d": {
+      "width": 119.64999389648438,
+      "height": 44.33332824707031
+    },
+    "a9fc9419-cf2c-4b97-a2ab-ef928aa6d063": {
+      "width": 144.64999389648438,
+      "height": 56.83332824707031
+    },
+    "ca93c023-c93e-46dd-986d-997bfeeedf6e": {
+      "width": 132.64999389648438,
+      "height": 51.83332824707031
+    },
+    "fdd89835-56f1-4ba9-8b0b-d0f1051db913": {
+      "vertices": [
+        {
+          "x": 310,
+          "y": 1162
+        }
+      ]
+    },
+    "5db78a53-fbb4-43e6-a08b-fb1da78789c2": {
+      "collapsed": true
+    },
+    "54ae9b4f-88a5-43e9-bb88-209e66698d8b": {
+      "collapsed": true
+    }
+  },
+  "tool": "pistar.2.1.0",
+  "istar": "2.0",
+  "saveDate": "Tue, 16 May 2023 08:26:45 GMT",
+  "diagram": {
+    "width": 2000,
+    "height": 2000,
+    "name": "Welcome Model",
+    "customProperties": {
+      "Description": "Welcome to the piStar tool version 2.1.0, released on November, 2021! This model describes some of the recent improvements in the tool. Click on the purple elements for further info.\n\nFor help using this tool, please check the Help menu above"
+    }
+  }
+}
