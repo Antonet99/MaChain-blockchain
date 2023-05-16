@@ -1,0 +1,407 @@
+{
+  "actors": [
+    {
+      "id": "17f08ad3-4b39-4f0d-90ec-f3a9ebc3d760",
+      "text": "Clumsy User",
+      "type": "istar.Agent",
+      "x": 914,
+      "y": 803,
+      "customProperties": {
+        "Description": ""
+      },
+      "nodes": [
+        {
+          "id": "8c3efb92-8d34-4d1a-9d30-e8cb2a08a34a",
+          "text": "Inserimento parametri (errati) richiesti che non soddifano le condizioni imposte dallo smart contract",
+          "type": "istar.Task",
+          "x": 1247,
+          "y": 978,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "84526d7b-ca95-4ee9-8010-698623bbf46f",
+          "text": "Inserimento parametri (errati) richiesti ma che soddifano le condizioni imposte dallo smart contract",
+          "type": "istar.Task",
+          "x": 969,
+          "y": 978,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "45bd60f3-1755-490d-9e07-bf9f1fcb3946",
+          "text": "Richiesta transazione sullo smart contract",
+          "type": "istar.Task",
+          "x": 1152,
+          "y": 859,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "699af67d-2102-4361-8b87-145154afc080",
+          "text": "Smart contract di cui è già stato fatto il deploy",
+          "type": "istar.Resource",
+          "x": 933,
+          "y": 883,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "3aae935e-b966-42a9-be8c-8126ff09daa6",
+          "text": "Transazione effettuata con successo",
+          "type": "istar.Task",
+          "x": 998,
+          "y": 1106,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "e1b03969-635e-40d7-9122-49c787152f15",
+          "text": "Transazione non eseguita",
+          "type": "istar.Task",
+          "x": 1281,
+          "y": 1108,
+          "customProperties": {
+            "Description": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "54ae9b4f-88a5-43e9-bb88-209e66698d8b",
+      "text": "On-chain manager",
+      "type": "istar.Agent",
+      "x": 418,
+      "y": 1216,
+      "customProperties": {
+        "Description": ""
+      },
+      "nodes": []
+    },
+    {
+      "id": "f12c1766-d2a8-4f4d-add3-263a557e273f",
+      "text": "Off-chain manager",
+      "type": "istar.Agent",
+      "x": 176,
+      "y": 797,
+      "customProperties": {
+        "Description": ""
+      },
+      "nodes": [
+        {
+          "id": "5249e54d-8e74-4023-9174-221e7214c6e9",
+          "text": "Registrazione smart contract",
+          "type": "istar.Goal",
+          "x": 274,
+          "y": 830,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "de257769-db2f-46db-9079-c5da9933d7d5",
+          "text": "Esecuzione transazione",
+          "type": "istar.Goal",
+          "x": 532,
+          "y": 833,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "4fd3f123-641f-4f70-a360-c4fc8441e429",
+          "text": "Richiesta stato delle shard",
+          "type": "istar.Task",
+          "x": 207,
+          "y": 920,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "1bb64568-610e-49b6-a865-1c32f72f57db",
+          "text": "Registrare smart contract",
+          "type": "istar.Task",
+          "x": 331,
+          "y": 916,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "92e93564-78bd-4d27-8acb-1e31d084b82f",
+          "text": "Richiesta shard interessata",
+          "type": "istar.Task",
+          "x": 595,
+          "y": 916,
+          "customProperties": {
+            "Description": ""
+          }
+        },
+        {
+          "id": "61752f87-3685-4ed4-b909-e27f1bb63ae1",
+          "text": "Richiesta esecuzione metodo SC",
+          "type": "istar.Task",
+          "x": 477,
+          "y": 916,
+          "customProperties": {
+            "Description": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "5db78a53-fbb4-43e6-a08b-fb1da78789c2",
+      "text": "Shard",
+      "type": "istar.Agent",
+      "x": 418,
+      "y": 1127,
+      "customProperties": {
+        "Description": ""
+      },
+      "nodes": []
+    }
+  ],
+  "orphans": [],
+  "dependencies": [
+    {
+      "id": "9c581e5d-e547-4bd5-8505-d8064d1a1164",
+      "text": "Stato delle shard",
+      "type": "istar.Resource",
+      "x": 212,
+      "y": 1063,
+      "customProperties": {
+        "Description": ""
+      },
+      "source": "4fd3f123-641f-4f70-a360-c4fc8441e429",
+      "target": "54ae9b4f-88a5-43e9-bb88-209e66698d8b"
+    },
+    {
+      "id": "b56bf5ac-b5a1-4db3-ae95-e7e0d8638a2a",
+      "text": "Registrazione avvenuta",
+      "type": "istar.Resource",
+      "x": 322,
+      "y": 1027,
+      "customProperties": {
+        "Description": ""
+      },
+      "source": "1bb64568-610e-49b6-a865-1c32f72f57db",
+      "target": "5db78a53-fbb4-43e6-a08b-fb1da78789c2"
+    },
+    {
+      "id": "24de1828-aeab-451e-8470-8d216403b474",
+      "text": "Shard interessata",
+      "type": "istar.Resource",
+      "x": 577,
+      "y": 1068,
+      "customProperties": {
+        "Description": ""
+      },
+      "source": "92e93564-78bd-4d27-8acb-1e31d084b82f",
+      "target": "54ae9b4f-88a5-43e9-bb88-209e66698d8b"
+    },
+    {
+      "id": "04b94a6e-a5bc-4340-8fdb-e0d7e5cb6326",
+      "text": "Risultato dell'esecuzione",
+      "type": "istar.Resource",
+      "x": 471,
+      "y": 1021,
+      "customProperties": {
+        "Description": ""
+      },
+      "source": "61752f87-3685-4ed4-b909-e27f1bb63ae1",
+      "target": "5db78a53-fbb4-43e6-a08b-fb1da78789c2"
+    },
+    {
+      "id": "c82c8af2-9799-415d-982d-17ebccaad05d",
+      "text": "Esecuzione transazione",
+      "type": "istar.Goal",
+      "x": 471,
+      "y": 673,
+      "customProperties": {
+        "Description": ""
+      },
+      "source": "17f08ad3-4b39-4f0d-90ec-f3a9ebc3d760",
+      "target": "f12c1766-d2a8-4f4d-add3-263a557e273f"
+    }
+  ],
+  "links": [
+    {
+      "id": "b2579dcf-1c93-45bb-8528-85f125e96406",
+      "type": "istar.DependencyLink",
+      "source": "c82c8af2-9799-415d-982d-17ebccaad05d",
+      "target": "f12c1766-d2a8-4f4d-add3-263a557e273f"
+    },
+    {
+      "id": "ecfb4d67-b32d-46ba-b53c-13985d26f8b0",
+      "type": "istar.DependencyLink",
+      "source": "17f08ad3-4b39-4f0d-90ec-f3a9ebc3d760",
+      "target": "c82c8af2-9799-415d-982d-17ebccaad05d"
+    },
+    {
+      "id": "802f3595-894c-44da-94df-6766119a7a88",
+      "type": "istar.DependencyLink",
+      "source": "04b94a6e-a5bc-4340-8fdb-e0d7e5cb6326",
+      "target": "5db78a53-fbb4-43e6-a08b-fb1da78789c2"
+    },
+    {
+      "id": "807f496e-2072-48f7-994c-8111000db314",
+      "type": "istar.DependencyLink",
+      "source": "61752f87-3685-4ed4-b909-e27f1bb63ae1",
+      "target": "04b94a6e-a5bc-4340-8fdb-e0d7e5cb6326"
+    },
+    {
+      "id": "4377b12b-3a63-4caa-8883-720bf0aa7390",
+      "type": "istar.DependencyLink",
+      "source": "24de1828-aeab-451e-8470-8d216403b474",
+      "target": "54ae9b4f-88a5-43e9-bb88-209e66698d8b"
+    },
+    {
+      "id": "38168863-0d4c-48da-acfe-83b93a057968",
+      "type": "istar.DependencyLink",
+      "source": "92e93564-78bd-4d27-8acb-1e31d084b82f",
+      "target": "24de1828-aeab-451e-8470-8d216403b474"
+    },
+    {
+      "id": "e091aa07-fffe-4c3d-84f1-d81f6e1e847f",
+      "type": "istar.DependencyLink",
+      "source": "b56bf5ac-b5a1-4db3-ae95-e7e0d8638a2a",
+      "target": "5db78a53-fbb4-43e6-a08b-fb1da78789c2"
+    },
+    {
+      "id": "021410e4-d1e6-4f9d-b3ce-2b1a64698c9f",
+      "type": "istar.DependencyLink",
+      "source": "1bb64568-610e-49b6-a865-1c32f72f57db",
+      "target": "b56bf5ac-b5a1-4db3-ae95-e7e0d8638a2a"
+    },
+    {
+      "id": "bb37048e-0125-4841-9251-682f10736535",
+      "type": "istar.DependencyLink",
+      "source": "9c581e5d-e547-4bd5-8505-d8064d1a1164",
+      "target": "54ae9b4f-88a5-43e9-bb88-209e66698d8b"
+    },
+    {
+      "id": "95b0fc3a-dbf5-4969-a834-8414703465ab",
+      "type": "istar.DependencyLink",
+      "source": "4fd3f123-641f-4f70-a360-c4fc8441e429",
+      "target": "9c581e5d-e547-4bd5-8505-d8064d1a1164"
+    },
+    {
+      "id": "d8fa7757-8b0a-4dcf-883f-924383634820",
+      "type": "istar.AndRefinementLink",
+      "source": "4fd3f123-641f-4f70-a360-c4fc8441e429",
+      "target": "5249e54d-8e74-4023-9174-221e7214c6e9"
+    },
+    {
+      "id": "a01296a5-7927-4233-867e-dfceb4168e11",
+      "type": "istar.AndRefinementLink",
+      "source": "1bb64568-610e-49b6-a865-1c32f72f57db",
+      "target": "5249e54d-8e74-4023-9174-221e7214c6e9"
+    },
+    {
+      "id": "53d7d5aa-646d-4c79-a1a3-cd34af42133a",
+      "type": "istar.AndRefinementLink",
+      "source": "92e93564-78bd-4d27-8acb-1e31d084b82f",
+      "target": "de257769-db2f-46db-9079-c5da9933d7d5"
+    },
+    {
+      "id": "0cfa3bac-22dd-4c54-af59-1c7a7d9bd33d",
+      "type": "istar.AndRefinementLink",
+      "source": "61752f87-3685-4ed4-b909-e27f1bb63ae1",
+      "target": "de257769-db2f-46db-9079-c5da9933d7d5"
+    },
+    {
+      "id": "65e8b440-3092-4ca7-b0dc-f48484bd8579",
+      "type": "istar.NeededByLink",
+      "source": "699af67d-2102-4361-8b87-145154afc080",
+      "target": "45bd60f3-1755-490d-9e07-bf9f1fcb3946"
+    },
+    {
+      "id": "052b009a-c485-4407-be86-34b78b5b65a2",
+      "type": "istar.OrRefinementLink",
+      "source": "84526d7b-ca95-4ee9-8010-698623bbf46f",
+      "target": "45bd60f3-1755-490d-9e07-bf9f1fcb3946"
+    },
+    {
+      "id": "45ddc0cd-6ab2-4e77-a0ba-a0da18e7b46c",
+      "type": "istar.OrRefinementLink",
+      "source": "8c3efb92-8d34-4d1a-9d30-e8cb2a08a34a",
+      "target": "45bd60f3-1755-490d-9e07-bf9f1fcb3946"
+    },
+    {
+      "id": "a5ecb11e-4880-4b26-8eb1-dc512163bc71",
+      "type": "istar.AndRefinementLink",
+      "source": "3aae935e-b966-42a9-be8c-8126ff09daa6",
+      "target": "84526d7b-ca95-4ee9-8010-698623bbf46f"
+    },
+    {
+      "id": "d9a1417c-e33d-4040-9da8-07acac78e103",
+      "type": "istar.AndRefinementLink",
+      "source": "e1b03969-635e-40d7-9122-49c787152f15",
+      "target": "8c3efb92-8d34-4d1a-9d30-e8cb2a08a34a"
+    }
+  ],
+  "display": {
+    "17f08ad3-4b39-4f0d-90ec-f3a9ebc3d760": {
+      "backgroundColor": "#FF0000"
+    },
+    "8c3efb92-8d34-4d1a-9d30-e8cb2a08a34a": {
+      "width": 212.8333282470703,
+      "height": 64.76666259765625
+    },
+    "84526d7b-ca95-4ee9-8010-698623bbf46f": {
+      "width": 218.8333282470703,
+      "height": 63.76666259765625
+    },
+    "45bd60f3-1755-490d-9e07-bf9f1fcb3946": {
+      "width": 139.203125,
+      "height": 45.8203125
+    },
+    "699af67d-2102-4361-8b87-145154afc080": {
+      "width": 145.8333282470703,
+      "height": 42.76666259765625
+    },
+    "3aae935e-b966-42a9-be8c-8126ff09daa6": {
+      "width": 154.8333282470703,
+      "height": 54.76666259765625
+    },
+    "e1b03969-635e-40d7-9122-49c787152f15": {
+      "width": 146.8333282470703,
+      "height": 55.76666259765625
+    },
+    "c82c8af2-9799-415d-982d-17ebccaad05d": {
+      "width": 139.64999389648438,
+      "height": 40.83332824707031
+    },
+    "bb37048e-0125-4841-9251-682f10736535": {
+      "vertices": [
+        {
+          "x": 310,
+          "y": 1162
+        }
+      ]
+    },
+    "54ae9b4f-88a5-43e9-bb88-209e66698d8b": {
+      "collapsed": true
+    },
+    "5db78a53-fbb4-43e6-a08b-fb1da78789c2": {
+      "collapsed": true
+    }
+  },
+  "tool": "pistar.2.1.0",
+  "istar": "2.0",
+  "saveDate": "Tue, 16 May 2023 08:48:02 GMT",
+  "diagram": {
+    "width": 2000,
+    "height": 2000,
+    "name": "Welcome Model",
+    "customProperties": {
+      "Description": "Welcome to the piStar tool version 2.1.0, released on November, 2021! This model describes some of the recent improvements in the tool. Click on the purple elements for further info.\n\nFor help using this tool, please check the Help menu above"
+    }
+  }
+}
