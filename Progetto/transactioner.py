@@ -58,8 +58,10 @@ class Transactioner:
         for index, fun in enumerate(functions):
             print(str(index + 1) + ") " + fun["name"])
 
-        index = input("\n" + "Selezionare funzione da voler utilizzare: ")
-        while not index.isnumeric or int(index) not in range(1, len(functions) + 1):
+        print()
+        index = input("Selezionare funzione da voler utilizzare: ")
+        while not index.isnumeric() or int(index) not in range(1, len(functions) + 1):
+            print()
             index = input("Per favore, selezionare un numero corretto. ")
         index = int(index) - 1
         function_name = functions[index]["name"]
@@ -81,13 +83,13 @@ class Transactioner:
 
             for param in function_parameters:
                 if '[]' in param['type']:
-                    passed_param = input("Inserire parametro " + param["name"] + "(" + param["type"] + "). \n NB: inserire il parametro come valori separati da virgole: ")
+                    passed_param = input("Inserire parametro " + param["name"] + " (" + param["type"] + "). \n NB: inserire il parametro come valori separati da virgole: ")
                 else:
-                    passed_param = input("Inserire parametro " + param["name"] + "(" + param["type"] + "):")
+                    passed_param = input("Inserire parametro " + param["name"] + " (" + param["type"] + "):")
                 try:
                     casted_param = self.cast_parameters(passed_param, param["type"])
                 except:
-                    print("Parametri non passati correttamente. \n")
+                    print("\nParametri non passati correttamente. \n")
                     return None
                 function_arguments.append(casted_param)
         try:
@@ -112,9 +114,8 @@ class Transactioner:
         except ReadTimeout:
             print("Errore nella connessione alla BlockChain. Transazione non eseguita \n")
             return None
-        except Exception as e:
+        except:
             print("Errore nella transazione. Riprovare inserendo i parametri richiesti correttamente. \n")
-            print(e)
             return None
 
         self.check_contract_existence(address, shard_number, False)
@@ -124,12 +125,11 @@ class Transactioner:
         if function_type == "pure" or function_type == "view":
             if len(function_arguments) == 0:
                 contract_func = smart_contract.get_function_by_name(function_signature)
-                print("Risultato della chiamata a funzione: ")
-                print(contract_func().call())
+                result = contract_func().call()
             else:
                 contract_func = smart_contract.get_function_by_signature(function_signature)
-                print("Risultato della chiamata a funzione: ")
-                print(contract_func(*function_arguments).call())
+                result = contract_func(*function_arguments).call()
+            print("Risultato della chiamata a funzione: " + str(result) + "\n")
 
         elif function_type == "nonpayable" or function_type == "payable":
             if len(function_arguments) == 0:
@@ -141,7 +141,7 @@ class Transactioner:
                 tx_hash = contract_func(*function_arguments).transact()
                 receipt = shard_connection.eth.wait_for_transaction_receipt(tx_hash)
 
-        print("\nTransazione eseguita correttamente. \n")
+            print("Transazione eseguita correttamente. \n")
 
     def get_function_signature(self, function_name, provided_arguments):
         # N.B. con l'onchain funzionava con ["InternalType"]

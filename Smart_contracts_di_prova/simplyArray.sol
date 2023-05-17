@@ -4,9 +4,7 @@ pragma solidity ^0.6.0;
 
 contract samplyArray {
 
-    uint[] public myArray; //this is a dynamic array of type uint
-    uint[] public myArray2 = [1, 2, 3]; //this is a dynamic array with 1, 2 and 3 as default values
-    uint[10] public myFixedSizeArray; //this is a fixed size array of type uint
+    uint[] public myArray= [1,2,3]; //this is a dynamic array of type uint
 
     //this will add i to the end of myArray
     function pushistoAdd(uint i) public {

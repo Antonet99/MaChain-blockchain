@@ -246,11 +246,7 @@ class Bootstrap:
             bytecode = compiled_solidity[key]['bin']
             abi = json.loads(json.dumps(compiled_solidity[key]))['abi']
         except Exception as exception:
-            jsonError = json.loads(json.dumps(exception.__dict__))
-            print("Attenzione! E' stato generato il seguente errore durante la compilazione: \n" + jsonError[
-                "stderr_data"]
-                + "In " + "\"" + jsonError["command"][1] + "\"" +
-                ", con return code: " + str(jsonError["return_code"]) + ".")
+            print(exception)
             print("Non è stato possibile compilare lo smart contract dell'on-chain manager \n"
                   + "Interruzione del programma")
             exit(1)
