@@ -119,5 +119,5 @@ class Register:
 
             return True
         except:
-            print("Errore durante la registrazione dell'account. Chiavi errate")
+            print("Errore durante la registrazione dell'account. Chiavi errate.")
             return False
