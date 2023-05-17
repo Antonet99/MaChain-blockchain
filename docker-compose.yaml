@@ -13,7 +13,6 @@ services:
       - "8545:8545"
     networks:
       - progetto
-
   ganache1:
     container_name: Ganache1
     image: trufflesuite/ganache:latest
@@ -22,7 +21,6 @@ services:
       - "8546:8546"
     networks:
       - progetto
-
   ganache2:
     container_name: Ganache2
     image: trufflesuite/ganache:latest
@@ -31,21 +29,11 @@ services:
       - "8547:8547"
     networks:
       - progetto
-
   ganache3:
     container_name: Ganache3
     image: trufflesuite/ganache:latest
     command: "--port 8548 --chain.chainId 1348 --wallet.seed 19992003 --wallet.totalAccounts 50"
     ports:
       - "8548:8548"
-    networks:
-      - progetto
-
-  maChain:
-    container_name: MaChain
-    image: andreaciv/progetto_ssb_gruppo_3
-    command: bash -c "tail -f /dev/null"
-    ports:
-      - "8089:8089"
     networks:
       - progetto

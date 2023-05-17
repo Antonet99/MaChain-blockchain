@@ -1,0 +1,11 @@
+docker network create progetto
+
+docker run --detach --network="progetto" --name Ganache0 --publish 8545:8545 trufflesuite/ganache:latest --port 8545 --chain.chainId 1339 --wallet.seed 19992000 --wallet.totalAccounts 50
+
+docker run --detach --network="progetto" --name Ganache1 --publish 8546:8546 trufflesuite/ganache:latest --port 8546 --chain.chainId 1340 --wallet.seed 19992001 --wallet.totalAccounts 50
+
+docker run --detach --network="progetto" --name Ganache2 --publish 8547:8547 trufflesuite/ganache:latest --port 8547 --chain.chainId 1341 --wallet.seed 19992002 --wallet.totalAccounts 50
+
+docker run --detach --network="progetto" --name Ganache3 --publish 8548:8548 trufflesuite/ganache:latest --port 8548 --chain.chainId 1342 --wallet.seed 19992003 --wallet.totalAccounts 50
+
+docker run -ti --network="desktop_progetto" --name MaChain --publish 8089:8089 andreaciv/progetto_ssb_gruppo_3
