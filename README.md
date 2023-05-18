@@ -38,15 +38,9 @@ Questo comando avvierà il processo di deploy del programma, creando un contenit
 
 ## 5. Apertura del programma
 
-A questo punto, il programma è pronto per essere utilizzato. Dopo aver eseguito il precedente comando con successo, è possibile interagire con l'applicazione tramite il terminale che si aprirà a deploy effettuato.
+A questo punto, il programma è pronto per essere utilizzato. Dopo aver eseguito il precedente comando ed aver effettuato il deploy di tutta l'infrastruttura con successo, è possibile interagire con l'applicazione tramite il terminale che si aprirà a deploy effettuato.
 
-## 6. Apertura del programma
-
-Alla prima esecuzione del programma, viene effettuato un controllo dall’applicazione per verificare i tre requisiti riportati nella descrizione dell’architettura dell’applicazione.
-
-Se non ci sono errori e sono verificati questi requisiti, si può iniziare ad utilizzare il programma.
-
-## 7. Utilizzo del programma
+## 6. Utilizzo del programma
 
 Al primo avvio in assoluto del programma, verrà attuato il meccanismo di controllo dell'applicazione per verificare che i tre requisiti riportati nella descrizione dell'architettura dell'applicazione siano soddisfatti. Se non ci sono errori e i requisiti sono soddisfatti, è possibile iniziare ad utilizzare il programma.
 
