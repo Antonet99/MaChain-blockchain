@@ -40,8 +40,6 @@ Questo comando avvierà il processo di deploy del programma, creando un contenit
 
 A questo punto, il programma è pronto per essere utilizzato. Dopo aver eseguito il precedente comando con successo, è possibile interagire con l'applicazione tramite il terminale che si aprirà a deploy effettuato.
 
-A questo punto, è possibile sfruttare tutte le funzionalità offerte dall'applicazione e interagire con le blockchain Ethereum locali in modo sicuro e protetto.
-
 ## 6. Apertura del programma
 
 Alla prima esecuzione del programma, viene effettuato un controllo dall’applicazione per verificare i tre requisiti riportati nella descrizione dell’architettura dell’applicazione.
