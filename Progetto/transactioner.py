@@ -93,7 +93,9 @@ class Transactioner:
                     return None
                 function_arguments.append(casted_param)
         try:
-            shard_number = self.on_chain_manager_contract.functions.get_shard_where_contract(address).call()
+            shard_number = self.smart_contracts[address][2]
+            if not self.on_chain_manager_contract.functions.check_shard_where_contract(address, shard_number).call():
+                return None
             shard_connection = self.connections[shard_number]
         except:
             print("OnChain Manager non disponibile, transazione non riuscita. \n")
@@ -194,7 +196,7 @@ class Transactioner:
             else:
                 print("\nLa transazione ha distrutto lo smart contract sulla blockchain, lo smart contract verrà eliminato anche dal sistema.")
             try:
-                self.on_chain_manager_contract.functions.remove_contract(contract_address).transact()
+                self.on_chain_manager_contract.functions.remove_contract(contract_address, shard_number).transact()
             except:
                 print("Errore nella rimozione dello smart contract dall'on-chain manager\n")
                 return False
