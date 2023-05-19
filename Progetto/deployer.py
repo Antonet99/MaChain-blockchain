@@ -132,7 +132,7 @@ class Deployer:
 
     def save_sc_datas(self, address, abi, number_shard_where_deploy, contract_name):
 
-        result = {address: [abi, contract_name]}
+        result = {address: [abi, contract_name, number_shard_where_deploy]}
 
         if number_shard_where_deploy == 1:
             file_path = self.__config_params.get_path_abis_shard_1()
