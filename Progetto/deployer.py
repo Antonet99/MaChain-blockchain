@@ -66,17 +66,17 @@ class Deployer:
               str(bilancio_onchain_gwei)+' wei')
 
         if (stima_costo_deploy > bilancio_shard_gwei) or (stima_costo_aggiornamento_onchain > bilancio_onchain_gwei):
-            os.system('clear')
-
             if (stima_costo_deploy > bilancio_shard_gwei):
                 print(
                     "Attenzione: \n"
-                    + "Il gas a tua disposizione potrebbe non essere sufficiente a completare il deploy dello smart contract sulla shard interessata!"
+                    + "Il gas a tua disposizione non è sufficiente a completare il deploy dello smart contract sulla shard interessata. \n"
+                    + "Il deploy non può essere completato. \n"
                 )
             if (stima_costo_aggiornamento_onchain > bilancio_onchain_gwei):
                 print(
                     "Attenzione: \n"
-                    + "Il gas a tua disposizione potrebbe non essere sufficiente a completare l'aggiornamento dell'on-chain manager!"
+                    + "Il gas a tua disposizione non è sufficiente a completare l'aggiornamento dell'on-chain manager. \n"
+                    + "Il deploy non può essere completato. \n"
                 )
 
             return False
