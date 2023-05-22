@@ -30,11 +30,14 @@
 **Classe `Deployer`:**
 
     - Deploy di smart contract con bilancio insufficiente
-
-## Test da effettuare:
-
     - Deploy effettuato ma on-chain manager non risponde per registrarlo
-    - Errore nella scrittura delle abi del contratto appena deployato
     - On-chain manager non risponde alla richiesta di quale shard si trova un contratto
-    - Parametri di input della funzione richiesta non conformi
+
+**Classe `Transactioner`:**
+
+    - Errori nel passaggio dei parametri della transazione
+    - On-chain manager non risponde alla richiesta di quale shard si trova un contratto
     - Errore di esecuzione della funzione dello smart contract richiesta
+
+
+
