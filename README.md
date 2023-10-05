@@ -1,93 +1,95 @@
-# ProgettoSSB
+# MaChain, a local Ethereum blockchain
 
-Repository per il progetto di **Software Security and Blockchain**.
+Repository for the **Software Security and Blockchain** project.
 
-La presente relazione fornisce una guida completa all'uso dell'applicazione e illustra i passaggi necessari per configurare correttamente l'ambiente e avviare il programma.
+This report provides a complete guide on how to use the application and explains the necessary steps to configure the environment correctly and start the program.
 
-# Guida all'uso
+# User Guide
 
-Questi sono i passaggi necessari per poter utilizzare la nostra app.
+These are the necessary steps to use our app.
 
-## 1. Installazione di Docker
+## 1. Installing Docker
 
-Prima di iniziare, è necessario assicurarsi di avere Docker installato sul proprio computer. Docker fornisce un ambiente isolato per eseguire applicazioni in contenitori, garantendo la portabilità e la sicurezza dei componenti del progetto. È possibile scaricare il file di installazione di Docker al seguente [link](https://www.docker.com/).
+Before getting started, make sure you have Docker installed on your computer. Docker provides an isolated environment to run applications in containers, ensuring the portability and security of project components. You can download the Docker installation file from the following [link](https://www.docker.com/).
 
-## 2. Git clone
+## 2. Git Clone
 
-Il passo successivo consiste nello scaricare il file ‘\_docker-compose.ym_l’ dal repository del progetto. Puoi ottenerlo navigando a questo [link](https://downgit.github.io/#/home?url=https://github.com/Antonet99/ProgettoSSB/blob/master/docker-compose.yaml) o a questo [link](https://raw.githubusercontent.com/Antonet99/ProgettoSSB/master/docker-compose.yaml).
+The next step is to download the file '_docker-compose.yaml_' from the project repository. You can obtain it by navigating to this [link](https://downgit.github.io/#/home?url=https://github.com/Antonet99/ProgettoSSB/blob/master/docker-compose.yaml) or this [link](https://raw.githubusercontent.com/Antonet99/ProgettoSSB/master/docker-compose.yaml).
 
-Una volta ottenuto e salvato il file sul desktop personale, è possibile procedere con i passaggi successivi.
+Once you have obtained and saved the file to your personal desktop, you can proceed with the following steps.
 
-## 3. Deploy delle blockchain
+## 3. Deploying the Blockchains
 
-La configurazione e il deploy delle blockchain Ethereum sono fondamentali per il corretto funzionamento dell'applicazione. Il file ‘_docker-compose.yml_’ contiene tutte le informazioni, le dipendenze e le impostazioni necessarie per effettuare il deploy delle blockchain, che verranno create in locale sulla propria macchina attraverso il Ganache.
+Configuring and deploying Ethereum blockchains is essential for the correct operation of the application. The '_docker-compose.yaml_' file contains all the information, dependencies, and settings required to deploy the blockchains, which will be created locally on your machine through Ganache.
 
-Per iniziare, aprire una finestra del terminale del proprio computer e posizionarsi nella directory dove è stato salvato il file ‘_docker-compose.yml_’ (ad esempio Desktop). A questo punto, è sufficiente eseguire il seguente comando:
+To start, open a terminal window on your computer and navigate to the directory where the '_docker-compose.yaml_' file was saved (e.g., Desktop). At this point, simply run the following command:
 
     docker compose up -d
 
-Questo comando avvierà il processo di creazione e avvio dei contenitori Docker necessari per ospitare le blockchain Ethereum.
+This command will initiate the process of creating and starting the Docker containers required to host the Ethereum blockchains.
 
-## 4. Deploy del programma
+## 4. Deploying the Program
 
-Una volta completato correttamente il deploy delle blockchain, è possibile procedere con il deploy del programma principale dell'applicazione. Assicurarsi di trovarsi nella stessa directory in cui è stato eseguito il comando precedente e digitare il seguente comando nel terminale:
+Once you have successfully completed the deployment of the blockchains, you can proceed with deploying the main application program. Ensure that you are in the same directory where the previous command was executed and enter the following command in the terminal:
 
     docker run -ti --network="blockchain" --name maChain --publish 8089:8089 andreaciv/progetto_ssb_gruppo_3
 
-Questo comando avvierà il processo di deploy del programma, creando un contenitore Docker denominato "**maChain**", la cui porta 8989 sarà esposta in ascolto sulla rete locale e che sarà in grado di comunicare con le blockchain precedentemente configurate.
+This command will start the program deployment process, creating a Docker container named "**maChain**." Port 8989 of this container will be exposed and listening on the local network, allowing it to communicate with the previously configured blockchains.
 
-## 5. Apertura del programma
+## 5. Opening the Program
 
-A questo punto, il programma è pronto per essere utilizzato. Dopo aver eseguito il precedente comando ed aver effettuato il deploy di tutta l'infrastruttura con successo, è possibile interagire con l'applicazione tramite il terminale che si aprirà a deploy effettuato.
+At this point, the program is ready to be used. After executing the previous command and successfully deploying the entire infrastructure, you can interact with the application through the terminal that opens after deployment.
 
-## 6. Utilizzo del programma
+## 6. Using the Program
 
-Al primo avvio in assoluto del programma, verrà attuato il meccanismo di controllo dell'applicazione per verificare che i tre requisiti riportati nella descrizione dell'architettura dell'applicazione siano soddisfatti. Se non ci sono errori e i requisiti sono soddisfatti, è possibile iniziare ad utilizzare il programma.
+Upon the very first startup of the program, it will perform an application check mechanism to verify that the three requirements mentioned in the application architecture description are met. If there are no errors, and the requirements are satisfied, you can begin using the program.
 
 ![My Image](prove/bootstrap.png)
 
-Terminato il bootstrap con il deploy dell'on-chain manager, si aprirà la schermata principale dell'applicazione, che permette di scegliere se effettuare il login o la registrazione.
+After the bootstrap phase with the on-chain manager deployed, the main screen of the application will open, allowing you to choose between logging in or registering.
 
 ![My Image](prove/homescreen.png)
 
-Selezionando la seconda opzione relativa al login, il programma chiedere all'utente di inserire il proprio username e la propria password. Se i dati inseriti sono corretti, verrà visualizzato un messaggio di conferma e si aprirà il menu principale dell'applicazione.
+By selecting the second option for login, the program will prompt the user to enter their username and password. If the provided data is correct, a confirmation message will be displayed, and the application's main menu will open.
 
-Selezionando invece la prima opzione, in fase di registrazione verrà richiesto di inserire uno username e una password, oltre alle quattro chiavi corrispondenti al proprio account sulle 4 blockchain deployate. Se l'username è già presente nel database, verrà visualizzato un messaggio di errore che invita l'utente a inserire uno username diverso. In caso contrario, verrà creato un nuovo utente e verrà visualizzato un messaggio di conferma.
+Choosing the first option, during registration, you will be asked to enter a username and a password, along with four keys corresponding to your account on the four deployed blockchains. If the username is already present in the database, an error message will be displayed, prompting the user to enter a different username. Otherwise, a new user will be created, and a confirmation message will be displayed.
 
-Effettuato il login nell'applicazione, si aprirà il menu principale, che permette di scegliere tra le seguenti opzioni:
+Once logged in to the application, the main menu will open, allowing you to choose from the following options:
 
 ![My Image](prove/menu2copia.png)
 
-Tramite l'opzione 1 è possibile procedere al deploy di uno smart contract. Selezionando questa opzione, verrà chiesto all'utente di inserire il percorso del file .sol contenente lo smart contract da deployare. Se il percorso inserito è corretto, verrà visualizzato un messaggio di conferma e verrà effettuato il deploy dello smart contract. In caso contrario, verrà visualizzato un messaggio di errore che invita l'utente a riprovare.
+Option 1 allows you to proceed with deploying a smart contract. Selecting this option will prompt you to enter the path to the .sol file containing the smart contract to be deployed. If the entered path is correct, a confirmation message will be displayed, and the smart contract will be deployed. Otherwise, an error message will be displayed, inviting the user to try again.
 
 ![My Image](prove/deploy.png)
 
-Per procedere invece con l'opzione 2, è necessario aver già effettuato il deploy. Se il deploy è stato effettuato correttamente, verrà visualizzato un messaggio di conferma e si aprirà il menu relativo alla gestione dello smart contract.
+To proceed with option 2, you must have already completed the deployment. If deployment was successful, a confirmation message will be displayed, and the smart contract management menu will open.
 
 ![My Image](prove/utilizzo1.png)
 
-## Conclusioni
+## Conclusions
 
-Questi esempi mostrano come sia possibile utilizzare l'applicazione per interagire con le blockchain Ethereum locali in modo sicuro e protetto. L'applicazione è stata progettata per essere semplice e intuitiva, in modo da poter essere utilizzata anche da utenti meno esperti, e sopratutto per essere facilmente utilizzabile con i propri smart contract e modificabile in futuro.
+These examples demonstrate how it is possible to use the application to interact with local Ethereum blockchains securely and safely. The application has been designed to be simple and intuitive, making it usable even by less experienced users and, most importantly, easily adaptable for future use with your smart contracts.
 
-## Test del programma
+## Test
 
-Sono stati effettuati dei test per verificare il corretto funzionamento dell'applicazione. I test sono stati effettuati seguendo la guida all'uso del programma, utilizzando Docker Desktop e il terminale, in modo da ricreare le stesse condizioni e lo stesso ambiente di utilizzo dell'applicazione.
+Tests were conducted to verify the correct operation of the application. The tests were carried out following the program's user guide, using Docker Desktop and the terminal, to recreate the same conditions and usage environment of the application.
 
-Ad esempio, la prima prova effettuata consisteva nell'avviare soltanto il programma senza aver effettuato il deploy delle shard. L'errore è gestito correttamente dall'applicazione, che visualizza un messaggio di errore e invita l'utente a effettuare la connessione alle blockchain.
+For example, the first test involved starting the program without deploying the shards. The error is handled correctly by the application, which displays an error message and prompts the user to connect to the blockchains.
 
 ![My Image](prove/test/shard.png)
 
-Un altro test effettuato prevedeva il login senza nessun account registrato. Anche in questo caso, l'errore è gestito correttamente dall'applicazione, che visualizza un messaggio di errore e invita l'utente a registrarsi.
+Another test involved logging in without any registered account. In this
+
+ case, too, the error is handled correctly by the application, which displays an error message and invites the user to register.
 
 ![My Image](prove/test/no_register.png)
 
-Quando non ci sono smart contract deployati, l'applicazione visualizza un messaggio di errore e invita l'utente a procedere con il deploy di uno smart contract.
+When there are no deployed smart contracts, the application displays an error message and invites the user to proceed with deploying a smart contract.
 
 ![My Image](prove/test/no_contract.png)
 
-Ancora, vengono testati sia l'inserimento da parte dell'utente di un path errato per il file .sol da deployare, sia l'inserimento di un path corretto ma di un file che non contiene uno smart contract. In entrambi i casi, l'errore è gestito correttamente dall'applicazione, che visualizza un messaggio di errore e invita l'utente a riprovare.
+Furthermore, tests were conducted to check user input, such as entering an incorrect path for the .sol file to deploy or entering the correct path but a file that does not contain a smart contract. In both cases, the error is handled correctly by the application, which displays an error message and invites the user to try again.
 
 ![My Image](prove/test/path_errato.png)
 
-Grazie a queste fasi di test, è stato possibile verificare il corretto funzionamento dell'applicazione e la gestione degli errori da parte del programma.
+Thanks to these testing phases, it was possible to verify the correct operation of the application and the program's error handling capabilities.
